@@ -24,7 +24,7 @@ $choice = [ '全くそう思わない',
   <body>
     <div class="container">
       <h1>アンケートシステム</h1><hr>
-      <form method="post" action="#">
+      <form method="post" action="result.php">
       <h2>回答</h2>
         <table class="table table-striped text-center">
           <thead>
@@ -82,10 +82,7 @@ $choice = [ '全くそう思わない',
         </table>
         <input class="btn btn-primary btn-block" type="submit" value="Submit">
       </form>
-    </div><!-- container -->
-    
-    <div class="container">
-    <?php
+      <?php
       echo "<h2>受信結果</h2>";
       echo "<h3>設問内容</h3>";
       echo "<p>".
@@ -104,7 +101,7 @@ $choice = [ '全くそう思わない',
            "回答4：".$_POST['a4']."<br>".
            "回答5：".$_POST['a5']."<br>".
            "</p>";
-    ?>
-    </div>
+      ?>
+    </div><!-- container -->
   </body>
 </html>

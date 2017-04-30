@@ -30,6 +30,63 @@ function h($str) {
            "回答5：".$_POST['a5']."<br>".
            "</p>";
       ?>
+      <div id="chart" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
     </div><!-- container -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <script>
+      Highcharts.chart('chart', {
+        chart: {
+          polar: true,
+          type: 'line'
+        },
+    
+        title: {
+          text: 'Answer',
+          x: -80
+        },
+    
+        pane: {
+          size: '80%'
+        },
+    
+        xAxis: {
+          categories: ['設問1', '設問2', '設問3', '設問4', '設問5'],
+          tickmarkPlacement: 'on',
+          lineWidth: 0
+        },
+    
+        yAxis: {
+          gridLineInterpolation: 'polygon',
+          lineWidth: 0,
+          min: 0
+        },
+    
+        tooltip: {
+          shared: true,
+          pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+        },
+    
+        legend: {
+          align: 'right',
+          verticalAlign: 'top',
+          y: 150,
+          layout: 'vertical'
+        },
+    
+        series: [{
+          name: 'My Answer',
+          data: [5, 2, 1, 3, 2],
+          pointPlacement: 'on'
+        }, {
+          name: 'Average Answer',
+          data: [4, 5, 3, 5, 4],
+          pointPlacement: 'on'
+        }]
+      });
+    </script>
   </body>
 </html>

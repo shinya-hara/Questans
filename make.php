@@ -14,23 +14,23 @@
         <h2>作成</h2>
         <div class="form-group">
           <label for="q1">設問1</label>
-          <textarea class="form-control" id="q1" name="q1" rows="3" placeholder="設問1の内容"></textarea>
+          <textarea class="form-control" id="q1" name="q1" rows="3" placeholder="設問1の内容">質問1質問1質問1質問1質問1質問1質問1質問1質問1質問1質問1質問1質問1</textarea>
         </div>
         <div class="form-group">
           <label for="q2">設問2</label>
-          <textarea class="form-control" id="q2" name="q2" rows="3" placeholder="設問2の内容"></textarea>
+          <textarea class="form-control" id="q2" name="q2" rows="3" placeholder="設問2の内容">質問2質問2質問2質問2質問2質問2質問2質問2質問2質問2質問2</textarea>
         </div>
         <div class="form-group">
           <label for="q3">設問3</label>
-          <textarea class="form-control" id="q3" name="q3" rows="3" placeholder="設問3の内容"></textarea>
+          <textarea class="form-control" id="q3" name="q3" rows="3" placeholder="設問3の内容">質問3質問3質問3質問3質問3質問3質問3質問3質問3質問3質問3質問3質問3質問3</textarea>
         </div>
         <div class="form-group">
           <label for="q4">設問4</label>
-          <textarea class="form-control" id="q4" name="q4" rows="3" placeholder="設問4の内容"></textarea>
+          <textarea class="form-control" id="q4" name="q4" rows="3" placeholder="設問4の内容">質問4質問4質問4質問4質問4質問4質問4質問4質問4質問4質問4</textarea>
         </div>
         <div class="form-group">
           <label for="q5">設問5</label>
-          <textarea class="form-control" id="q5" name="q5" rows="3" placeholder="設問5の内容"></textarea>
+          <textarea class="form-control" id="q5" name="q5" rows="3" placeholder="設問5の内容">質問5質問5質問5質問5質問5質問5質問5質問5質問5質問5</textarea>
         </div>
         <input type="submit" value="作成" class="btn btn-primary btn-block">
       </form>
