@@ -80,6 +80,11 @@ $choice = [ '全くそう思わない',
             </tr>
           </tbody>
         </table>
+        <input type="hidden" name="q1" value="<?= $_POST['q1'] ?>">
+        <input type="hidden" name="q2" value="<?= $_POST['q2'] ?>">
+        <input type="hidden" name="q3" value="<?= $_POST['q3'] ?>">
+        <input type="hidden" name="q4" value="<?= $_POST['q4'] ?>">
+        <input type="hidden" name="q5" value="<?= $_POST['q5'] ?>">
         <input class="btn btn-primary btn-block" type="submit" value="Submit">
       </form>
       <?php
