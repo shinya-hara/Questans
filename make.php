@@ -10,7 +10,7 @@
   <body>
     <div class="container">
       <h1>アンケートシステム</h1><hr>
-      <form method="post" action="index.php">
+      <form method="post" action="confirm.php">
         <h2>作成</h2>
         <div class="form-group">
           <label for="q1">設問1</label>
