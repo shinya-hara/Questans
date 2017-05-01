@@ -30,7 +30,7 @@ $choice = [ '全くそう思わない',
       <h1>アンケートシステム</h1><hr>
       <h2>確認</h2>
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
-      <form method="post" action="result.php">
+      <form method="post" action="output.php">
         <input type="hidden" name="q1" value="<?= $_POST['q1'] ?>">
         <input type="hidden" name="q2" value="<?= $_POST['q2'] ?>">
         <input type="hidden" name="q3" value="<?= $_POST['q3'] ?>">
