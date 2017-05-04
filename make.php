@@ -16,6 +16,7 @@
           <input type="button" name="add" value="Add new question" class="btn btn-info center-block" id="addBtn">
         </div>
         <input class="btn btn-primary btn-block" type="submit" value="作成">
+        <input type="hidden" name="num" value='0'>
       </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -25,6 +26,7 @@
     function update(num) {
       if (num >= cnt) {
         cnt--;
+        $('input[name="num"]').attr('value', cnt);
         return;
       }
       $('#q'+(num+1)+'-group').attr('id', 'q'+num+'-group');
@@ -59,6 +61,7 @@
                   <textarea class="form-control" id="q'+cnt+'" name="q'+cnt+'" rows="3" placeholder="質問'+cnt+'の内容"></textarea>\
                   </div>';
       $('#addBtn').before(html);
+      $('input[name="num"]').attr('value', cnt);
       $('#delBtn'+cnt).on('click', { num: cnt }, delTA);
     });
     $('#addBtn').trigger('click');

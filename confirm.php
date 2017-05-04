@@ -10,6 +10,24 @@ $choice = [ '全くそう思わない',
             'どちらとも言えない',
             'ややそう思う',
             '非常にそう思う' ];
+
+// 選択肢のサイズ
+$size = count($choice);
+
+// セッションの開始
+session_start();
+
+// 質問数をセッション変数に格納
+if ($_POST['num']) {
+  $_SESSION['num'] = $_POST['num'];
+}
+
+// 質問をセッション変数に格納
+for ($i=1; $i<=$_SESSION['num']; $i++) {
+  if ($_POST['q'.$i]) {
+    $_SESSION['q'.$i] = $_POST['q'.$i];
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -19,7 +37,7 @@ $choice = [ '全くそう思わない',
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <title>確認 | アンケートシステム</title>
-    <style  type="text/css">
+    <style>
       .table tbody>tr>td {
         vertical-align: middle;
       }
@@ -29,13 +47,9 @@ $choice = [ '全くそう思わない',
     <div class="container">
       <h1>アンケートシステム</h1><hr>
       <h2>確認</h2>
+      <h3>質問数：<?= $_SESSION['num'] ?></h3>
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
       <form method="post" action="output.php">
-        <input type="hidden" name="q1" value="<?= $_POST['q1'] ?>">
-        <input type="hidden" name="q2" value="<?= $_POST['q2'] ?>">
-        <input type="hidden" name="q3" value="<?= $_POST['q3'] ?>">
-        <input type="hidden" name="q4" value="<?= $_POST['q4'] ?>">
-        <input type="hidden" name="q5" value="<?= $_POST['q5'] ?>">
         <a href="make.php"><input type="button" value="修正" class="btn btn-default"></a>
         <input type="submit" value="OK" class="btn btn-primary">
       </form>
@@ -43,55 +57,21 @@ $choice = [ '全くそう思わない',
       <table class="table table-striped text-center">
         <thead>
           <tr>
-            <th>設問</th>
-            <th class="text-center"><?= $choice[0] ?></th>
-            <th class="text-center"><?= $choice[1] ?></th>
-            <th class="text-center"><?= $choice[2] ?></th>
-            <th class="text-center"><?= $choice[3] ?></th>
-            <th class="text-center"><?= $choice[4] ?></th>
+            <th>質問</th>
+            <?php for($i = 0; $i < $size; $i++): ?>
+            <th class="text-center"><?= $choice[$i] ?></th>
+            <?php endfor; ?>
           </tr>
         </thead>
         <tbody>
+          <?php for($i = 1; $i <= $_SESSION['num']; $i++): ?>
           <tr>
-            <td class="text-left"><?= h($_POST['q1']) ?></td>
-            <td><input type="radio" name="a1" value="<?= $choice[0] ?>"></td>
-            <td><input type="radio" name="a1" value="<?= $choice[1] ?>"></td>
-            <td><input type="radio" name="a1" value="<?= $choice[2] ?>" checked></td>
-            <td><input type="radio" name="a1" value="<?= $choice[3] ?>"></td>
-            <td><input type="radio" name="a1" value="<?= $choice[4] ?>"></td>
+            <td class="text-left"><?= h($_SESSION['q'.$i]) ?></td>
+            <?php for($j = 0; $j < $size; $j++): ?>
+            <td><input type="radio" name="a<?= $i ?>" value="<?= $choice[$j] ?>"></td>
+            <?php endfor; ?>
           </tr>
-          <tr>
-            <td class="text-left"><?= h($_POST['q2']) ?></td>
-            <td><input type="radio" name="a2" value="<?= $choice[0] ?>"></td>
-            <td><input type="radio" name="a2" value="<?= $choice[1] ?>" checked></td>
-            <td><input type="radio" name="a2" value="<?= $choice[2] ?>"></td>
-            <td><input type="radio" name="a2" value="<?= $choice[3] ?>"></td>
-            <td><input type="radio" name="a2" value="<?= $choice[4] ?>"></td>
-          </tr>
-          <tr>
-            <td class="text-left"><?= h($_POST['q3']) ?></td>
-            <td><input type="radio" name="a3" value="<?= $choice[0] ?>"></td>
-            <td><input type="radio" name="a3" value="<?= $choice[1] ?>"></td>
-            <td><input type="radio" name="a3" value="<?= $choice[2] ?>"></td>
-            <td><input type="radio" name="a3" value="<?= $choice[3] ?>"></td>
-            <td><input type="radio" name="a3" value="<?= $choice[4] ?>" checked></td>
-          </tr>
-          <tr>
-            <td class="text-left"><?= h($_POST['q4']) ?></td>
-            <td><input type="radio" name="a4" value="<?= $choice[0] ?>" checked></td>
-            <td><input type="radio" name="a4" value="<?= $choice[1] ?>"></td>
-            <td><input type="radio" name="a4" value="<?= $choice[2] ?>"></td>
-            <td><input type="radio" name="a4" value="<?= $choice[3] ?>"></td>
-            <td><input type="radio" name="a4" value="<?= $choice[4] ?>"></td>
-          </tr>
-          <tr>
-            <td class="text-left"><?= h($_POST['q5']) ?></td>
-            <td><input type="radio" name="a5" value="<?= $choice[0] ?>"></td>
-            <td><input type="radio" name="a5" value="<?= $choice[1] ?>"></td>
-            <td><input type="radio" name="a5" value="<?= $choice[2] ?>"></td>
-            <td><input type="radio" name="a5" value="<?= $choice[3] ?>" checked></td>
-            <td><input type="radio" name="a5" value="<?= $choice[4] ?>"></td>
-          </tr>
+          <?php endfor; ?>
         </tbody>
       </table>
       <input type="button" class="btn btn-primary btn-block" value="回答">
