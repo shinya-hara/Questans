@@ -10,7 +10,7 @@ $choice = [ '全くそう思わない',
             'ややそう思う',
             '非常にそう思う' ];
 
-// 設問を格納
+// 質問を格納
 $question = [ $_POST['q1'],
               $_POST['q2'],
               $_POST['q3'],
@@ -43,7 +43,7 @@ ob_start();
         <table class="table table-striped text-center">
           <thead>
             <tr>
-              <th>設問</th>
+              <th>質問</th>
               <th class="text-center"><?= $choice[0] ?></th>
               <th class="text-center"><?= $choice[1] ?></th>
               <th class="text-center"><?= $choice[2] ?></th>
@@ -135,7 +135,7 @@ ob_end_clean();
       <table class="table table-striped">
         <thead>
           <tr>
-            <th class="text-center">番号</th><th>設問</th>
+            <th class="text-center">番号</th><th>質問</th>
           </tr>
         </thead>
         <tbody>

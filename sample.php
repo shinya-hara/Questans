@@ -10,115 +10,109 @@
   <body>
     <div class="container">
       <h1>アンケートシステム</h1><hr>
+      <h2>質問</h2>
+      <div class="form-group">
+        <label for="">質問数</label>
+        <input id="size" class="form-control" type="number" name="size" value="3" min="1" max="20">
+      </div>
       <form method="post" action="#">
-      <h2>設定</h2>
-      <div class="form-group">
-        <label for="q1">設問1</label>
-        <textarea class="form-control" id="q1" name="q1" rows="3" placeholder="設問1の内容"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="q2">設問2</label>
-        <textarea class="form-control" id="q2" name="q2" rows="3" placeholder="設問2の内容"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="q3">設問3</label>
-        <textarea class="form-control" id="q3" name="q3" rows="3" placeholder="設問3の内容"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="q4">設問4</label>
-        <textarea class="form-control" id="q4" name="q4" rows="3" placeholder="設問4の内容"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="q5">設問5</label>
-        <textarea class="form-control" id="q5" name="q5" rows="3" placeholder="設問5の内容"></textarea>
-      </div>
-      
-      <h2>回答</h2>
-        <table class="table table-striped text-center">
-          <thead>
-            <tr>
-              <th class="text-center">設問</th>
-              <th class="text-center">選択肢1</th>
-              <th class="text-center">選択肢2</th>
-              <th class="text-center">選択肢3</th>
-              <th class="text-center">選択肢4</th>
-              <th class="text-center">選択肢5</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>設問1</td>
-              <td><input type="radio" name="a1" value="選択肢1"></td>
-              <td><input type="radio" name="a1" value="選択肢2"></td>
-              <td><input type="radio" name="a1" value="選択肢3" checked></td>
-              <td><input type="radio" name="a1" value="選択肢4"></td>
-              <td><input type="radio" name="a1" value="選択肢5"></td>
-            </tr>
-            <tr>
-              <td>設問2</td>
-              <td><input type="radio" name="a2" value="選択肢1"></td>
-              <td><input type="radio" name="a2" value="選択肢2" checked></td>
-              <td><input type="radio" name="a2" value="選択肢3"></td>
-              <td><input type="radio" name="a2" value="選択肢4"></td>
-              <td><input type="radio" name="a2" value="選択肢5"></td>
-            </tr>
-            <tr>
-              <td>設問3</td>
-              <td><input type="radio" name="a3" value="選択肢1"></td>
-              <td><input type="radio" name="a3" value="選択肢2"></td>
-              <td><input type="radio" name="a3" value="選択肢3"></td>
-              <td><input type="radio" name="a3" value="選択肢4"></td>
-              <td><input type="radio" name="a3" value="選択肢5" checked></td>
-            </tr>
-            <tr>
-              <td>設問4</td>
-              <td><input type="radio" name="a4" value="選択肢1" checked></td>
-              <td><input type="radio" name="a4" value="選択肢2"></td>
-              <td><input type="radio" name="a4" value="選択肢3"></td>
-              <td><input type="radio" name="a4" value="選択肢4"></td>
-              <td><input type="radio" name="a4" value="選択肢5"></td>
-            </tr>
-            <tr>
-              <td>設問5</td>
-              <td><input type="radio" name="a5" value="選択肢1"></td>
-              <td><input type="radio" name="a5" value="選択肢2"></td>
-              <td><input type="radio" name="a5" value="選択肢3"></td>
-              <td><input type="radio" name="a5" value="選択肢4" checked></td>
-              <td><input type="radio" name="a5" value="選択肢5"></td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="box">
+          <input type="button" name="add" value="Add new question" class="btn btn-info center-block" id="addBtn">
+        </div>
         <input class="btn btn-primary btn-block" type="submit" value="Submit">
       </form>
     </div><!-- container -->
     
-    <div class="container">
+    <div class="container well">
     <?php
-      if (isset($_POST["a1"]) &&
-          isset($_POST["a2"]) &&
-          isset($_POST["a3"]) &&
-          isset($_POST["a4"]) &&
-          isset($_POST["a5"]) 
-          ) {
-        echo "<h2>送信結果</h2>";
-        echo "<h3>設問内容</h3>";
-        echo "<p>".
-             "設問1：".$_POST["q1"]."<br>".
-             "設問2：".$_POST["q2"]."<br>".
-             "設問3：".$_POST["q3"]."<br>".
-             "設問4：".$_POST["q4"]."<br>".
-             "設問5：".$_POST["q5"]."<br>".
-             "</p>";
-        echo "<h3>回答結果</h3>";
-        echo "<p>".
-             "回答1：".$_POST["a1"]."<br>".
-             "回答2：".$_POST["a2"]."<br>".
-             "回答3：".$_POST["a3"]."<br>".
-             "回答4：".$_POST["a4"]."<br>".
-             "回答5：".$_POST["a5"]."<br>".
-             "</p>";
-      }
+    echo "<h2>送信結果</h2>";
+    echo "<h3>質問内容</h3>";
+    echo "<p>".
+         "質問1：".$_POST["q1"]."<br>".
+         "質問2：".$_POST["q2"]."<br>".
+         "質問3：".$_POST["q3"]."<br>".
+         "質問4：".$_POST["q4"]."<br>".
+         "質問5：".$_POST["q5"]."<br>".
+         "</p>";
+    echo "<h3>回答結果</h3>";
+    echo "<p>".
+         "回答1：".$_POST["a1"]."<br>".
+         "回答2：".$_POST["a2"]."<br>".
+         "回答3：".$_POST["a3"]."<br>".
+         "回答4：".$_POST["a4"]."<br>".
+         "回答5：".$_POST["a5"]."<br>".
+         "</p>";
     ?>
     </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+    // 質問数の入力に応じてテキストエリアを増減させる
+    // $('#size')
+    //   .change(function() {
+    //     var html = "";
+    //     var size = $('#size').val();
+    //     var pre_size = $('#box>div').length;
+    //     var diff = size - pre_size;
+    //     if (diff > 0) {
+    //       for (var i=pre_size+1; i<=size; i++) {
+    //         html += '<div class="form-group">\
+    //                   <label for="q'+i+'">質問'+i+'</label>\
+    //                   <textarea class="form-control" id="q'+i+'" name="q'+i+'" rows="3" placeholder="質問'+i+'の内容"></textarea>\
+    //                 </div>';
+    //       }
+    //     } else if (diff < 0) {
+    //       // diffが0になるまでループ
+    //       while (diff++) {
+    //         console.log(diff);
+    //         $('#box>div:last').remove();
+    //       }
+    //     }
+    //     $('#box').append(html);
+    //   })
+    //     .change();
+    
+    // 削除ボタンの属性を変更する
+    // num: 押された削除ボタンの質問番号
+    function update(num) {
+      if (num >= cnt) {
+        cnt--;
+        return;
+      }
+      $('#q'+(num+1)+'-group').attr('id', 'q'+num+'-group');
+      $('#q'+num+'-group>label').attr('for', 'q'+num).text('質問'+num);
+      
+      $('#delBtn'+(num+1)).attr({
+        'id': 'delBtn'+num,
+        'value': 'Delete Q'+num
+      });
+      $('#q'+(num+1)).attr({
+        'id': 'q'+num,
+        'name': 'q'+num,
+        'placeholder': '質問'+num+'の内容'
+      });
+      $('#delBtn'+num).off();
+      $('#delBtn'+num).on('click', { num: num }, delTA);
+      update(num+1);
+    }
+    // テキストエリアを削除する
+    var delTA = function(e) {
+      $('#q'+e.data.num+'-group').remove();
+      update(e.data.num);
+    }
+    
+    // テキストエリアを増減させるボタンを設置
+    var cnt = 0;  // 質問数
+    $('#addBtn').on('click', function () {
+      cnt++;
+      var html = '<div class="form-group" id="q'+cnt+'-group">\
+                  <label for="q'+cnt+'">質問'+cnt+'</label>\
+                  <input type="button" name="del" value="Delete Q'+cnt+'" class="btn btn-danger btn-xs pull-right" id="delBtn'+cnt+'">\
+                  <textarea class="form-control" id="q'+cnt+'" name="q'+cnt+'" rows="3" placeholder="質問'+cnt+'の内容"></textarea>\
+                  </div>';
+      $('#addBtn').before(html);
+      $('#delBtn'+cnt).on('click', { num: cnt }, delTA);
+    });
+    $('#addBtn').trigger('click');
+    </script>
   </body>
 </html>

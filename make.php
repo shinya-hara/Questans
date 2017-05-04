@@ -10,30 +10,58 @@
   <body>
     <div class="container">
       <h1>アンケートシステム</h1><hr>
+      <h2>作成</h2>
       <form method="post" action="confirm.php">
-        <h2>作成</h2>
-        <div class="form-group">
-          <label for="q1">設問1</label>
-          <textarea class="form-control" id="q1" name="q1" rows="3" placeholder="設問1の内容">質問1質問1質問1質問1質問1質問1質問1質問1質問1質問1質問1質問1質問1</textarea>
+        <div id="questions">
+          <input type="button" name="add" value="Add new question" class="btn btn-info center-block" id="addBtn">
         </div>
-        <div class="form-group">
-          <label for="q2">設問2</label>
-          <textarea class="form-control" id="q2" name="q2" rows="3" placeholder="設問2の内容">質問2質問2質問2質問2質問2質問2質問2質問2質問2質問2質問2</textarea>
-        </div>
-        <div class="form-group">
-          <label for="q3">設問3</label>
-          <textarea class="form-control" id="q3" name="q3" rows="3" placeholder="設問3の内容">質問3質問3質問3質問3質問3質問3質問3質問3質問3質問3質問3質問3質問3質問3</textarea>
-        </div>
-        <div class="form-group">
-          <label for="q4">設問4</label>
-          <textarea class="form-control" id="q4" name="q4" rows="3" placeholder="設問4の内容">質問4質問4質問4質問4質問4質問4質問4質問4質問4質問4質問4</textarea>
-        </div>
-        <div class="form-group">
-          <label for="q5">設問5</label>
-          <textarea class="form-control" id="q5" name="q5" rows="3" placeholder="設問5の内容">質問5質問5質問5質問5質問5質問5質問5質問5質問5質問5</textarea>
-        </div>
-        <input type="submit" value="作成" class="btn btn-primary btn-block">
+        <input class="btn btn-primary btn-block" type="submit" value="作成">
       </form>
     </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+    // 削除ボタンの属性を変更する
+    // num: 押された削除ボタンの質問番号
+    function update(num) {
+      if (num >= cnt) {
+        cnt--;
+        return;
+      }
+      $('#q'+(num+1)+'-group').attr('id', 'q'+num+'-group');
+      $('#q'+num+'-group>label').attr('for', 'q'+num).text('質問'+num);
+      
+      $('#delBtn'+(num+1)).attr({
+        'id': 'delBtn'+num,
+        'value': 'Delete Q'+num
+      });
+      $('#q'+(num+1)).attr({
+        'id': 'q'+num,
+        'name': 'q'+num,
+        'placeholder': '質問'+num+'の内容'
+      });
+      $('#delBtn'+num).off();
+      $('#delBtn'+num).on('click', { num: num }, delTA);
+      update(num+1);
+    }
+    // テキストエリアを削除する
+    var delTA = function(e) {
+      $('#q'+e.data.num+'-group').remove();
+      update(e.data.num);
+    }
+    
+    // テキストエリアを増減させるボタンを設置
+    var cnt = 0;  // 質問数
+    $('#addBtn').on('click', function () {
+      cnt++;
+      var html = '<div class="form-group" id="q'+cnt+'-group">\
+                  <label for="q'+cnt+'">質問'+cnt+'</label>\
+                  <input type="button" name="del" value="Delete Q'+cnt+'" class="btn btn-danger btn-xs pull-right" id="delBtn'+cnt+'">\
+                  <textarea class="form-control" id="q'+cnt+'" name="q'+cnt+'" rows="3" placeholder="質問'+cnt+'の内容"></textarea>\
+                  </div>';
+      $('#addBtn').before(html);
+      $('#delBtn'+cnt).on('click', { num: cnt }, delTA);
+    });
+    $('#addBtn').trigger('click');
+    </script>
   </body>
 </html>

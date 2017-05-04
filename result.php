@@ -12,7 +12,6 @@ function h($str) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <title>結果 | アンケートシステム</title>
     <style type="text/css">
 		</style>
@@ -23,11 +22,11 @@ function h($str) {
       <h2>アンケート結果</h2>
       <?php
       echo "<p>".
-           "設問1：".$_POST['q1']."<br>".
-           "設問2：".$_POST['q2']."<br>".
-           "設問3：".$_POST['q3']."<br>".
-           "設問4：".$_POST['q4']."<br>".
-           "設問5：".$_POST['q5']."<br>".
+           "質問1：".$_POST['q1']."<br>".
+           "質問2：".$_POST['q2']."<br>".
+           "質問3：".$_POST['q3']."<br>".
+           "質問4：".$_POST['q4']."<br>".
+           "質問5：".$_POST['q5']."<br>".
            "</p>";
       echo "<p>".
            "回答1：".$_POST['a1']."<br>".
@@ -61,7 +60,7 @@ function h($str) {
         },
     
         xAxis: {
-          categories: ['設問1', '設問2', '設問3', '設問4', '設問5'],
+          categories: ['質問1', '質問2', '質問3', '質問4', '質問5'],
           tickmarkPlacement: 'on',
           lineWidth: 0
         },
