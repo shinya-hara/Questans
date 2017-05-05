@@ -10,6 +10,9 @@ $choice = [ '全くそう思わない',
             'ややそう思う',
             '非常にそう思う' ];
 
+// 選択肢のサイズ
+$size = count($choice);
+
 // 質問を格納
 $question = [ $_POST['q1'],
               $_POST['q2'],
@@ -17,10 +20,8 @@ $question = [ $_POST['q1'],
               $_POST['q4'],
               $_POST['q5'] ];
 
-/**
- * phpの実行結果をhtmlファイルへ書き出す簡単なサンプル
- */
- 
+session_start();
+
 // 出力のバッファリングを有効にする
 ob_start();
 ?>
@@ -44,54 +45,20 @@ ob_start();
           <thead>
             <tr>
               <th>質問</th>
-              <th class="text-center"><?= $choice[0] ?></th>
-              <th class="text-center"><?= $choice[1] ?></th>
-              <th class="text-center"><?= $choice[2] ?></th>
-              <th class="text-center"><?= $choice[3] ?></th>
-              <th class="text-center"><?= $choice[4] ?></th>
+              <?php for($i = 0; $i < $size; $i++): ?>
+              <th class="text-center"><?= $choice[$i] ?></th>
+              <?php endfor; ?>
             </tr>
           </thead>
           <tbody>
+            <?php for($i = 1; $i <= $_SESSION['num']; $i++): ?>
             <tr>
-              <td class="text-left"><?= h($question[0]) ?></td>
-              <td><input type="radio" name="a1" value="<?= $choice[0] ?>"></td>
-              <td><input type="radio" name="a1" value="<?= $choice[1] ?>"></td>
-              <td><input type="radio" name="a1" value="<?= $choice[2] ?>" checked></td>
-              <td><input type="radio" name="a1" value="<?= $choice[3] ?>"></td>
-              <td><input type="radio" name="a1" value="<?= $choice[4] ?>"></td>
+              <td class="text-left"><?= h($_SESSION['q'.$i]) ?></td>
+              <?php for($j = 0; $j < $size; $j++): ?>
+              <td><input type="radio" name="a<?= $i ?>" value="<?= $choice[$j] ?>"></td>
+              <?php endfor; ?>
             </tr>
-            <tr>
-              <td class="text-left"><?= h($question[1]) ?></td>
-              <td><input type="radio" name="a2" value="<?= $choice[0] ?>"></td>
-              <td><input type="radio" name="a2" value="<?= $choice[1] ?>" checked></td>
-              <td><input type="radio" name="a2" value="<?= $choice[2] ?>"></td>
-              <td><input type="radio" name="a2" value="<?= $choice[3] ?>"></td>
-              <td><input type="radio" name="a2" value="<?= $choice[4] ?>"></td>
-            </tr>
-            <tr>
-              <td class="text-left"><?= h($question[2]) ?></td>
-              <td><input type="radio" name="a3" value="<?= $choice[0] ?>"></td>
-              <td><input type="radio" name="a3" value="<?= $choice[1] ?>"></td>
-              <td><input type="radio" name="a3" value="<?= $choice[2] ?>"></td>
-              <td><input type="radio" name="a3" value="<?= $choice[3] ?>"></td>
-              <td><input type="radio" name="a3" value="<?= $choice[4] ?>" checked></td>
-            </tr>
-            <tr>
-              <td class="text-left"><?= h($question[3]) ?></td>
-              <td><input type="radio" name="a4" value="<?= $choice[0] ?>" checked></td>
-              <td><input type="radio" name="a4" value="<?= $choice[1] ?>"></td>
-              <td><input type="radio" name="a4" value="<?= $choice[2] ?>"></td>
-              <td><input type="radio" name="a4" value="<?= $choice[3] ?>"></td>
-              <td><input type="radio" name="a4" value="<?= $choice[4] ?>"></td>
-            </tr>
-            <tr>
-              <td class="text-left"><?= h($question[4]) ?></td>
-              <td><input type="radio" name="a5" value="<?= $choice[0] ?>"></td>
-              <td><input type="radio" name="a5" value="<?= $choice[1] ?>"></td>
-              <td><input type="radio" name="a5" value="<?= $choice[2] ?>"></td>
-              <td><input type="radio" name="a5" value="<?= $choice[3] ?>" checked></td>
-              <td><input type="radio" name="a5" value="<?= $choice[4] ?>"></td>
-            </tr>
+            <?php endfor; ?>
           </tbody>
         </table>
         <input type="hidden" name="q1" value="<?= $question[0] ?>">
@@ -139,21 +106,12 @@ ob_end_clean();
           </tr>
         </thead>
         <tbody>
+          <?php for($i = 1; $i <= $_SESSION['num']; $i++): ?>
           <tr>
-            <td class="text-center">1</td><td><?= h($question[0]) ?></td>
+            <td class="text-center"><?= $i ?></td>
+            <td><?= h($_SESSION['q'.$i]) ?></td>
           </tr>
-          <tr>
-            <td class="text-center">2</td><td><?= h($question[1]) ?></td>
-          </tr>
-          <tr>
-            <td class="text-center">3</td><td><?= h($question[2]) ?></td>
-          </tr>
-          <tr>
-            <td class="text-center">4</td><td><?= h($question[3]) ?></td>
-          </tr>
-          <tr>
-            <td class="text-center">5</td><td><?= h($question[4]) ?></td>
-          </tr>
+          <?php endfor; ?>
         </tbody>
       </table>
     </div>
