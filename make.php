@@ -57,7 +57,7 @@
       cnt++;
       var html = '<div class="form-group" id="q'+cnt+'-group">\
                   <label for="q'+cnt+'">質問'+cnt+'</label>\
-                  <input type="button" name="del" value="Delete Q'+cnt+'" class="btn btn-danger btn-xs pull-right" id="delBtn'+cnt+'">\
+                  <input type="button" name="del" value="Delete Q'+cnt+'" class="btn btn-danger btn-xs pull-right" id="delBtn'+cnt+'" tabindex="-1">\
                   <textarea class="form-control" id="q'+cnt+'" name="q'+cnt+'" rows="3" placeholder="質問'+cnt+'の内容"></textarea>\
                   </div>';
       $('#addBtn').before(html);

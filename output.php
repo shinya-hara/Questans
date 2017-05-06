@@ -13,20 +13,12 @@ $choice = [ '全くそう思わない',
 // 選択肢のサイズ
 $size = count($choice);
 
-// 質問を格納
-$question = [ $_POST['q1'],
-              $_POST['q2'],
-              $_POST['q3'],
-              $_POST['q4'],
-              $_POST['q5'] ];
-
 session_start();
 
 // 出力のバッファリングを有効にする
 ob_start();
 ?>
 <!-- ここから -->
- 
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -61,11 +53,10 @@ ob_start();
             <?php endfor; ?>
           </tbody>
         </table>
-        <input type="hidden" name="q1" value="<?= $question[0] ?>">
-        <input type="hidden" name="q2" value="<?= $question[1] ?>">
-        <input type="hidden" name="q3" value="<?= $question[2] ?>">
-        <input type="hidden" name="q4" value="<?= $question[3] ?>">
-        <input type="hidden" name="q5" value="<?= $question[4] ?>">
+        <?php for($i = 1; $i <= $_SESSION['num']; $i++): ?>
+        <input type="hidden" name="q<?= $i ?>" value="<?= h($_SESSION['q'.$i]) ?>" >
+        <?php endfor; ?>
+        <input type="hidden" name="num" value="<?= $_SESSION['num'] ?>" >
         <input class="btn btn-primary btn-block" type="submit" value="回答">
       </form>
     </div><!-- container -->
@@ -74,7 +65,7 @@ ob_start();
  
 <!-- ここがバッファされます -->
 <?php
-// 同階層の test.html にphp実行結果を出力
+// 同階層の questionnarie.php にphp実行結果を出力
 file_put_contents( 'questionnarie.php', ob_get_contents() );
  
 // 出力用バッファをクリア(消去)し、出力のバッファリングをオフにする

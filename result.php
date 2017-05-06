@@ -3,6 +3,20 @@
 function h($str) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
+
+session_start();
+
+// セッション変数に質問数を格納
+if ($_POST['num']) {
+  $_SESSION['num'] = $_POST['num'];
+}
+
+// セッション変数に質問を格納
+for ($i = 1; $i <= $_SESSION['num']; $i++) {
+  if ($_POST['q'.$i]) {
+    $_SESSION['q'.$i] = $_POST['q'.$i];
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,22 +34,18 @@ function h($str) {
     <div class="container">
       <h1>アンケートシステム</h1><hr>
       <h2>アンケート結果</h2>
-      <?php
-      echo "<p>".
-           "質問1：".$_POST['q1']."<br>".
-           "質問2：".$_POST['q2']."<br>".
-           "質問3：".$_POST['q3']."<br>".
-           "質問4：".$_POST['q4']."<br>".
-           "質問5：".$_POST['q5']."<br>".
-           "</p>";
-      echo "<p>".
-           "回答1：".$_POST['a1']."<br>".
-           "回答2：".$_POST['a2']."<br>".
-           "回答3：".$_POST['a3']."<br>".
-           "回答4：".$_POST['a4']."<br>".
-           "回答5：".$_POST['a5']."<br>".
-           "</p>";
-      ?>
+      <table class="table table-striped">
+        <thead>
+          <th class="text-center">番号</th><th>質問</th><th>回答</th>
+        </thead>
+        <tbody>
+          <?php for($i = 1; $i <= $_SESSION['num']; $i++): ?>
+          <tr>
+            <td class="text-center"><?= $i ?></td><td><?= h($_SESSION['q'.$i]) ?></td><td><?= h($_POST['a'.$i]) ?></td>
+          </tr>
+          <?php endfor; ?>
+        </tbody>
+      </table>
       <div id="chart" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
     </div><!-- container -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
