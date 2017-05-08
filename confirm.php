@@ -17,6 +17,10 @@ $size = count($choice);
 // セッションの開始
 session_start();
 
+// テキストエリアが空白の場合、make.phpから作成できないようにすれば以下は不要
+// セッション変数を全て解除
+// $_SESSION = array();
+
 // 質問数をセッション変数に格納
 if ($_POST['num']) {
   $_SESSION['num'] = $_POST['num'];

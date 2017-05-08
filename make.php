@@ -1,3 +1,14 @@
+<?php
+session_start();
+$cnt = 0;
+// セッション変数に格納されている質問を配列に格納
+for ($i = 1; $i <= $_SESSION['num']; $i++) {
+  $questions[] = $_SESSION['q'.$i];
+}
+// json形式に変換
+$jsonTest = json_encode($questions);
+var_dump($jsonTest);
+?>
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -19,6 +30,7 @@
         <input type="hidden" name="num" value='0'>
       </form>
     </div>
+</script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>
     // 削除ボタンの属性を変更する
@@ -51,6 +63,8 @@
       update(e.data.num);
     }
     
+    
+    
     // テキストエリアを増減させるボタンを設置
     var cnt = 0;  // 質問数
     $('#addBtn').on('click', function () {
@@ -64,7 +78,16 @@
       $('input[name="num"]').attr('value', cnt);
       $('#delBtn'+cnt).on('click', { num: cnt }, delTA);
     });
-    $('#addBtn').trigger('click');
+    
+    if (/confirm.php$/.test(document.referrer)) {
+      var test = JSON.parse('<?php echo $jsonTest; ?>');
+      for (var i = 0; i < test.length; i++) {
+        $('#addBtn').trigger('click');
+        $('#q'+cnt).val(test[cnt-1]);
+      }
+    } else {
+      $('#addBtn').trigger('click');
+    }
     </script>
   </body>
 </html>

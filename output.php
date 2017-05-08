@@ -108,3 +108,7 @@ ob_end_clean();
     </div>
   </body>
 </html>
+<?php
+// セッション変数を全て解除
+$_SESSION = array();
+?>
