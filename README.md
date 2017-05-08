@@ -2,5 +2,5 @@
 
 PHPとデータベースの勉強も兼ねて開発中
 
-以下からアクセス可能  
+Cloud9上で開発しているため以下でアクセス可能です  
 <https://questionnaire-system-krag.c9users.io/index.html>
