@@ -1,13 +1,13 @@
 <?php
 session_start();
 $cnt = 0;
+var_dump($_SESSION);
 // セッション変数に格納されている質問を配列に格納
 for ($i = 1; $i <= $_SESSION['num']; $i++) {
   $questions[] = $_SESSION['q'.$i];
 }
 // json形式に変換
-$jsonTest = json_encode($questions);
-var_dump($jsonTest);
+$jsonQs = json_encode($questions);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -79,13 +79,22 @@ var_dump($jsonTest);
       $('#delBtn'+cnt).on('click', { num: cnt }, delTA);
     });
     
+    // confirm.phpから「修正」を選択て遷移してきた場合
     if (/confirm.php$/.test(document.referrer)) {
-      var test = JSON.parse('<?php echo $jsonTest; ?>');
-      for (var i = 0; i < test.length; i++) {
+      console.log("from confirm.php");
+      // json形式の質問をパースし格納
+      var question = JSON.parse('<?php echo $jsonQs; ?>');
+      // 前回のフォームの内容を再現
+      for (var i = 0; i < question.length; i++) {
         $('#addBtn').trigger('click');
-        $('#q'+cnt).val(test[cnt-1]);
+        $('#q'+cnt).val(question[cnt-1]);
       }
     } else {
+      // output.phpから遷移してきた場合
+      if (/output.php$/.test(document.referrer)) {
+        console.log("from output.php");
+        <?php $_SESSION = array(); // セッション変数を解除 ?>
+      }
       $('#addBtn').trigger('click');
     }
     </script>
