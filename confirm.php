@@ -79,6 +79,7 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
         </tbody>
       </table>
       <input type="button" class="btn btn-primary btn-block" value="回答">
+      <?php require('debug.php'); ?>
     </div><!-- /container -->
   </body>
 </html>

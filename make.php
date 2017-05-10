@@ -1,7 +1,6 @@
 <?php
 session_start();
 $cnt = 0;
-var_dump($_SESSION);
 // セッション変数に格納されている質問を配列に格納
 for ($i = 1; $i <= $_SESSION['num']; $i++) {
   $questions[] = $_SESSION['q'.$i];
@@ -29,8 +28,8 @@ $jsonQs = json_encode($questions);
         <input class="btn btn-primary btn-block" type="submit" value="作成">
         <input type="hidden" name="num" value='0'>
       </form>
+      <?php require('debug.php'); ?>
     </div>
-</script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>
     // 削除ボタンの属性を変更する
@@ -80,20 +79,19 @@ $jsonQs = json_encode($questions);
     });
     
     // confirm.phpから「修正」を選択て遷移してきた場合
-    if (/confirm.php$/.test(document.referrer)) {
+    if (/confirm\.php$/.test(document.referrer)) {
       console.log("from confirm.php");
       // json形式の質問をパースし格納
       var question = JSON.parse('<?php echo $jsonQs; ?>');
       // 前回のフォームの内容を再現
-      for (var i = 0; i < question.length; i++) {
+      for (var i = 0, len = question.length; i < len; i++) {
         $('#addBtn').trigger('click');
         $('#q'+cnt).val(question[cnt-1]);
       }
     } else {
       // output.phpから遷移してきた場合
-      if (/output.php$/.test(document.referrer)) {
-        console.log("from output.php");
-        <?php $_SESSION = array(); // セッション変数を解除 ?>
+      if (/output\.php$/.test(document.referrer)) {
+        // セッション変数を解除（空文字列でPOSTできないようにすれば不要？）
       }
       $('#addBtn').trigger('click');
     }

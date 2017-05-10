@@ -106,6 +106,7 @@ ob_end_clean();
           <?php endfor; ?>
         </tbody>
       </table>
+      <?php require('debug.php'); ?>
     </div>
   </body>
 </html>

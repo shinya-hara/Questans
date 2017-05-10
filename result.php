@@ -47,6 +47,7 @@ for ($i = 1; $i <= $_SESSION['num']; $i++) {
         </tbody>
       </table>
       <div id="chart" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
+      <?php require('debug.php'); ?>
     </div><!-- container -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
