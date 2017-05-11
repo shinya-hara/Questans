@@ -72,14 +72,14 @@ $jsonQs = json_encode($questions);
       var html = '<div class="form-group has-feedback" id="q'+cnt+'-group">\
                   <div class="form-group"><input type="button" name="del" value="Delete Q'+cnt+'" class="btn btn-danger btn-xs pull-right" id="delBtn'+cnt+'" tabindex="-1"></div>\
                   <label for="q'+cnt+'" class="control-label">質問'+cnt+'</label>\
-                  <textarea class="form-control" id="q'+cnt+'" name="q'+cnt+'" rows="3" placeholder="質問'+cnt+'の内容" required></textarea>\
+                  <textarea class="form-control" id="q'+cnt+'" name="q'+cnt+'" rows="3" placeholder="質問'+cnt+'の内容" data-error="このフィールドを入力してください．不要な場合は削除してください．" required></textarea>\
                   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>\
                   <div class="help-block with-errors"></div>\
                   </div>';
       $('#addBtn').before(html);
       $('input[name="num"]').attr('value', cnt);
       $('#delBtn'+cnt).on('click', { num: cnt }, delTA);
-      console.log('update');
+      $('#q'+cnt).focus();
       $('form').validator('update');
     });
     
