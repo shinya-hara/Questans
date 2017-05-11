@@ -21,16 +21,17 @@ $jsonQs = json_encode($questions);
     <div class="container">
       <h1>アンケートシステム</h1><hr>
       <h2>作成</h2>
-      <form method="post" action="confirm.php">
-        <div id="questions">
-          <input type="button" name="add" value="Add new question" class="btn btn-info center-block" id="addBtn">
+      <form method="post" action="confirm.php" data-toggle="validator" role="form">
+        <input type="button" name="add" value="Add new question" class="btn btn-info center-block" id="addBtn">
+        <div class="form-group">
+          <input class="btn btn-primary btn-block" type="submit" value="作成">
         </div>
-        <input class="btn btn-primary btn-block" type="submit" value="作成">
-        <input type="hidden" name="num" value='0'>
+        <input type="hidden" name="num" value='0'><!-- 質問数 -->
       </form>
       <?php require('debug.php'); ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
     <script>
     // 削除ボタンの属性を変更する
     // num: 押された削除ボタンの質問番号
@@ -68,14 +69,18 @@ $jsonQs = json_encode($questions);
     var cnt = 0;  // 質問数
     $('#addBtn').on('click', function () {
       cnt++;
-      var html = '<div class="form-group" id="q'+cnt+'-group">\
-                  <label for="q'+cnt+'">質問'+cnt+'</label>\
-                  <input type="button" name="del" value="Delete Q'+cnt+'" class="btn btn-danger btn-xs pull-right" id="delBtn'+cnt+'" tabindex="-1">\
-                  <textarea class="form-control" id="q'+cnt+'" name="q'+cnt+'" rows="3" placeholder="質問'+cnt+'の内容"></textarea>\
+      var html = '<div class="form-group has-feedback" id="q'+cnt+'-group">\
+                  <div class="form-group"><input type="button" name="del" value="Delete Q'+cnt+'" class="btn btn-danger btn-xs pull-right" id="delBtn'+cnt+'" tabindex="-1"></div>\
+                  <label for="q'+cnt+'" class="control-label">質問'+cnt+'</label>\
+                  <textarea class="form-control" id="q'+cnt+'" name="q'+cnt+'" rows="3" placeholder="質問'+cnt+'の内容" required></textarea>\
+                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>\
+                  <div class="help-block with-errors"></div>\
                   </div>';
       $('#addBtn').before(html);
       $('input[name="num"]').attr('value', cnt);
       $('#delBtn'+cnt).on('click', { num: cnt }, delTA);
+      console.log('update');
+      $('form').validator('update');
     });
     
     // confirm.phpから「修正」を選択て遷移してきた場合
@@ -88,6 +93,7 @@ $jsonQs = json_encode($questions);
         $('#addBtn').trigger('click');
         $('#q'+cnt).val(question[cnt-1]);
       }
+      $('form').validator('validate');
     } else {
       // output.phpから遷移してきた場合
       if (/output\.php$/.test(document.referrer)) {
