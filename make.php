@@ -22,6 +22,12 @@ $jsonQs = json_encode($questions);
       <h1>アンケートシステム</h1><hr>
       <h2>作成</h2>
       <form method="post" action="confirm.php" data-toggle="validator" role="form">
+        <div class="form-group has-feedback">
+          <label for="title" class="control-label">タイトル</label>
+          <input type="text" class="form-control" id="title" name="title" placeholder="アンケートのタイトル" data-error="タイトルを入力してください．" required>
+          <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+          <div class="help-block with-errors"></div>
+        </div>
         <input type="button" name="add" value="Add new question" class="btn btn-info center-block" id="addBtn">
         <div class="form-group">
           <input class="btn btn-primary btn-block" type="submit" value="作成">
@@ -72,7 +78,7 @@ $jsonQs = json_encode($questions);
       var html = '<div class="form-group has-feedback" id="q'+cnt+'-group">\
                   <div class="form-group"><input type="button" name="del" value="Delete Q'+cnt+'" class="btn btn-danger btn-xs pull-right" id="delBtn'+cnt+'" tabindex="-1"></div>\
                   <label for="q'+cnt+'" class="control-label">質問'+cnt+'</label>\
-                  <textarea class="form-control" id="q'+cnt+'" name="q'+cnt+'" rows="3" placeholder="質問'+cnt+'の内容" data-error="このフィールドを入力してください．不要な場合は削除してください．" required></textarea>\
+                  <textarea class="form-control" id="q'+cnt+'" name="q'+cnt+'" rows="3" placeholder="質問'+cnt+'の内容" data-error="質問を入力してください．不要な場合は削除してください．" required></textarea>\
                   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>\
                   <div class="help-block with-errors"></div>\
                   </div>';

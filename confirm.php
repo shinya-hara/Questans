@@ -21,6 +21,11 @@ session_start();
 // セッション変数を全て解除
 // $_SESSION = array();
 
+// アンケートタイトルをセッション変数に格納
+if ($_POST['title']) {
+  $_SESSION['title'] = $_POST['title'];
+}
+
 // 質問数をセッション変数に格納
 if ($_POST['num']) {
   $_SESSION['num'] = $_POST['num'];
@@ -51,9 +56,10 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
     <div class="container">
       <h1>アンケートシステム</h1><hr>
       <h2>確認</h2>
+      <h3>タイトル：<?= $_SESSION['title'] ?></h3>
       <h3>質問数：<?= $_SESSION['num'] ?></h3>
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
-      <form method="post" action="output.php">
+      <form method="post" action="insert.php">
         <a href="make.php"><input type="button" value="修正" class="btn btn-default"></a>
         <input type="submit" value="OK" class="btn btn-primary">
       </form>
