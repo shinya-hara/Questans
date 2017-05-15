@@ -60,11 +60,11 @@ $jsonQs = json_encode($questions);
         'placeholder': '質問'+num+'の内容'
       });
       $('#delBtn'+num).off();
-      $('#delBtn'+num).on('click', { num: num }, delTA);
+      $('#delBtn'+num).on('click', { num: num }, delTextarea);
       update(num+1);
     }
     // テキストエリアを削除する
-    var delTA = function(e) {
+    var delTextarea = function(e) {
       $('#q'+e.data.num+'-group').remove();
       update(e.data.num);
     }
@@ -84,17 +84,17 @@ $jsonQs = json_encode($questions);
                   </div>';
       $('#addBtn').before(html);
       $('input[name="num"]').attr('value', cnt);
-      $('#delBtn'+cnt).on('click', { num: cnt }, delTA);
+      $('#delBtn'+cnt).on('click', { num: cnt }, delTextarea);
       $('#q'+cnt).focus();
       $('form').validator('update');
     });
     
     // confirm.phpから「修正」を選択て遷移してきた場合
     if (/confirm\.php$/.test(document.referrer)) {
-      console.log("from confirm.php");
       // json形式の質問をパースし格納
-      var question = JSON.parse('<?php echo $jsonQs; ?>');
+      var question = JSON.parse('<?=$jsonQs?>');
       // 前回のフォームの内容を再現
+      $('#title').val('<?=$_SESSION['title']?>');
       for (var i = 0, len = question.length; i < len; i++) {
         $('#addBtn').trigger('click');
         $('#q'+cnt).val(question[cnt-1]);

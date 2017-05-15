@@ -12,7 +12,7 @@ $choice = [ '全くそう思わない',
             '非常にそう思う' ];
 
 // 選択肢のサイズ
-$size = count($choice);
+$c_size = count($choice);
 
 // セッションの開始
 session_start();
@@ -68,7 +68,7 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
         <thead>
           <tr>
             <th>質問</th>
-            <?php for($i = 0; $i < $size; $i++): ?>
+            <?php for($i = 0; $i < $c_size; $i++): ?>
             <th class="text-center"><?= $choice[$i] ?></th>
             <?php endfor; ?>
           </tr>
@@ -77,7 +77,7 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
           <?php for($i = 1; $i <= $_SESSION['num']; $i++): ?>
           <tr>
             <td class="text-left"><?= h($_SESSION['q'.$i]) ?></td>
-            <?php for($j = 0; $j < $size; $j++): ?>
+            <?php for($j = 0; $j < $c_size; $j++): ?>
             <td><input type="radio" name="a<?= $i ?>" value="<?= $choice[$j] ?>"></td>
             <?php endfor; ?>
           </tr>

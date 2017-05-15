@@ -12,40 +12,55 @@ $choice = [ '全くそう思わない',
             '非常にそう思う' ];
 
 // 選択肢のサイズ
-$size = count($choice);
-
-echo $_POST['num'];
-echo $_POST['q1'];
-echo $_POST['q2'];
+$c_size = count($choice);
 
 // DB接続のための諸情報
 $dsn = 'mysql:dbname=questionnarie;host=localhost;charset=utf8';
 $user = 'dbuser';
 $password = 'dqwt12';
 
-$dbh = new PDO($dsn, $user, $password);
-$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 try {
-  $dbh = new PDO($dsn, $user, $password);
+  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+} catch (PDOException $e) {
+  // echo $e->getMessage();
+  echo "データベース接続エラー";
+  die();
+}
+try {
+  $dbh->beginTransaction();   // トランザクションの開始
+  // アンケートをDBに格納
   $stmt = $dbh->prepare("insert into questionnaries (title, created) values (?, ?)");
   $stmt->bindValue(1, $_SESSION['title']);
-  date_default_timezone_set('Asia/Tokyo');
-  $stmt->bindValue(2, date("Y-m-d H:i:s", time()));
+  date_default_timezone_set('Asia/Tokyo');  // タイムゾーンの設定
+  $stmt->bindValue(2, date("Y-m-d H:i:s", time()));   // 現在時刻を取得
   $stmt->execute();
-  
   $id = $dbh->lastInsertId();   // 最後に追加したレコードのID
-  echo $id;
+  
+  // 各質問をDBに格納
   $stmt = $dbh->prepare("insert into questions (q_id, q_num, question) values (?, ?, ?)");
   $stmt->bindValue(1, $id, PDO::PARAM_INT);
-  $stmt->bindValue(2, 1, PDO::PARAM_INT);
-  $stmt->bindValue(3, $_SESSION['q1']);
-  $result = $stmt->execute();
-  $stmt->bindValue(2, 2, PDO::PARAM_INT);
-  $stmt->bindValue(3, $_SESSION['q2']);
-  $stmt->execute();
+  for ($i = 1, $q_size = $_SESSION['num']; $i <= $q_size; $i++) {
+    $stmt->bindValue(2, $i, PDO::PARAM_INT);
+    $stmt->bindValue(3, $_SESSION['q'.$i]);
+    $stmt->execute();
+  }
+  
+  // 選択肢をDBに格納
+  $stmt = $dbh->prepare("insert into choices (q_id, c_num, choice) values (?, ?, ?)");
+  $stmt->bindValue(1, $id, PDO::PARAM_INT);
+  for ($i = 1; $i <= $c_size; $i++) {
+    $stmt->bindValue(2, $i, PDO::PARAM_INT);
+    $stmt->bindValue(3, $choice[$i-1]);
+    $stmt->execute();
+  }
+  
+  $status = "success";
+  $msg = "以下の内容でアンケートを作成しました．";
+  $dbh->commit();
 } catch (PDOException $e) {
-  echo 'Connection failed:'.$e->getMessage();
-  die();
+  $dbh->rollBack();
+  $status = "danger";
+  $msg = "アンケートの作成に失敗しました．";
 }
 ?>
 <!DOCTYPE html>
@@ -61,17 +76,10 @@ try {
     <div class="container">
       <h1>アンケートシステム</h1><hr>
       <h2>作成完了</h2>
-      <?php if ($result): ?>
-      <div class="alert alert-success" role="alert">
-        以下の内容でアンケートを作成しました．
+      <div class="alert alert-<?=$status?>" role="alert">
+        <?= $msg ?>
         <!--<a href="questionnarie.php" target="_blank"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> アンケート画面へ</a>-->
       </div>
-      <?php else: ?>
-      <div class="alert alert-danger" role="alert">
-        アンケートの作成に失敗しました．
-        <!--<a href="questionnarie.php" target="_blank"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> アンケート画面へ</a>-->
-      </div>
-      <?php endif; ?>
       <a href="make.php"><input type="button" value="アンケート作成画面へ" class="btn btn-primary"></a>
       <hr>
       <table class="table table-striped">
