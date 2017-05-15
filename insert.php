@@ -54,14 +54,16 @@ try {
     $stmt->execute();
   }
   
-  $status = "success";
-  $msg = "以下の内容でアンケートを作成しました．";
+  $_SESSION['status'] = "success";
+  $_SESSION['flash_msg'] = "アンケートの作成に成功しました．";
   $dbh->commit();
 } catch (PDOException $e) {
   $dbh->rollBack();
-  $status = "danger";
-  $msg = "アンケートの作成に失敗しました．";
+  $_SESSION['status'] = "danger";
+  $_SESSION['flash_msg'] = "アンケートの作成に失敗しました．";
 }
+// フラッシュメッセージを表示する為のフラグ
+$_SESSION['flash_flag'] = true;
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -76,8 +78,8 @@ try {
     <div class="container">
       <h1>アンケートシステム</h1><hr>
       <h2>作成完了</h2>
-      <div class="alert alert-<?=$status?>" role="alert">
-        <?= $msg ?>
+      <div class="alert alert-<?=$_SESSION['status']?>" role="alert">
+        <?=$_SESSION['flash_msg']?>
         <!--<a href="questionnarie.php" target="_blank"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> アンケート画面へ</a>-->
       </div>
       <a href="make.php"><input type="button" value="アンケート作成画面へ" class="btn btn-primary"></a>

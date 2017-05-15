@@ -21,7 +21,7 @@ $jsonQs = json_encode($questions);
     <div class="container">
       <h1>アンケートシステム</h1><hr>
       <h2>作成</h2>
-      <form method="post" action="confirm.php" data-toggle="validator" role="form">
+      <form method="post" action="ajax.php" data-toggle="validator" role="form">
         <div class="form-group has-feedback">
           <label for="title" class="control-label">タイトル</label>
           <input type="text" class="form-control" id="title" name="title" placeholder="アンケートのタイトル" data-error="タイトルを入力してください．" required>
@@ -72,6 +72,7 @@ $jsonQs = json_encode($questions);
     
     
     // テキストエリアを増減させるボタンを設置
+    // jQueryにcloneという便利そうなメソッドを発見(2017/5/16)
     var cnt = 0;  // 質問数
     $('#addBtn').on('click', function () {
       cnt++;
