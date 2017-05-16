@@ -2,7 +2,7 @@
 // DB接続のための諸情報
 $dsn = 'mysql:dbname=questionnarie;host=localhost;charset=utf8';
 $user = 'dbuser';
-$password = 'dqwt12';
+$password = 'dbpass';
 
 $dbh = new PDO($dsn, $user, $password);
 $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

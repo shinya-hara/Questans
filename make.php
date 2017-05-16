@@ -19,7 +19,9 @@ $jsonQs = json_encode($questions);
   </head>
   <body>
     <div class="container">
-      <h1>アンケートシステム</h1><hr>
+      <h1>アンケートシステム</h1>
+      <a href="management.php"><input type="button" value="管理画面" class="btn btn-default"></a>
+      <hr>
       <h2>作成</h2>
       <form method="post" action="ajax.php" data-toggle="validator" role="form">
         <div class="form-group has-feedback">
@@ -34,7 +36,7 @@ $jsonQs = json_encode($questions);
         </div>
         <input type="hidden" name="num" value='0'><!-- 質問数 -->
       </form>
-      <?php require('debug.php'); ?>
+      <?php include 'debug.php'; ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>

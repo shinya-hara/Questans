@@ -14,10 +14,8 @@ $choice = [ '全くそう思わない',
 // 選択肢のサイズ
 $c_size = count($choice);
 
-// DB接続のための諸情報
-$dsn = 'mysql:dbname=questionnarie;host=localhost;charset=utf8';
-$user = 'dbuser';
-$password = 'dbpass';
+// DB接続のための情報を読み込む
+require_once __DIR__.'/db_info.php';
 
 // フラッシュメッセージを表示する為のフラグ
 $_SESSION['flash_flag'] = true;

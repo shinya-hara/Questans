@@ -85,7 +85,7 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
       </table>
       <input type="button" class="btn btn-primary btn-block" value="回答">
       <div id="load"></div>
-      <?php require('debug.php'); ?>
+      <?php include 'debug.php'; ?>
     </div><!-- /container -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>
