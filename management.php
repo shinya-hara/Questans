@@ -42,29 +42,9 @@ try {
       </div>
       <?php endif; ?>
       <a href="make.php"><button type="button" class="btn btn-default">アンケート作成画面</button></a>
-      <h3>アンケート一覧</h3>
-      <table class="table">
-        <thead>
-          <th>番号</th><th>タイトル</th><th>作成日時</th><th>操作</th>
-        </thead>
-        <tbody>
-          <?php $i = 1; foreach ($questionnaries as $row): ?>
-          <tr>
-            <td><?=$i?></td>
-            <td><?=$row['title']?></td>
-            <td><?=$row['created']?></td>
-            <td>
-              <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-info">詳細</button>
-                <button type="button" class="btn btn-primary">編集</button>
-                <button type="button" class="btn btn-danger">削除</button>
-              </div>
-            </td>
-          </tr>
-          <?php $i++; endforeach; ?>
-        </tbody>
-      </table>
-      </pre>
+      <main>
+        <?php include 'list.php'; ?>
+      </main>
     </div>
   </body>
 </html>

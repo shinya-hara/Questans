@@ -87,7 +87,7 @@ ob_end_clean();
       <h2>作成完了</h2>
       <div class="alert alert-success" role="alert">
         以下の内容でアンケートを作成しました．
-        <a href="questionnarie.php" target="_blank"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> アンケート画面へ</a>
+        <a href="questionnarie.php" target="_blank">アンケート画面へ <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
       </div>
       <a href="make.php"><input type="button" value="アンケート作成画面へ" class="btn btn-primary"></a>
       <hr>
