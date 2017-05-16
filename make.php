@@ -90,12 +90,12 @@ $jsonQs = json_encode($questions);
       $('form').validator('update');
     });
     
-    // confirm.phpから「修正」を選択て遷移してきた場合
-    if (/confirm\.php$/.test(document.referrer)) {
+    // ajax.phpから「修正」を選択て遷移してきた場合
+    if (/ajax\.php$/.test(document.referrer)) {
       // json形式の質問をパースし格納
       var question = JSON.parse('<?=$jsonQs?>');
       // 前回のフォームの内容を再現
-      $('#title').val('<?=$_SESSION['title']?>');
+      $('#title').val("<?=$_SESSION['title']?>");
       for (var i = 0, len = question.length; i < len; i++) {
         $('#addBtn').trigger('click');
         $('#q'+cnt).val(question[cnt-1]);

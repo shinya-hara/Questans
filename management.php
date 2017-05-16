@@ -13,8 +13,8 @@ session_start();
   <body>
     <div class="container">
       <h1>アンケートシステム</h1><hr>
-      <h2>管理者用ページ</h2>
-      <?php if ($_SESSION['flash_flag']): ?>
+      <h2>管理画面</h2>
+      <?php if (isset($_SESSION['flash_flag']) && $_SESSION['flash_flag']): ?>
       <div class="alert alert-<?=$_SESSION['status']?>" role="alert">
         <?=$_SESSION['flash_msg']?>
         <?php $_SESSION['flash_flag'] = false; ?>
@@ -24,3 +24,6 @@ session_start();
     </div>
   </body>
 </html>
+<?php
+$_SESSION = array();
+?>

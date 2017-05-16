@@ -22,18 +22,18 @@ session_start();
 // $_SESSION = array();
 
 // アンケートタイトルをセッション変数に格納
-if ($_POST['title']) {
+if (isset($_POST['title'])) {
   $_SESSION['title'] = $_POST['title'];
 }
 
 // 質問数をセッション変数に格納
-if ($_POST['num']) {
+if (isset($_POST['num'])) {
   $_SESSION['num'] = $_POST['num'];
 }
 
 // 質問をセッション変数に格納
 for ($i=1; $i<=$_SESSION['num']; $i++) {
-  if ($_POST['q'.$i]) {
+  if (isset($_POST['q'.$i])) {
     $_SESSION['q'.$i] = $_POST['q'.$i];
   }
 }
@@ -56,6 +56,7 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
     <div class="container">
       <h1>アンケートシステム</h1><hr>
       <h2>確認</h2>
+      <div id="flash"></div>
       <h3>タイトル：<?= $_SESSION['title'] ?></h3>
       <h3>質問数：<?= $_SESSION['num'] ?></h3>
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
@@ -90,8 +91,12 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
     <script>
     $(function(){
       $('#insert').on('click', function() {
-        $.get('insert.php', function() {
-          window.location.href = "management.php";
+        // アンケート作成に成功した場合、insert.phpはエコーバックしない
+        // 失敗した場合、エラーメッセージを出力する
+        $('#flash').load('insert.php', function(data) {
+          if (data === "") {  // 作成成功時はリダイレクト
+            window.location.href = "management.php";
+          }
         });
       });
     });
