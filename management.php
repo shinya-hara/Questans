@@ -4,7 +4,6 @@ require_once __DIR__.'/db_info.php';
 try {
   $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
   try {
-    // $stmt = $dbh->prepare("select * from questionnaries");
     $questionnaries = $dbh->query("select title,created from questionnaries order by q_id");
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
@@ -35,12 +34,6 @@ try {
     <div class="container">
       <h1>アンケートシステム</h1><hr>
       <h2>管理画面</h2>
-      <?php if (isset($_SESSION['flash_flag']) && $_SESSION['flash_flag']): ?>
-      <div class="alert alert-<?=$_SESSION['status']?>" role="alert">
-        <?=$_SESSION['flash_msg']?>
-        <?php $_SESSION['flash_flag'] = false; ?>
-      </div>
-      <?php endif; ?>
       <a href="make.php"><button type="button" class="btn btn-default">アンケート作成画面</button></a>
       <main>
         <?php include 'list.php'; ?>

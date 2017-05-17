@@ -9,16 +9,19 @@ try {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "アンケート一覧の取得に失敗しました．";
     $_SESSION['flash_flag'] = true;
-    echo "アンケート一覧の取得に失敗しました．";
   }
 } catch (PDOException $e) {
   $_SESSION['status'] = "danger";
   $_SESSION['flash_msg'] = "データベースの接続に失敗しました．";
   $_SESSION['flash_flag'] = true;
-  echo "データベースの接続に失敗しました．";
 }
 ?>
-
+<?php if (isset($_SESSION['flash_flag']) && $_SESSION['flash_flag']): ?>
+<div class="alert alert-<?=$_SESSION['status']?>" role="alert">
+  <?=$_SESSION['flash_msg']?>
+  <?php $_SESSION['flash_flag'] = false; ?>
+</div>
+<?php endif; ?>
 <h3>アンケート一覧</h3>
 <table class="table">
   <thead>
