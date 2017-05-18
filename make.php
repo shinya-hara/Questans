@@ -43,7 +43,7 @@ $jsonQs = json_encode($questions);
     <script>
     $(function() {
       'use strict';
-      var isChanged = false;  // フォームの状態を表すフラグ
+      
       // 削除ボタンの属性を変更する
       // num: 押された削除ボタンの質問番号
       function update(num) {
@@ -112,6 +112,7 @@ $jsonQs = json_encode($questions);
         $('#addBtn').trigger('click');
       }
       // ページから離れる際に確認
+      var isChanged = false;  // フォームの状態を表すフラグ
       $(window).on('beforeunload', function() {
         console.log(isChanged);
         if (isChanged) {

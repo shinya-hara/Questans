@@ -60,8 +60,8 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
       <h3>タイトル：<?= $_SESSION['title'] ?></h3>
       <h3>質問数：<?= $_SESSION['num'] ?></h3>
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
-      <a href="make.php"><input type="button" value="修正" class="btn btn-default"></a>
-      <input type="button" value="OK" id="insert" class="btn btn-primary">
+      <a href="make.php"><button type="button" id="edit" class="btn btn-default">修正</button></a>
+      <button type="button" id="insert" class="btn btn-primary">OK</button>
       <hr>
       <table class="table table-striped text-center">
         <thead>
@@ -98,6 +98,31 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
             window.location.href = "management.php";
           }
         });
+      });
+      
+      // ページから離れる際に確認
+      var isChanged = false;  // フォームの状態を表すフラグ
+      $(window).on('beforeunload', function() {
+        console.log(isChanged);
+        if (isChanged) {
+          return "このページを離れようとしています．";
+        }
+      });
+      // フォームに変更があった際に空欄でなければフラグを立てる
+      $('form input, form textarea').on('change', function() {
+        if ($('form input').val() !== "" || $('form textarea').val() !== "") {
+          isChanged = true;
+        } else {  // フォームが空欄になったらフラグを落とす
+          isChanged = false;
+        }
+      });
+      // このページに遷移後、フォームが空欄でなければフラグを立てる
+      if ($('form input').val() !== "" || $('form textarea').val() !== "") {
+        isChanged = true;
+      }
+      $('button#insert, button#edit').on('click', function() {
+        // ボタンを押した際にフラグを落とす
+        isChanged = false;
       });
     });
     </script>
