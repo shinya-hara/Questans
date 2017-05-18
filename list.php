@@ -41,14 +41,16 @@ try {
 </table>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
-  $('.info').on('click', function() {
-    $.post('detail.php',
-    {
-      'id': $(this).attr('data-id')
-    },
-    function(data) {
-      $('main').html(data);
-    },
-    'html');
+  $(function() {
+    // 詳細
+    $('.info').on('click', function() {
+      $.post('detail.php',
+      {
+        'id': $(this).attr('data-id')
+      },
+      function(data) {
+        $('main').html(data);
+      });
+    });
   });
 </script>

@@ -1,20 +1,20 @@
 <?php
-session_start();
-require_once __DIR__.'/db_info.php';
-try {
-  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-  try {
-    $questionnaries = $dbh->query("select title,created from questionnaries order by q_id");
-  } catch (PDOException $e) {
-    $_SESSION['status'] = "danger";
-    $_SESSION['flash_msg'] = "アンケート一覧の取得に失敗しました．";
-    $_SESSION['flash_flag'] = true;
-  }
-} catch (PDOException $e) {
-  $_SESSION['status'] = "danger";
-  $_SESSION['flash_msg'] = "データベースの接続に失敗しました．";
-  $_SESSION['flash_flag'] = true;
-}
+// session_start();
+// require_once __DIR__.'/db_info.php';
+// try {
+//   $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+//   try {
+//     $questionnaries = $dbh->query("select title,created from questionnaries order by q_id");
+//   } catch (PDOException $e) {
+//     $_SESSION['status'] = "danger";
+//     $_SESSION['flash_msg'] = "アンケート一覧の取得に失敗しました．";
+//     $_SESSION['flash_flag'] = true;
+//   }
+// } catch (PDOException $e) {
+//   $_SESSION['status'] = "danger";
+//   $_SESSION['flash_msg'] = "データベースの接続に失敗しました．";
+//   $_SESSION['flash_flag'] = true;
+// }
 ?>
 <!DOCTYPE html>
 <html lang="ja">

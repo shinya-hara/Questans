@@ -31,7 +31,7 @@ try {
 }
 ?>
 <?php include __DIR__.'/flash.php'; ?>
-<button type="button" class="btn btn-primary" id="back">Back</button>
+<button type="button" class="btn btn-primary" id="back">BACK</button>
 <h3><?=$questionnaries['title']?><small><br>Created at <?=$questionnaries['created']?></small></h3>
 <!-- 質問 -->
 <table class="table">
@@ -55,10 +55,42 @@ try {
     <?php endforeach; ?>
   </tbody>
 </table>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">
+  DELETE
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="delModalLabel">アンケートの削除</h4>
+      </div>
+      <div class="modal-body">
+        このアンケートを削除しますか？<br>
+        この操作は取り消せません．
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="delete">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
-  $('#back').on('click', function() {
-    $.get('list.php', function(data) {
-      $('main').html(data);
+  $(function() {
+    $('#back').on('click', function() {
+      $.get('list.php', function(data) {
+        $('main').html(data);
+      });
+    });
+    // 削除
+    $('#delete').on('click', function() {
+      alert("deleted");
     });
   });
 </script>
