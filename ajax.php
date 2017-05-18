@@ -23,7 +23,7 @@ session_start();
 
 // アンケートタイトルをセッション変数に格納
 if (isset($_POST['title'])) {
-  $_SESSION['title'] = $_POST['title'];
+  $_SESSION['title'] = trim($_POST['title'], '　, ');
 }
 
 // 質問数をセッション変数に格納
@@ -34,8 +34,34 @@ if (isset($_POST['num'])) {
 // 質問をセッション変数に格納
 for ($i=1; $i<=$_SESSION['num']; $i++) {
   if (isset($_POST['q'.$i])) {
-    $_SESSION['q'.$i] = $_POST['q'.$i];
+    $_SESSION['q'.$i] = trim($_POST['q'.$i], '　, ');
   }
+}
+
+require_once __DIR__.'/db_info.php';
+try {
+  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+  try {
+    // タイトルの取得
+    $stmt = $dbh->prepare("select title from questionnaries where title = ? limit 1");
+    $stmt->bindValue(1, $_SESSION['title']);
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    $rowCount = count($result);   // 入力されたタイトルと同じタイトルのレコードがあるかチェック
+    if ($rowCount > 0) {
+      $_SESSION['status'] = "danger";
+      $_SESSION['flash_msg'] = "そのタイトルはすでに存在します．タイトルを変更してください．";
+      $_SESSION['flash_flag'] = true;
+    }
+  } catch (PDOException $e) {
+    $_SESSION['status'] = "danger";
+    $_SESSION['flash_msg'] = "タイトルの取得に失敗しました．";
+    $_SESSION['flash_flag'] = true;
+  }
+} catch (PDOException $e) {
+  $_SESSION['status'] = "danger";
+  $_SESSION['flash_msg'] = "データベースの接続に失敗しました．";
+  $_SESSION['flash_flag'] = true;
 }
 ?>
 <!DOCTYPE html>
@@ -56,16 +82,16 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
     <div class="container">
       <h1>アンケートシステム</h1><hr>
       <h2>確認</h2>
-      <div id="flash"></div>
-      <h3>タイトル：<?= $_SESSION['title'] ?></h3>
-      <h3>質問数：<?= $_SESSION['num'] ?></h3>
+      <div id="flash"><?php include 'flash.php'; ?></div>
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
       <a href="make.php"><button type="button" id="edit" class="btn btn-default">修正</button></a>
       <button type="button" id="insert" class="btn btn-primary">OK</button>
       <hr>
+      <h3><?= $_SESSION['title'] ?></h3>
       <table class="table table-striped text-center">
         <thead>
           <tr>
+            <th>番号</th>
             <th>質問</th>
             <?php for($i = 0; $i < $c_size; $i++): ?>
             <th class="text-center"><?= $choice[$i] ?></th>
@@ -75,6 +101,7 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
         <tbody>
           <?php for($i = 1; $i <= $_SESSION['num']; $i++): ?>
           <tr>
+            <td><?= $i ?></td>
             <td class="text-left"><?= h($_SESSION['q'.$i]) ?></td>
             <?php for($j = 0; $j < $c_size; $j++): ?>
             <td><input type="radio" name="a<?= $i ?>" value="<?= $choice[$j] ?>"></td>
@@ -90,12 +117,21 @@ for ($i=1; $i<=$_SESSION['num']; $i++) {
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>
     $(function(){
+      // タイトルが重複していた場合、ボタンを無効化
+      if (<?=$rowCount?> > 0) {
+        console.log("<?=$rowCount?>");
+        $('#insert').prop('disabled', true);
+      }
+      
+      // OKボタンを押した時の処理
       $('#insert').on('click', function() {
         // アンケート作成に成功した場合、insert.phpはエコーバックしない
-        // 失敗した場合、エラーメッセージを出力する
+        // 失敗した場合、エラーメッセージを出力し、ボタンを無効化
         $('#flash').load('insert.php', function(data) {
           if (data === "") {  // 作成成功時はリダイレクト
             window.location.href = "management.php";
+          } else {
+            $('#insert').prop('disabled', true);
           }
         });
       });
