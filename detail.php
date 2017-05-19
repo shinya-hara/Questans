@@ -57,6 +57,10 @@ try {
   </tbody>
 </table>
 
+<button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">
+  EDIT
+</button>
+
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">
   DELETE
@@ -82,19 +86,31 @@ try {
     </div>
   </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
   $(function() {
+    // 一覧に戻る
     $('#back').on('click', function() {
       $.get('list.php', function(data) {
         $('main').html(data);
       });
     });
+    
+    // 編集
+    $('#edit').on('click', function() {
+      $.post('edit.php',
+      {
+        'id': $(this).attr('data-id')
+      },
+      function(data) {
+        $('main').html(data);
+      });
+    });
+    
     // 削除
-    var isDeleted = false;
     $('#close').hide();
     $('#delete').on('click', function() {
-      isDeleted = true;
       $('#delete').prop('disabled', true);
       $('#modal-msg').html("削除中...");
       $.post('delete.php',

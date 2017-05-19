@@ -159,17 +159,26 @@ try {
         $('#insert').prop('disabled', true);
       }
       
+      // OKボタンを押した時のコールバック関数
+      var callback = function(data) {
+        if (data === "") {  // 作成成功時はリダイレクト
+          window.location.href = "management.php";
+        } else {
+          $('#insert').prop('disabled', true);
+        }
+      }
       // OKボタンを押した時の処理
       $('#insert').on('click', function() {
-        // アンケート作成に成功した場合、insert.phpはエコーバックしない
-        // 失敗した場合、エラーメッセージを出力し、ボタンを無効化
-        $('#flash').load('insert.php', function(data) {
-          if (data === "") {  // 作成成功時はリダイレクト
-            window.location.href = "management.php";
-          } else {
-            $('#insert').prop('disabled', true);
-          }
-        });
+        if (/make\.php$/.test(document.referrer)) {
+          console.log("from ajax.php");
+          $('#flash').load('insert.php', callback);
+        } else if (/management\.php$/.test(document.referrer)) {
+          $('#flash').load('update.php', callback);
+          console.log("from management.php");
+        } else {
+          alert("不正なアクセスです．");
+          window.location.href = "management.php";
+        }
       });
       
       // ページから離れる際に確認
