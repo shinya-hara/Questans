@@ -10,22 +10,19 @@ try {
     $rowCount = $stmt->rowCount();
     // 削除に失敗: 0, 成功: 1,
     if ($rowCount > 0) {
-      $msg = '<div class="text-success">削除に成功しました．</div>';
+      echo '<div class="text-success">削除に成功しました．</div>';
     } else {
-      $msg = '<div class="text-danger">削除に失敗しました．</div>';
+      echo '<div class="text-danger">削除に失敗しました．</div>';
     }
-    echo json_encode(array("msg"=>$msg, "state"=>$rowCount));
   } catch (PDOException $e) {
     // $_SESSION['status'] = "danger";
     // $_SESSION['flash_msg'] = "削除に失敗しました．";
     // $_SESSION['flash_flag'] = true;
-    $msg = '<div class="text-danger">削除に失敗しました．</div>';
-    echo json_encode(array("msg"=>$msg, "state"=>0));
+    echo '<div class="text-danger">削除に失敗しました．</div>';
   }
 } catch (PDOException $e) {
   // $_SESSION['status'] = "danger";
   // $_SESSION['flash_msg'] = "データベースの接続に失敗しました．";
   // $_SESSION['flash_flag'] = true;
-  $msg = '<div class="text-danger">データベースの接続に失敗しました．</div>';
-  echo json_encode(array("msg"=>$msg, "state"=>0));
+  echo '<div class="text-danger">データベースの接続に失敗しました．</div>';
 }

@@ -3,6 +3,14 @@
 function h($str) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
+// 文字列の前後の半角空白と全角空白を削除する関数
+function trim_emspace($str) {
+  // 先頭の半角、全角スペースを、空文字に置き換える
+  $str = preg_replace('/^[ 　]+/u', '', $str);
+  // 最後の半角、全角スペースを、空文字に置き換える
+  $str = preg_replace('/[ 　]+$/u', '', $str);
+  return $str;
+}
 
 // 選択肢の設定
 $choice = [ '全くそう思わない',
@@ -23,7 +31,7 @@ session_start();
 
 // アンケートタイトルをセッション変数に格納
 if (isset($_POST['title'])) {
-  $_SESSION['title'] = trim($_POST['title'], '　, ');
+  $_SESSION['title'] = trim_emspace($_POST['title']);
 }
 
 // 質問数をセッション変数に格納
@@ -34,7 +42,7 @@ if (isset($_POST['num'])) {
 // 質問をセッション変数に格納
 for ($i=1; $i<=$_SESSION['num']; $i++) {
   if (isset($_POST['q'.$i])) {
-    $_SESSION['q'.$i] = trim($_POST['q'.$i], '　, ');
+    $_SESSION['q'.$i] = trim_emspace($_POST['q'.$i]);
   }
 }
 
