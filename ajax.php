@@ -50,42 +50,20 @@ require_once __DIR__.'/db_info.php';
 try {
   $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
   try {
-    // タイトルの取得
-    $stmt = $dbh->prepare("select title from questionnaries where title = ? limit 1");
-    $stmt->bindValue(1, $_SESSION['title']);
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-    $rowCount = count($result);   // 入力されたタイトルと同じタイトルのレコードがあるかチェック
-    if ($rowCount > 0) {
-      $_SESSION['status'] = "danger";
-      $_SESSION['flash_msg'] = "そのタイトルはすでに存在します．タイトルを変更してください．";
-      $_SESSION['flash_flag'] = true;
-    }
-  } catch (PDOException $e) {
-    $_SESSION['status'] = "danger";
-    $_SESSION['flash_msg'] = "タイトルの取得に失敗しました．";
-    $_SESSION['flash_flag'] = true;
-  }
-} catch (PDOException $e) {
-  $_SESSION['status'] = "danger";
-  $_SESSION['flash_msg'] = "データベースの接続に失敗しました．";
-  $_SESSION['flash_flag'] = true;
-}
-
-require_once __DIR__.'/db_info.php';
-try {
-  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-  try {
-    // タイトルの取得
-    $stmt = $dbh->prepare("select title from questionnaries where title = ? limit 1");
-    $stmt->bindValue(1, $_SESSION['title']);
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-    $rowCount = count($result);   // 入力されたタイトルと同じタイトルのレコードがあるかチェック
-    if ($rowCount > 0) {
-      $_SESSION['status'] = "danger";
-      $_SESSION['flash_msg'] = "そのタイトルはすでに存在します．タイトルを変更してください．";
-      $_SESSION['flash_flag'] = true;
+    if ($_SESSION['update'] == 0) { // 新規作成時のみ確認
+      // タイトルの取得
+      $stmt = $dbh->prepare("select title from questionnaries where title = ? limit 1");
+      $stmt->bindValue(1, $_SESSION['title']);
+      $stmt->execute();
+      $result = $stmt->fetchAll();
+      $rowCount = count($result);   // 入力されたタイトルと同じタイトルのレコードがあるかチェック
+      if ($rowCount > 0) {
+        $_SESSION['status'] = "danger";
+        $_SESSION['flash_msg'] = "そのタイトルはすでに存在します．タイトルを変更してください．";
+        $_SESSION['flash_flag'] = true;
+      }
+    } else {  // 更新時はタイトルが重複するはず
+      $rowCount = 0;
     }
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
