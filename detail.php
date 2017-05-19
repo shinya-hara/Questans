@@ -4,6 +4,7 @@ require_once __DIR__.'/db_info.php';
 try {
   $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
   try {
+    $id = (int)$_POST['id'];
     // アンケート情報の取得
     $stmt = $dbh->prepare("select title,created from questionnaries where q_id = ?");
     $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
@@ -69,13 +70,14 @@ try {
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="delModalLabel">アンケートの削除</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" id="modal-msg">
         このアンケートを削除しますか？<br>
         この操作は取り消せません．
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger" id="delete">Delete</button>
+        <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="delete" data-id="<?=$_POST['id']?>">Delete</button>
+        <button type="button" class="btn btn-primary" id="close" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -89,8 +91,28 @@ try {
       });
     });
     // 削除
+    var isDeleted = false;
+    $('#close').hide();
     $('#delete').on('click', function() {
-      alert("deleted");
+      isDeleted = true;
+      $('#delete').prop('disabled', true);
+      $('#modal-msg').html("削除中...");
+      $.post('delete.php',
+      {
+        'id': $(this).attr('data-id')
+      },
+      function(data) {
+        // ダイアログメッセージの変更
+        $('#modal-msg').html(data);
+        $('#delete, #cancel').hide();
+        $('#close').show();
+        // ダイアログを閉じるとアンケート一覧に戻る
+        $('#delModal').on('hidden.bs.modal', function() {
+          $.get('list.php', function(data) {
+            $('main').html(data);
+          });
+        });
+      });
     });
   });
 </script>
