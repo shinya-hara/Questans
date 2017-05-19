@@ -3,6 +3,14 @@
 function h($str) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
+// 文字列の前後の半角空白と全角空白を削除する関数
+function trim_emspace($str) {
+  // 先頭の半角、全角スペースを、空文字に置き換える
+  $str = preg_replace('/^[ 　]+/u', '', $str);
+  // 最後の半角、全角スペースを、空文字に置き換える
+  $str = preg_replace('/[ 　]+$/u', '', $str);
+  return $str;
+}
 
 // 選択肢の設定
 $choice = [ '全くそう思わない',
@@ -23,7 +31,7 @@ session_start();
 
 // アンケートタイトルをセッション変数に格納
 if (isset($_POST['title'])) {
-  $_SESSION['title'] = trim($_POST['title'], '　, ');
+  $_SESSION['title'] = trim_emspace($_POST['title']);
 }
 
 // 質問数をセッション変数に格納
@@ -34,8 +42,34 @@ if (isset($_POST['num'])) {
 // 質問をセッション変数に格納
 for ($i=1; $i<=$_SESSION['num']; $i++) {
   if (isset($_POST['q'.$i])) {
-    $_SESSION['q'.$i] = trim($_POST['q'.$i], '　, ');
+    $_SESSION['q'.$i] = trim_emspace($_POST['q'.$i]);
   }
+}
+
+require_once __DIR__.'/db_info.php';
+try {
+  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+  try {
+    // タイトルの取得
+    $stmt = $dbh->prepare("select title from questionnaries where title = ? limit 1");
+    $stmt->bindValue(1, $_SESSION['title']);
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    $rowCount = count($result);   // 入力されたタイトルと同じタイトルのレコードがあるかチェック
+    if ($rowCount > 0) {
+      $_SESSION['status'] = "danger";
+      $_SESSION['flash_msg'] = "そのタイトルはすでに存在します．タイトルを変更してください．";
+      $_SESSION['flash_flag'] = true;
+    }
+  } catch (PDOException $e) {
+    $_SESSION['status'] = "danger";
+    $_SESSION['flash_msg'] = "タイトルの取得に失敗しました．";
+    $_SESSION['flash_flag'] = true;
+  }
+} catch (PDOException $e) {
+  $_SESSION['status'] = "danger";
+  $_SESSION['flash_msg'] = "データベースの接続に失敗しました．";
+  $_SESSION['flash_flag'] = true;
 }
 
 require_once __DIR__.'/db_info.php';
