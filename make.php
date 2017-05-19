@@ -32,7 +32,7 @@ $jsonQs = json_encode($questions);
         </div>
         <input type="button" name="add" value="Add new question" class="btn btn-info center-block" id="addBtn">
         <div class="form-group">
-          <input class="btn btn-primary btn-block" type="submit" value="作成">
+          <input class="btn btn-primary btn-block" type="submit" value="<?=$_SESSION['update']==1 ? '更新' : '作成'?>">
         </div>
         <input type="hidden" name="num" value='0'><!-- 質問数 -->
       </form>

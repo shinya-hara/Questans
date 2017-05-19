@@ -118,7 +118,7 @@ try {
       <a href="management.php"><input type="button" value="管理画面" class="btn btn-default"></a>
       <hr>
       <h2>確認</h2>
-      <div id="flash"><?php include 'flash.php'; ?></div>
+      <div id="flash"><?php include 'flash.php'; $_SESSION['flash_flag'] = false; ?></div>
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
       <a href="make.php"><button type="button" id="edit" class="btn btn-default">修正</button></a>
       <button type="button" id="insert" class="btn btn-primary">OK</button>
@@ -169,12 +169,12 @@ try {
       }
       // OKボタンを押した時の処理
       $('#insert').on('click', function() {
-        if (/make\.php$/.test(document.referrer)) {
-          console.log("from ajax.php");
-          $('#flash').load('insert.php', callback);
-        } else if (/management\.php$/.test(document.referrer)) {
+        if (/management\.php$/.test(document.referrer) || '<?=$_SESSION['update']?>' > 0) {
           $('#flash').load('update.php', callback);
           console.log("from management.php");
+        } else if (/make\.php$/.test(document.referrer)) {
+          console.log("from ajax.php");
+          $('#flash').load('insert.php', callback);
         } else {
           alert("不正なアクセスです．");
           window.location.href = "management.php";

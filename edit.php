@@ -1,9 +1,12 @@
 <?php
+session_start();
+$_SESSION['update'] = 1;
 require_once __DIR__.'/db_info.php';
 try {
   $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
   try {
     $id = (int)$_POST['id'];
+    $_SESSION['update_id'] = $id;
     // アンケート情報の取得
     $stmt = $dbh->prepare("select title from questionnaries where q_id = ?");
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
@@ -112,9 +115,6 @@ try {
     
     // json形式の質問をパースし格納
     var question = JSON.parse('<?=$jsonQs?>');
-    console.log(question);
-    console.log(question.length);
-    console.log(question[0]);
     // 前回のフォームの内容を再現
     $('#title').val("<?=$questionnaries['title']?>");
     for (var i = 0, len = question.length; i < len; i++) {
