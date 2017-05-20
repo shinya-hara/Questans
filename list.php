@@ -18,13 +18,13 @@ try {
 ?>
 <?php include __DIR__.'/flash.php'; ?>
 <h3>アンケート一覧</h3>
-<table class="table">
+<table class="table table-hover" id="list">
   <thead>
     <th>番号</th><th>タイトル</th><th>作成日時</th><th>操作</th>
   </thead>
   <tbody>
     <?php $i = 1; foreach ($questionnaries as $row): ?>
-    <tr>
+    <tr data-id="<?=$row['q_id']?>">
       <td><?=$i?></td>
       <td><?=$row['title']?></td>
       <td><?=$row['created']?></td>
@@ -43,7 +43,7 @@ try {
 <script>
   $(function() {
     // 詳細
-    $('.info').on('click', function() {
+    $('.info, tr').on('click', function() {
       $.post('detail.php',
       {
         'id': $(this).attr('data-id')
