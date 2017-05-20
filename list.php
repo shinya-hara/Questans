@@ -4,7 +4,7 @@ require_once __DIR__.'/db_info.php';
 try {
   $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
   try {
-    $questionnaries = $dbh->query("select q_id,title,created from questionnaries order by q_id");
+    $questionnaries = $dbh->query("select q_id,title,created,updated from questionnaries order by q_id");
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "アンケート一覧の取得に失敗しました．";
@@ -20,7 +20,11 @@ try {
 <h3>アンケート一覧</h3>
 <table class="table table-hover" id="list">
   <thead>
-    <th>番号</th><th>タイトル</th><th>作成日時</th><th>操作</th>
+    <th>番号</th>
+    <th>タイトル</th>
+    <th>作成日時</th>
+    <th>更新日時</th>
+    <!--<th>操作</th>-->
   </thead>
   <tbody>
     <?php $i = 1; foreach ($questionnaries as $row): ?>
@@ -28,11 +32,12 @@ try {
       <td><?=$i?></td>
       <td><?=$row['title']?></td>
       <td><?=$row['created']?></td>
+      <td><?=is_null($row['updated'])?"---":$row['updated']?></td>
       <td>
         <!--<div class="btn-group btn-group-sm" role="group">-->
-          <button type="button" class="btn btn-info info" data-id="<?=$row['q_id']?>">詳細</button>
-          <button type="button" class="btn btn-primary edit" data-id="<?=$row['q_id']?>">編集</button>
-          <button type="button" class="btn btn-danger delete" data-id="<?=$row['q_id']?>">削除</button>
+          <!--<button type="button" class="btn btn-info info" data-id="<?=$row['q_id']?>">詳細</button>-->
+          <!--<button type="button" class="btn btn-primary edit" data-id="<?=$row['q_id']?>">編集</button>-->
+          <!--<button type="button" class="btn btn-danger delete" data-id="<?=$row['q_id']?>">削除</button>-->
         <!--</div>-->
       </td>
     </tr>

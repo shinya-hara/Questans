@@ -149,9 +149,7 @@ try {
       $('#insert').on('click', function() {
         if (/management\.php$/.test(document.referrer) || '<?=$_SESSION['update']?>' > 0) {
           $('#flash').load('update.php', callback);
-          console.log("from management.php");
         } else if (/make\.php$/.test(document.referrer)) {
-          console.log("from ajax.php");
           $('#flash').load('insert.php', callback);
         } else {
           alert("不正なアクセスです．");
