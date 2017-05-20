@@ -24,7 +24,6 @@ try {
     <th>タイトル</th>
     <th>作成日時</th>
     <th>更新日時</th>
-    <!--<th>操作</th>-->
   </thead>
   <tbody>
     <?php $i = 1; foreach ($questionnaries as $row): ?>
@@ -33,13 +32,6 @@ try {
       <td><?=$row['title']?></td>
       <td><?=$row['created']?></td>
       <td><?=is_null($row['updated'])?"---":$row['updated']?></td>
-      <td>
-        <!--<div class="btn-group btn-group-sm" role="group">-->
-          <!--<button type="button" class="btn btn-info info" data-id="<?=$row['q_id']?>">詳細</button>-->
-          <!--<button type="button" class="btn btn-primary edit" data-id="<?=$row['q_id']?>">編集</button>-->
-          <!--<button type="button" class="btn btn-danger delete" data-id="<?=$row['q_id']?>">削除</button>-->
-        <!--</div>-->
-      </td>
     </tr>
     <?php $i++; endforeach; ?>
   </tbody>

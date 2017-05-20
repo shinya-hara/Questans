@@ -13,14 +13,14 @@ function trim_emspace($str) {
 }
 
 // 選択肢の設定
-$choice = [ '全くそう思わない',
-            'あまりそう思わない',
-            'どちらとも言えない',
-            'ややそう思う',
-            '非常にそう思う' ];
+// $choice = [ '全くそう思わない',
+//             'あまりそう思わない',
+//             'どちらとも言えない',
+//             'ややそう思う',
+//             '非常にそう思う' ];
 
 // 選択肢のサイズ
-$c_size = count($choice);
+// $c_size = count($choice);
 
 // セッションの開始
 session_start();
@@ -35,14 +35,26 @@ if (isset($_POST['title'])) {
 }
 
 // 質問数をセッション変数に格納
-if (isset($_POST['num'])) {
-  $_SESSION['num'] = $_POST['num'];
+if (isset($_POST['q_num'])) {
+  $_SESSION['q_num'] = $_POST['q_num'];
 }
 
 // 質問をセッション変数に格納
-for ($i=1; $i<=$_SESSION['num']; $i++) {
+for ($i=1; $i<=$_SESSION['q_num']; $i++) {
   if (isset($_POST['q'.$i])) {
     $_SESSION['q'.$i] = trim_emspace($_POST['q'.$i]);
+  }
+}
+
+// 選択肢数をセッション変数に格納
+if (isset($_POST['c_num'])) {
+  $_SESSION['c_num'] = $_POST['c_num'];
+}
+
+// 選択肢をセッション変数に格納
+for ($i=1; $i<=$_SESSION['c_num']; $i++) {
+  if (isset($_POST['c'.$i])) {
+    $_SESSION['c'.$i] = trim_emspace($_POST['c'.$i]);
   }
 }
 
@@ -107,18 +119,18 @@ try {
           <tr>
             <th>番号</th>
             <th>質問</th>
-            <?php for($i = 0; $i < $c_size; $i++): ?>
-            <th class="text-center"><?= $choice[$i] ?></th>
+            <?php for($i = 1; $i <= $_SESSION['c_num']; $i++): ?>
+            <th class="text-center"><?= h($_SESSION['c'.$i]) ?></th>
             <?php endfor; ?>
           </tr>
         </thead>
         <tbody>
-          <?php for($i = 1; $i <= $_SESSION['num']; $i++): ?>
+          <?php for($i = 1; $i <= $_SESSION['q_num']; $i++): ?>
           <tr>
             <td><?= $i ?></td>
             <td class="text-left"><?= h($_SESSION['q'.$i]) ?></td>
-            <?php for($j = 0; $j < $c_size; $j++): ?>
-            <td><input type="radio" name="a<?= $i ?>" value="<?= $choice[$j] ?>"></td>
+            <?php for($j = 1; $j <= $_SESSION['c_num']; $j++): ?>
+            <td><input type="radio" name="a<?= $i ?>" value="<?= h($_SESSION['c'.$j]) ?>"></td>
             <?php endfor; ?>
           </tr>
           <?php endfor; ?>
