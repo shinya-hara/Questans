@@ -149,7 +149,7 @@ $jsonCs = json_encode($choices);
         $('#addCBtn').before(html);
         $('input[name="c_num"]').attr('value', c_cnt);
         $('#delCBtn'+c_cnt).on('click', { num: c_cnt }, delChoice);
-        $('#q'+c_cnt).focus();
+        $('#c'+c_cnt).focus();
         $('form').validator('update');
       });
       

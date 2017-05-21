@@ -6,7 +6,7 @@ try {
   try {
     $id = (int)$_POST['id'];
     // アンケート情報の取得
-    $stmt = $dbh->prepare("select title,created from questionnaries where q_id = ?");
+    $stmt = $dbh->prepare("select title,created,updated from questionnaries where q_id = ?");
     $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
     $stmt->execute();
     $questionnaries = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -33,7 +33,13 @@ try {
 ?>
 <?php include __DIR__.'/flash.php'; ?>
 <button type="button" class="btn btn-primary" id="back">BACK</button>
-<h3><?=$questionnaries['title']?><small><br>Created at <?=$questionnaries['created']?></small></h3>
+<h3>
+  <?=$questionnaries['title']?><br>
+  <small>
+    Created at <?=$questionnaries['created']?><br>
+    Updated at <?=is_null($questionnaries['updated'])?"---":$questionnaries['updated']?>
+  </small>
+</h3>
 <!-- 質問 -->
 <table class="table">
   <thead>

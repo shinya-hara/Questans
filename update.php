@@ -57,9 +57,9 @@ try {
     // 選択肢をDBに格納
     $stmt = $dbh->prepare("insert into choices (q_id, c_num, choice) values (?, ?, ?)");
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
-    for ($i = 1; $i <= $c_size; $i++) {
+    for ($i = 1, $c_size = $_SESSION['c_num']; $i <= $c_size; $i++) {
       $stmt->bindValue(2, $i, PDO::PARAM_INT);
-      $stmt->bindValue(3, $choice[$i-1]);
+      $stmt->bindValue(3, $_SESSION['c'.$i]);
       $stmt->execute();
     }
     

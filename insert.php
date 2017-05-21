@@ -5,14 +5,14 @@ function h($str) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 // 選択肢の設定
-$choice = [ '全くそう思わない',
-            'あまりそう思わない',
-            'どちらとも言えない',
-            'ややそう思う',
-            '非常にそう思う' ];
+// $choice = [ '全くそう思わない',
+//             'あまりそう思わない',
+//             'どちらとも言えない',
+//             'ややそう思う',
+//             '非常にそう思う' ];
 
 // 選択肢のサイズ
-$c_size = count($choice);
+// $c_size = count($choice);
 
 // DB接続のための情報を読み込む
 require_once __DIR__.'/db_info.php';
@@ -35,7 +35,7 @@ try {
     // 各質問をDBに格納
     $stmt = $dbh->prepare("insert into questions (q_id, q_num, question) values (?, ?, ?)");
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
-    for ($i = 1, $q_size = $_SESSION['num']; $i <= $q_size; $i++) {
+    for ($i = 1, $q_size = $_SESSION['q_num']; $i <= $q_size; $i++) {
       $stmt->bindValue(2, $i, PDO::PARAM_INT);
       $stmt->bindValue(3, $_SESSION['q'.$i]);
       $stmt->execute();
@@ -44,16 +44,15 @@ try {
     // 選択肢をDBに格納
     $stmt = $dbh->prepare("insert into choices (q_id, c_num, choice) values (?, ?, ?)");
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
-    for ($i = 1; $i <= $c_size; $i++) {
+    for ($i = 1, $c_size = $_SESSION['c_num']; $i <= $c_size; $i++) {
       $stmt->bindValue(2, $i, PDO::PARAM_INT);
-      $stmt->bindValue(3, $choice[$i-1]);
+      $stmt->bindValue(3, $_SESSION['c'.$i]);
       $stmt->execute();
     }
     
     $_SESSION['status'] = "success";
     $_SESSION['flash_msg'] = "アンケートの作成に成功しました．";
     $dbh->commit();
-    echo "";
   } catch (PDOException $e) {
     $dbh->rollBack();
     $_SESSION['status'] = "danger";
