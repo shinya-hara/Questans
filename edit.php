@@ -46,7 +46,7 @@ try {
     <label for="title" class="control-label">タイトル</label>
     <input type="text" class="form-control" id="title" name="title" placeholder="アンケートのタイトル" data-error="タイトルを入力してください．" required>
     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-    <div class="help-block with-errors"></div>
+    <!--<div class="help-block with-errors"></div>-->
   </div>
   <div class="row">
     <div class="col-sm-6">
@@ -115,7 +115,7 @@ try {
                     <label for="q'+q_cnt+'" class="control-label">質問'+q_cnt+'</label>\
                     <textarea class="form-control" id="q'+q_cnt+'" name="q'+q_cnt+'" rows="3" placeholder="質問'+q_cnt+'の内容" data-error="質問を入力してください．不要な場合は削除してください．" required></textarea>\
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>\
-                    <div class="help-block with-errors"></div>\
+                    <!--<div class="help-block with-errors"></div>-->\
                     </div>';
         $('#addQBtn').before(html);
         $('input[name="q_num"]').attr('value', q_cnt);
@@ -162,7 +162,7 @@ try {
                     <label for="c'+c_cnt+'" class="control-label">選択肢'+c_cnt+'</label>\
                     <textarea class="form-control" id="c'+c_cnt+'" name="c'+c_cnt+'" rows="3" placeholder="選択肢'+c_cnt+'の内容" data-error="選択肢を入力してください．不要な場合は削除してください．" required></textarea>\
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>\
-                    <div class="help-block with-errors"></div>\
+                    <!--<div class="help-block with-errors"></div>-->\
                     </div>';
         $('#addCBtn').before(html);
         $('input[name="c_num"]').attr('value', c_cnt);
