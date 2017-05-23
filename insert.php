@@ -1,18 +1,7 @@
 <?php
-session_start();
-// エスケープ関数
-function h($str) {
-    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-}
-// 選択肢の設定
-// $choice = [ '全くそう思わない',
-//             'あまりそう思わない',
-//             'どちらとも言えない',
-//             'ややそう思う',
-//             '非常にそう思う' ];
+require_once __DIR__.'/functions.php';
 
-// 選択肢のサイズ
-// $c_size = count($choice);
+session_start();
 
 // DB接続のための情報を読み込む
 require_once __DIR__.'/db_info.php';

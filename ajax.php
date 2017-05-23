@@ -1,33 +1,8 @@
 <?php
-// エスケープ関数
-function h($str) {
-    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-}
-// 文字列の前後の半角空白と全角空白を削除する関数
-function trim_emspace($str) {
-  // 先頭の半角、全角スペースを、空文字に置き換える
-  $str = preg_replace('/^[ 　]+/u', '', $str);
-  // 最後の半角、全角スペースを、空文字に置き換える
-  $str = preg_replace('/[ 　]+$/u', '', $str);
-  return $str;
-}
-
-// 選択肢の設定
-// $choice = [ '全くそう思わない',
-//             'あまりそう思わない',
-//             'どちらとも言えない',
-//             'ややそう思う',
-//             '非常にそう思う' ];
-
-// 選択肢のサイズ
-// $c_size = count($choice);
+require_once __DIR__.'/functions.php';
 
 // セッションの開始
 session_start();
-
-// テキストエリアが空白の場合、make.phpから作成できないようにすれば以下は不要
-// セッション変数を全て解除
-// $_SESSION = array();
 
 // アンケートタイトルをセッション変数に格納
 if (isset($_POST['title'])) {
