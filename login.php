@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_regenerate_id(true);
     // ログイン完了後にフラッシュメッセージを表示する
     $_SESSION['status'] = "success";
-    $_SESSION['flash_msg'] = "ようこそ，".$username."さん．";
+    $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
     $_SESSION['flash_flag'] = true;
     // ユーザ名をセット
     $_SESSION['username'] = $username;
@@ -54,6 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // 認証が失敗したとき
   // 「403 Forbidden」
   http_response_code(403);
+  $_SESSION['status'] = "danger";
+  $_SESSION['flash_msg'] = "ユーザ名またはパスワードが違います";
+  $_SESSION['flash_flag'] = true;
 }
 header('Content-Type: text/html; charset=UTF-8');
 ?>
@@ -64,111 +67,8 @@ header('Content-Type: text/html; charset=UTF-8');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/login.css">
     <title>ログイン | アンケートシステム</title>
-    <style>
-    body{
-      /*background: #eee url(img/bg.png);*/
-    }
-    html,body{
-      position: relative;
-      height: 100%;
-    }
-    .container {
-      /*height: 100%;*/
-      /*background-color: #ecf0f1;*/
-    }
-
-.login-container{
-    position: relative;
-    width: 300px;
-    margin: 80px auto;
-    padding: 20px 40px 40px;
-    text-align: center;
-    background: #fff;
-    border: 1px solid #ccc;
-}
-
-#output{
-    position: absolute;
-    width: 300px;
-    top: -75px;
-    left: 0;
-    color: #fff;
-}
-
-#output.alert-success{
-    background: rgb(25, 204, 25);
-}
-
-#output.alert-danger{
-    background: rgb(228, 105, 105);
-}
-
-
-.login-container::before,.login-container::after{
-    content: "";
-    position: absolute;
-    width: 100%;height: 100%;
-    top: 3.5px;left: 0;
-    background: #fff;
-    z-index: -1;
-    -webkit-transform: rotateZ(4deg);
-    -moz-transform: rotateZ(4deg);
-    -ms-transform: rotateZ(4deg);
-    border: 1px solid #ccc;
-
-}
-
-.login-container::after{
-    top: 5px;
-    z-index: -2;
-    -webkit-transform: rotateZ(-2deg);
-     -moz-transform: rotateZ(-2deg);
-      -ms-transform: rotateZ(-2deg);
-
-}
-
-.avatar{
-    background-image: url("img/user.png");
-    width: 100px;height: 100px;
-    margin: 10px auto 30px;
-    border-radius: 100%;
-    border: 2px solid #aaa;
-    background-size: cover;
-}
-
-.form-box input{
-    width: 100%;
-    padding: 10px;
-    text-align: center;
-    height:40px;
-    border: 1px solid #ccc;;
-    background: #fafafa;
-    transition:0.2s ease-in-out;
-
-}
-
-.form-box input:focus{
-    outline: 0;
-    background: #eee;
-}
-
-.form-box input[type="text"]{
-    border-radius: 5px 5px 0 0;
-    text-transform: lowercase;
-}
-
-.form-box input[type="password"]{
-    border-radius: 0 0 5px 5px;
-    border-top: 0;
-}
-
-.form-box button.login{
-    margin-top:15px;
-    padding: 10px 20px;
-}
-
-    </style>
   </head>
   <body>
     <div class="container">
@@ -187,8 +87,8 @@ header('Content-Type: text/html; charset=UTF-8');
       <!--  <button type="submit" class="btn btn-primary">Login</button>-->
       <!--</form>-->
       
+      <?php include __DIR__.'/flash.php'; ?>
       <div class="login-container">
-        <div id="output"></div>
         <div class="avatar"></div>
         <div class="form-box">
           <form action="" method="post">
@@ -196,15 +96,20 @@ header('Content-Type: text/html; charset=UTF-8');
             <input name="password" type="password" placeholder="password">
             <input type="hidden" name="token" value="<?=h(generate_token())?>">
             <button class="btn btn-info btn-block login" type="submit">Login</button>
+            <div class="text-center">or</div>
+            <div class="clearfix">
+              <a href="#"><button class="btn btn-primary pull-left signup" type="button">Sign Up</button></a>
+              <a href="#"><button class="btn btn-warning pull-right guest" type="button">Guest</button></a>
+            </div>
           </form>
         </div>
       </div>
-      
-      <p>ユーザ名：user パスワード：user でテストユーザとしてログイン可能</p>
+      <p class="text-center">ユーザ名：user パスワード：user でテストユーザとしてログイン可能</p>
       <?php if (http_response_code() === 403): ?>
-        <p style="color: red;">ユーザ名またはパスワードが違います</p>
+        <!--<p style="color: red;">ユーザ名またはパスワードが違います</p>-->
       <?php endif; ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </body>
 </html>
