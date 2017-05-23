@@ -99,7 +99,8 @@ header('Content-Type: text/html; charset=UTF-8');
             <div class="text-center">or</div>
             <div class="clearfix">
               <a href="#"><button class="btn btn-primary pull-left signup" type="button">Sign Up</button></a>
-              <a href="#"><button class="btn btn-warning pull-right guest" type="button">Guest</button></a>
+              <!--<a href="#"><button class="btn btn-warning pull-right guest" type="button">Guest</button></a>-->
+              <button class="btn btn-warning pull-right guest" type="button">Guest</button>
             </div>
           </form>
         </div>
@@ -111,5 +112,22 @@ header('Content-Type: text/html; charset=UTF-8');
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+      $(function() {
+        $('.guest').on('click', function() {
+          $.post(
+            'login.php',
+            {
+              'username': 'guest',
+              'password': 'guest',
+              'token': '<?=h(generate_token())?>'
+            },
+            function(data) {
+              window.location.href = "management.php";
+            }
+          )
+        });
+      });
+    </script>
   </body>
 </html>

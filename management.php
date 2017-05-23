@@ -22,6 +22,12 @@ require_logined_session();
   <body>
     <div class="container">
       <h1>アンケートシステム</h1>
+      <?php if ($_SESSION['username'] == 'guest'): ?>
+      <div class="alert alert-warning">
+        ゲストアカウントでログインしています.
+        アンケートの回答結果は送信されますが個人の回答は管理できません.
+      </div>
+      <?php endif; ?>
       <a href="/logout.php?token=<?=h(generate_token())?>" class="btn btn-default">ログアウト</a>
       <hr>
       <h2>管理画面</h2>
