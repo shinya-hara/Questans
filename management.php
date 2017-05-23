@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__.'/functions.php';
+require_logined_session();
+?>
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -17,15 +21,14 @@
   </head>
   <body>
     <div class="container">
-      <h1>アンケートシステム</h1><hr>
+      <h1>アンケートシステム</h1>
+      <a href="/logout.php?token=<?=h(generate_token())?>" class="btn btn-default">ログアウト</a>
+      <hr>
       <h2>管理画面</h2>
-      <a href="make.php"><button type="button" class="btn btn-default">アンケート作成画面</button></a>
+      <a href="make.php" class="btn btn-default">アンケート作成画面</a>
       <main>
         <?php include 'list.php'; ?>
       </main>
     </div>
   </body>
 </html>
-<?php
-$_SESSION = array();
-?>

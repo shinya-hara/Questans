@@ -3,7 +3,9 @@ session_start();
 $_SESSION['update'] = 1;
 require_once __DIR__.'/db_info.php';
 try {
-  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+  $dbh = new PDO($dsn, $user, $password,
+                 [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                   PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     $id = (int)$_POST['id'];
     $_SESSION['update_id'] = $id;

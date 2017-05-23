@@ -1,8 +1,11 @@
 <?php
-session_start();
 require_once __DIR__.'/db_info.php';
+require_once __DIR__.'/functions.php';
+require_logined_session();
 try {
-  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+  $dbh = new PDO($dsn, $user, $password,
+                 [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                   PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     $id = (int)$_POST['id'];
     // アンケート情報の取得

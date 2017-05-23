@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__.'/functions.php';
+require_logined_session();
 $cnt = 0;
 // セッション変数に格納されている質問を配列に格納
 for ($i = 1; $i <= $_SESSION['q_num']; $i++) {

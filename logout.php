@@ -1,28 +1,15 @@
 <?php
-require_once __DIR__.'/functions.php';
-session_start();
-if (isset($_SESSION["NAME"])) {
-  $errorMessage = "ログアウトしました。";
-} else {
-  $errorMessage = "セッションがタイムアウトしました。";
+require_once __DIR__ . '/functions.php';
+require_logined_session();
+// CSRFトークンを検証
+if (!validate_token(filter_input(INPUT_GET, 'token'))) {
+  // 「400 Bad Request」
+  header('Content-Type: text/plain; charset=UTF-8', true, 400);
+  exit('トークンが無効です');
 }
-// セッションの変数のクリア
-$_SESSION = array();
-// セッションクリア
-@session_destroy();
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>ログアウト</title>
-</head>
-<body>
-  <h1>ログアウト画面</h1>
-  <div><?= h($errorMessage); ?></div>
-  <ul>
-    <li><a href="login.php">ログイン画面に戻る</a></li>
-  </ul>
-</body>
-</html>
+// セッション用Cookieの破棄
+setcookie(session_name(), '', 1);
+// セッションファイルの破棄
+session_destroy();
+// ログアウト完了後に /login.php に遷移
+header('Location: /login.php');

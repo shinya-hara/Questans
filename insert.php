@@ -10,7 +10,9 @@ require_once __DIR__.'/db_info.php';
 $_SESSION['flash_flag'] = true;
 
 try {
-  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+  $dbh = new PDO($dsn, $user, $password,
+                 [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                   PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     $dbh->beginTransaction();   // トランザクションの開始
     // アンケートをDBに格納

@@ -1,17 +1,17 @@
 <?php
-require_once __DIR__.'/functions.php';
 // DB接続のための情報を読み込む
 require_once __DIR__.'/db_info.php';
-
-session_start();
-
+require_once __DIR__.'/functions.php';
+require_logined_session();
 // フラッシュメッセージを表示する為のフラグ
 $_SESSION['flash_flag'] = true;
 
 // 新規作成か更新かを示すフラグ 0:新規作成 1:更新
 $_SESSION['update'] = 0;
 try {
-  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+  $dbh = new PDO($dsn, $user, $password,
+                 [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                   PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     $id = (int)$_SESSION['update_id'];
     $dbh->beginTransaction();   // トランザクションの開始
@@ -31,7 +31,7 @@ try {
     // 質問をDBに格納
     $stmt = $dbh->prepare("insert into questions (q_id, q_num, question) values (?, ?, ?)");
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
-    for ($i = 1, $q_size = $_SESSION['num']; $i <= $q_size; $i++) {
+    for ($i = 1, $q_size = $_SESSION['q_num']; $i <= $q_size; $i++) {
       $stmt->bindValue(2, $i, PDO::PARAM_INT);
       $stmt->bindValue(3, $_SESSION['q'.$i]);
       $stmt->execute();

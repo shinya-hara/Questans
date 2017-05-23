@@ -1,8 +1,11 @@
 <?php
-session_start();
+// require_once __DIR__.'/functions.php';
+// require_logined_session();
 require_once __DIR__.'/db_info.php';
 try {
-  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+  $dbh = new PDO($dsn, $user, $password,
+                 [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                   PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     $questionnaries = $dbh->query("select q_id,title,created,updated from questionnaries order by q_id");
   } catch (PDOException $e) {
@@ -37,6 +40,7 @@ try {
   </tbody>
 </table>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
   $(function() {
     // 詳細

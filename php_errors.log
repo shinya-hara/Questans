@@ -6,3 +6,15 @@
 [22-May-2017 16:12:09 UTC] PHP   1. {main}() /home/ubuntu/workspace/userManagement/Login.php:0
 [23-May-2017 00:16:28 UTC] PHP Parse error:  syntax error, unexpected ';' in /home/ubuntu/workspace/userManagement/Login.php on line 34
 [23-May-2017 00:17:59 UTC] PHP Parse error:  syntax error, unexpected ';' in /home/ubuntu/workspace/userManagement/Login.php on line 34
+[23-May-2017 01:55:41 UTC] PHP Warning:  require_once(/home/ubuntu/workspace/userManagement/userManagement/functions.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/userManagement/main.php on line 2
+[23-May-2017 01:55:41 UTC] PHP Stack trace:
+[23-May-2017 01:55:41 UTC] PHP   1. {main}() /home/ubuntu/workspace/userManagement/main.php:0
+[23-May-2017 01:55:41 UTC] PHP Fatal error:  require_once(): Failed opening required '/home/ubuntu/workspace/userManagement/userManagement/functions.php' (include_path='.:/usr/share/php:/usr/share/pear') in /home/ubuntu/workspace/userManagement/main.php on line 2
+[23-May-2017 01:55:41 UTC] PHP Stack trace:
+[23-May-2017 01:55:41 UTC] PHP   1. {main}() /home/ubuntu/workspace/userManagement/main.php:0
+[23-May-2017 02:28:09 UTC] PHP Warning:  require_once(/home/ubuntu/workspace/userManagement/functions.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/userManagement/login.php on line 3
+[23-May-2017 02:28:09 UTC] PHP Stack trace:
+[23-May-2017 02:28:09 UTC] PHP   1. {main}() /home/ubuntu/workspace/userManagement/login.php:0
+[23-May-2017 02:28:09 UTC] PHP Fatal error:  require_once(): Failed opening required '/home/ubuntu/workspace/userManagement/functions.php' (include_path='.:/usr/share/php:/usr/share/pear') in /home/ubuntu/workspace/userManagement/login.php on line 3
+[23-May-2017 02:28:09 UTC] PHP Stack trace:
+[23-May-2017 02:28:09 UTC] PHP   1. {main}() /home/ubuntu/workspace/userManagement/login.php:0

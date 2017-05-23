@@ -1,8 +1,6 @@
 <?php
 require_once __DIR__.'/functions.php';
-
-// セッションの開始
-session_start();
+require_logined_session();
 
 // アンケートタイトルをセッション変数に格納
 if (isset($_POST['title'])) {
@@ -35,7 +33,9 @@ for ($i=1; $i<=$_SESSION['c_num']; $i++) {
 
 require_once __DIR__.'/db_info.php';
 try {
-  $dbh = new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+  $dbh = new PDO($dsn, $user, $password,
+                 [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                   PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     if ($_SESSION['update'] == 0) { // 新規作成時のみ確認
       // タイトルの取得

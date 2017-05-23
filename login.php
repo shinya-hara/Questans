@@ -1,99 +1,72 @@
 <?php
-// require 'password.php';   // password_verfy()はphp 5.5.0以降の関数のため、バージョンが古くて使えない場合に使用
-require_once __DIR__.'/functions.php';
-// セッション開始
-session_start();
-$db['host'] = "localhost";        // DBサーバのURL
-$db['user'] = "dbuser";           // ユーザー名
-$db['pass'] = "dbpass";           // ユーザー名のパスワード
-$db['dbname'] = "questionnarie";  // データベース名
+require_once __DIR__ . '/db_info.php';
+require_once __DIR__ . '/functions.php';
+require_unlogined_session();
 
-// エラーメッセージの初期化
-$errorMessage = "";
-
-// ログインボタンが押された場合
-if (isset($_POST["login"])) {
-  // 1. ユーザIDの入力チェック
-  if (empty($_POST["username"])) {  // emptyは値が空のとき
-    $errorMessage = 'ユーザー名が未入力です。';
-  } else if (empty($_POST["password"])) {
-    $errorMessage = 'パスワードが未入力です。';
+try {
+  $dbh = new PDO($dsn, $user, $password,
+                 [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                   PDO::ATTR_EMULATE_PREPARES => false ]);
+  try {
+    $stmt = $dbh->prepare("select name,password from users");
+    $stmt->execute();
+    // キーがユーザ名、値がパスワードの連想配列を作る
+    while ($row = $stmt -> fetch()) {
+      $hashes[$row['name']] = $row['password'];
+    }
+  } catch (PDOException $e) {
+    header('Content-Type: text/plain; charset=UTF-8', true, 500);
+    exit('ユーザ情報の取得に失敗しました．');
   }
   
-  if (!empty($_POST["username"]) && !empty($_POST["password"])) {
-    // 入力したユーザ名を格納
-    $username = $_POST["username"];
-    
-    // 2. ユーザIDとパスワードが入力されていたら認証する
-    $dsn = sprintf('mysql: host=%s; dbname=%s; charset=utf8', $db['host'], $db['dbname']);
-    
-    // 3. エラー処理
-    try {
-      $pdo = new PDO($dsn, $db['user'], $db['pass'], array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));
-      
-      $stmt = $pdo->prepare('SELECT * FROM userData WHERE name = ?');
-      $stmt->execute(array($username));
-      
-      $password = $_POST["password"];
-      
-      if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        if (password_verify($password, $row['password'])) {
-          session_regenerate_id(true);
-          
-          // 入力したIDのユーザー名を取得
-          // $id = $row['id'];
-          // $sql = "SELECT * FROM userData WHERE id = $id";  //入力したIDからユーザー名を取得
-          // $stmt = $pdo->query($sql);
-          // foreach ($stmt as $row) {
-          //     $row['name'];  // ユーザー名
-          // }
-          $_SESSION["NAME"] = $row['name'];
-          header("Location: main.php");  // メイン画面へ遷移
-          exit();  // 処理終了
-        } else {
-          // 認証失敗
-          $errorMessage = 'ユーザー名あるいはパスワードに誤りがあります。';
-        }
-      } else {
-        // 4. 認証成功なら、セッションIDを新規に発行する
-        // 該当データなし
-        $errorMessage = 'ユーザー名あるいはパスワードに誤りがあります。';
-      }
-    } catch (PDOException $e) {
-      $errorMessage = 'データベースエラー';
-      //$errorMessage = $sql;
-      // $e->getMessage() でエラー内容を参照可能（デバック時のみ表示）
-      echo $e->getMessage();
-    }
-  }
+} catch (PDOException $e) {
+  header('Content-Type: text/plain; charset=UTF-8', true, 500);
+  exit('データベースの接続に失敗しました．');
 }
-?>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>ログイン</title>
-</head>
-<body>
-  <h1>ログイン画面</h1>
-  <form id="loginForm" name="loginForm" action="" method="POST">
-    <fieldset>
-      <legend>ログインフォーム</legend>
-      <div><font color="#ff0000"><?php echo htmlspecialchars($errorMessage, ENT_QUOTES); ?></font></div>
-      <label for="username">ユーザー名</label><input type="text" id="username" name="username" placeholder="ユーザー名を入力" value="<?php if (!empty($_POST["username"])) {echo h($_POST["username"]);} ?>">
-      <br>
-      <label for="password">パスワード</label><input type="password" id="password" name="password" value="" placeholder="パスワードを入力">
-      <br>
-      <input type="submit" id="login" name="login" value="ログイン">
-    </fieldset>
+// ユーザから受け取ったユーザ名とパスワード
+$username = filter_input(INPUT_POST, 'username');
+$password = filter_input(INPUT_POST, 'password');
+// POSTメソッドのときのみ実行
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if (
+    validate_token(filter_input(INPUT_POST, 'token')) &&
+    password_verify(
+      $password,
+      isset($hashes[$username])
+      ? $hashes[$username]
+      : '$2y$10$abcdefghijklmnopqrstuv' // ユーザ名が存在しないときだけ極端に速くなるのを防ぐ
+      )
+    ) {
+      // 認証が成功したとき
+      // セッションIDの追跡を防ぐ
+      session_regenerate_id(true);
+      // ログイン完了後にフラッシュメッセージを表示する
+      $_SESSION['status'] = "success";
+      $_SESSION['flash_msg'] = "ようこそ，".$username."さん．";
+      $_SESSION['flash_flag'] = true;
+      // ユーザ名をセット
+      $_SESSION['username'] = $username;
+      // ログイン完了後に / に遷移
+      header('Location: /management.php');
+      exit;
+    }
+    // 認証が失敗したとき
+    // 「403 Forbidden」
+    http_response_code(403);
+  }
+  header('Content-Type: text/html; charset=UTF-8');
+  ?>
+  <!DOCTYPE html>
+  <title>ログインページ</title>
+  <h1>ログインしてください</h1>
+  <form method="post" action="">
+    ユーザ名: <input type="text" name="username" value="">
+    パスワード: <input type="password" name="password" value="">
+    <input type="hidden" name="token" value="<?=h(generate_token())?>">
+    <input type="submit" value="ログイン">
   </form>
-  <br>
-  <form action="signup.php">
-    <fieldset>          
-      <legend>新規登録フォーム</legend>
-      <input type="submit" value="新規登録">
-    </fieldset>
-  </form>
-</body>
-</html>
+  <p>ユーザ名：user パスワード：user でテストユーザとしてログイン可能</p>
+  <?php if (http_response_code() === 403): ?>
+    <p style="color: red;">ユーザ名またはパスワードが違います</p>
+  <?php endif; ?>
