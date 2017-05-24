@@ -98,13 +98,14 @@ try {
           'placeholder': '質問'+num+'の内容'
         });
         $('#delQBtn'+num).off();
-        $('#delQBtn'+num).on('click', { num: num }, delTextarea);
+        $('#delQBtn'+num).on('click', { num: num }, delQuestion);
         q_update(num+1);
       }
       // テキストエリアを削除する
-      var delTextarea = function(e) {
+      var delQuestion = function(e) {
         $('#q'+e.data.num+'-group').remove();
         q_update(e.data.num);
+        $('form').validator('update');
       }
       
       // テキストエリアを増減させるボタンを設置
@@ -121,7 +122,7 @@ try {
                     </div>';
         $('#addQBtn').before(html);
         $('input[name="q_num"]').attr('value', q_cnt);
-        $('#delQBtn'+q_cnt).on('click', { num: q_cnt }, delTextarea);
+        $('#delQBtn'+q_cnt).on('click', { num: q_cnt }, delQuestion);
         $('#q'+q_cnt).focus();
         $('form').validator('update');
       });
@@ -154,6 +155,7 @@ try {
       var delChoice = function(e) {
         $('#c'+e.data.num+'-group').remove();
         c_update(e.data.num);
+        $('form').validator('update');
       }
       // 選択肢
       var c_cnt = 0;  // 選択肢数

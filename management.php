@@ -31,7 +31,7 @@ require_logined_session();
       <a href="/logout.php?token=<?=h(generate_token())?>" class="btn btn-default">ログアウト</a>
       <hr>
       <h2>管理画面</h2>
-      <a href="make.php" class="btn btn-default">アンケート作成画面</a>
+      <a href="make.php"><button class="btn btn-default" <?=$_SESSION['username']=='guest'?'disabled':''?>>アンケート作成画面</button></a>
       <main>
         <?php include 'list.php'; ?>
       </main>
