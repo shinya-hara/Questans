@@ -75,15 +75,19 @@ header('Content-Type: text/html; charset=UTF-8');
       <h1>アンケートシステム</h1><hr>
       まだユーザ登録できませーん
       <a href="login.php"><button class="btn btn-default" type="button">ログイン画面へ</button></a>
+      <div class="alert alert-info">
+        ユーザ名は半角英数3文字以上<br>
+        パスワードは半角英数4文字以上
+      </div>
       <?php include __DIR__.'/flash.php'; ?>
       <div class="login-container">
         <div class="avatar"></div>
         <div class="form-box">
-          <form action="" method="post">
-            <input name="username" type="text" placeholder="username" class="username">
-            <input name="password" type="password" placeholder="password" class="pw1">
-            <input name="confirm" type="password" placeholder="confirm password" class="pw2">
-            <button class="btn btn-primary btn-block mtop" type="submit" disabled>Sign Up</button>
+          <form action="" method="">
+            <input pattern="^[0-9A-Za-z]+$" minlength="3" name="username" type="text" placeholder="username" class="username">
+            <input pattern="^[0-9A-Za-z]+$" minlength="4" name="password" type="password" placeholder="password" class="pw1">
+            <input pattern="^[0-9A-Za-z]+$" minlength="4" name="confirm" type="password" placeholder="confirm password" class="pw2">
+            <button class="btn btn-primary btn-block mtop" type="submit" id="signup" disabled>Sign Up</button>
             <div class="text-center">or</div>
             <button class="btn btn-info btn-block" type="button" onClick="location.href='login.php'">Login</button>
           </form>
@@ -92,5 +96,51 @@ header('Content-Type: text/html; charset=UTF-8');
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+    $(function() {
+      var name_flag   = false;
+      var pw1_flag    = false;
+      var pw2_flag    = false;
+      var match_flag  = false;
+      
+      // フラグの状態に応じてボタンの状態を決定する
+      function setBtnState(name_flag, pw1_flag, pw2_flag, match_flag) {
+        if (!name_flag || !pw1_flag || !pw2_flag || !match_flag) { // フラグにfalseがあれば
+          $('#signup').prop('disabled', true);
+        } else {
+          $('#signup').prop('disabled', false);
+        }
+      }
+      
+      $('.username').on('keyup', function() {
+        name_flag = $('.username').val().length >= 3
+          ? true
+          : false
+        setBtnState(name_flag, pw1_flag, pw2_flag, match_flag);
+      });
+      
+      $('.pw1').on('keyup', function() {
+        pw1_flag = $('.pw1').val().length >= 4
+          ? true
+          : false
+        match_flag = $('.pw1').val() === $('.pw2').val()
+          ? true
+          : false
+        setBtnState(name_flag, pw1_flag, pw2_flag, match_flag);
+      });
+      
+      $('.pw2').on('keyup', function() {
+        pw2_flag = $('.pw2').val().length >= 4
+          ? true
+          : false
+        match_flag = $('.pw1').val() === $('.pw2').val()
+          ? true
+          : false
+        setBtnState(name_flag, pw1_flag, pw2_flag, match_flag);
+      });
+      
+    });
+      
+    </script>
   </body>
 </html>

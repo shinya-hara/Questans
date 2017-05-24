@@ -58,7 +58,7 @@ html,body {
   padding: 10px;
   text-align: center;
   height:40px;
-  border: 1px solid #ccc;;
+  border: 1px solid #ccc;
   background: #fafafa;
   transition:0.2s ease-in-out;
 
@@ -95,4 +95,12 @@ html,body {
 
 .form-box .signup, .form-box .guest {
   width: 48%;
+}
+
+.form-box .success {
+  border: 1px solid #3c763d;
+}
+
+.form-box .danger {
+  border: 1px solid #843534;
 }
