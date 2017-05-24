@@ -69,24 +69,30 @@ html,body {
   background: #eee;
 }
 
-.form-box input[type="text"] {
+.form-box .username {
   border-radius: 5px 5px 0 0;
   /*text-transform: lowercase;*/
 }
 
-.form-box input[type="password"] {
+.form-box .pw1 {
+  border-radius: 0;
+  border-top: 0;
+}
+
+.form-box .pw2 {
   border-radius: 0 0 5px 5px;
   border-top: 0;
 }
+
 
 .form-box button {
   padding: 10px 20px;
 }
 
-.form-box button.login {
+.form-box button.mtop {
   margin-top:15px;
 }
 
-.form-box button.signup, .form-box button.guest {
+.form-box .signup, .form-box .guest {
   width: 48%;
 }

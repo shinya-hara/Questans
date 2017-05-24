@@ -24,8 +24,9 @@ require_logined_session();
       <h1>アンケートシステム</h1>
       <?php if ($_SESSION['username'] == 'guest'): ?>
       <div class="alert alert-warning">
-        ゲストアカウントでログインしています.
-        アンケートの回答結果は送信されますが個人の回答は管理できません.
+        ゲストユーザでログインしています.<br>
+        アンケートの回答結果は送信されますが，個人の回答は管理できません.
+        ゲストユーザではアンケートを作成できません.
       </div>
       <?php endif; ?>
       <a href="/logout.php?token=<?=h(generate_token())?>" class="btn btn-default">ログアウト</a>
@@ -36,5 +37,7 @@ require_logined_session();
         <?php include 'list.php'; ?>
       </main>
     </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </body>
 </html>

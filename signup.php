@@ -68,66 +68,29 @@ header('Content-Type: text/html; charset=UTF-8');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css/login.css">
-    <title>ログイン | アンケートシステム</title>
+    <title>ユーザ登録 | アンケートシステム</title>
   </head>
   <body>
     <div class="container">
       <h1>アンケートシステム</h1><hr>
-      <!--<h2>ログイン</h2>-->
-      <!--<form method="post" action="">-->
-      <!--  <div class="form-group">-->
-      <!--    <label for="username">Name:</label>-->
-      <!--    <input type="text" class="form-control" id="username" name="username">-->
-      <!--  </div>-->
-      <!--  <div class="form-group">-->
-      <!--    <label for="password">Password:</label>-->
-      <!--    <input type="password" class="form-control" id="password" name="password">-->
-      <!--  </div>-->
-      <!--  <input type="hidden" name="token" value="<?=h(generate_token())?>">-->
-      <!--  <button type="submit" class="btn btn-primary">Login</button>-->
-      <!--</form>-->
-      
+      まだユーザ登録できませーん
+      <a href="login.php"><button class="btn btn-default" type="button">ログイン画面へ</button></a>
       <?php include __DIR__.'/flash.php'; ?>
       <div class="login-container">
         <div class="avatar"></div>
         <div class="form-box">
           <form action="" method="post">
             <input name="username" type="text" placeholder="username" class="username">
-            <input name="password" type="password" placeholder="password" class="pw2">
-            <input type="hidden" name="token" value="<?=h(generate_token())?>">
-            <button class="btn btn-info btn-block mtop" type="submit">Login</button>
+            <input name="password" type="password" placeholder="password" class="pw1">
+            <input name="confirm" type="password" placeholder="confirm password" class="pw2">
+            <button class="btn btn-primary btn-block mtop" type="submit" disabled>Sign Up</button>
             <div class="text-center">or</div>
-            <div class="clearfix">
-              <a href="signup.php"><button class="btn btn-primary pull-left signup" type="button">Sign Up</button></a>
-              <!--<a href="#"><button class="btn btn-warning pull-right guest" type="button">Guest</button></a>-->
-              <button class="btn btn-warning pull-right guest" type="button">Guest</button>
-            </div>
+            <button class="btn btn-info btn-block" type="button" onClick="location.href='login.php'">Login</button>
           </form>
         </div>
       </div>
-      <p class="text-center">ユーザ名：user パスワード：user でテストユーザとしてログイン可能</p>
-      <?php if (http_response_code() === 403): ?>
-        <!--<p style="color: red;">ユーザ名またはパスワードが違います</p>-->
-      <?php endif; ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script>
-      $(function() {
-        $('.guest').on('click', function() {
-          $.post(
-            'login.php',
-            {
-              'username': 'guest',
-              'password': 'guest',
-              'token': '<?=h(generate_token())?>'
-            },
-            function(data) {
-              window.location.href = "management.php";
-            }
-          )
-        });
-      });
-    </script>
   </body>
 </html>
