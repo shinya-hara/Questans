@@ -8,11 +8,12 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $stmt = $dbh->prepare("select name,password from users");
+    $stmt = $dbh->prepare("select user_id,user_name,password from users");
     $stmt->execute();
     // キーがユーザ名、値がパスワードの連想配列を作る
     while ($row = $stmt -> fetch()) {
-      $hashes[$row['name']] = $row['password'];
+      $hashes[$row['user_name']]['user_id'] = $row['user_id'];
+      $hashes[$row['user_name']]['password'] = $row['password'];
     }
   } catch (PDOException $e) {
     header('Content-Type: text/plain; charset=UTF-8', true, 500);
@@ -33,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     validate_token(filter_input(INPUT_POST, 'token')) &&
     password_verify(
       $userpass,
-      isset($hashes[$username])
-      ? $hashes[$username]
+      isset($hashes[$username]['password'])
+      ? $hashes[$username]['password']
       : '$2y$10$abcdefghijklmnopqrstuv' // ユーザ名が存在しないときだけ極端に速くなるのを防ぐ
       )
     ) {
@@ -45,6 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['status'] = "success";
     $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
     $_SESSION['flash_flag'] = true;
+    // ユーザIDをセット
+    $_SESSION['user_id'] = $hashes[$username]['user_id'];
     // ユーザ名をセット
     $_SESSION['username'] = $username;
     // ログイン完了後に /management.php に遷移
@@ -73,20 +76,6 @@ header('Content-Type: text/html; charset=UTF-8');
   <body>
     <div class="container">
       <h1>アンケートシステム</h1><hr>
-      <!--<h2>ログイン</h2>-->
-      <!--<form method="post" action="">-->
-      <!--  <div class="form-group">-->
-      <!--    <label for="username">Name:</label>-->
-      <!--    <input type="text" class="form-control" id="username" name="username">-->
-      <!--  </div>-->
-      <!--  <div class="form-group">-->
-      <!--    <label for="password">Password:</label>-->
-      <!--    <input type="password" class="form-control" id="password" name="password">-->
-      <!--  </div>-->
-      <!--  <input type="hidden" name="token" value="<?=h(generate_token())?>">-->
-      <!--  <button type="submit" class="btn btn-primary">Login</button>-->
-      <!--</form>-->
-      
       <?php include __DIR__.'/flash.php'; ?>
       <div class="login-container">
         <div class="avatar"></div>

@@ -17,6 +17,10 @@ require_logined_session();
     .table tbody>tr>td {
       vertical-align: middle;
     }
+    .modal-backdrop.in {
+    /*filter: alpha(opacity=50);*/
+      opacity: 0.3;
+    }
     </style>
   </head>
   <body>

@@ -8,7 +8,6 @@ require_once __DIR__ . '/functions.php';
 require_unlogined_session();
 
 // ユーザから受け取ったユーザ名
-// $username = isset( $_POST['username'] ) ? $_POST['username'] : null;
 $username = trim_emspace(filter_input(INPUT_POST, 'username'));
 $userpass = filter_input(INPUT_POST, 'password');
 // POSTメソッドのときのみ実行
@@ -19,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                        PDO::ATTR_EMULATE_PREPARES => false ]);
       try {
-        $stmt = $dbh->prepare("select name from users where name = ?");
+        $stmt = $dbh->prepare("select user_name from users where user_name = ?");
         $stmt->bindValue(1, $username);
         $stmt->execute();
         $result = $stmt->fetchAll();
@@ -31,19 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $_SESSION['flash_flag'] = true;
         } else {
           $dbh->beginTransaction();     // トランザクションの開始
-          $stmt = $dbh->prepare("insert into users (name, password, role) values (?, ?, 2)");
+          $stmt = $dbh->prepare("insert into users (user_name, password, role) values (?, ?, 2)");
           $stmt->bindValue(1, $username);
           $stmt->bindValue(2, password_hash($userpass, PASSWORD_BCRYPT));
-          // $stmt->bindValue(3, 2, PDO::PARAM_INT);   // role=2: 一般ユーザ
           $stmt->execute();
           $_SESSION['status'] = "success";
           $_SESSION['flash_msg'] = "ユーザ名 ".$username." を登録しました．";
           $_SESSION['flash_flag'] = true;
           $dbh->commit();
-          echo '登録できたで';
         }
       } catch (PDOException $e) {
-        echo '登録ミスったで';
         $dbh->rollBack();
         $_SESSION['status'] = "danger";
         $_SESSION['flash_msg'] = "ユーザ名 ".$username." の登録に失敗しました．";
