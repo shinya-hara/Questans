@@ -35,9 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $stmt->bindValue(2, password_hash($userpass, PASSWORD_BCRYPT));
           $stmt->execute();
           $_SESSION['status'] = "success";
-          $_SESSION['flash_msg'] = "ユーザ名 ".$username." を登録しました．";
+          $_SESSION['flash_msg'] = "ユーザ名 ".$username." を登録しました．ログインしてください.";
           $_SESSION['flash_flag'] = true;
           $dbh->commit();
+          // ログイン完了後に /login.php に遷移
+          header('Location: /login.php');
+          exit;
         }
       } catch (PDOException $e) {
         $dbh->rollBack();
@@ -93,15 +96,15 @@ header('Content-Type: text/html; charset=UTF-8');
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
     $(function() {
-      var name_flag   = false;
-      var pw1_flag    = false;
-      var pw2_flag    = false;
-      var match_flag  = false;
+      var name_flg   = false;
+      var pw1_flg    = false;
+      var pw2_flg    = false;
+      var match_flg  = false;
       
       // フラグの状態に応じてボタンの状態を決定する
-      function setBtnState(name_flag, pw1_flag, pw2_flag, match_flag) {
+      function setBtnState(name_flg, pw1_flg, pw2_flg, match_flg) {
         // フラグにfalseがある場合（不正入力がある場合）
-        if (!name_flag || !pw1_flag || !pw2_flag || !match_flag) {
+        if (!name_flg || !pw1_flg || !pw2_flg || !match_flg) {
           $('#signup').prop('disabled', true);
         } else {  // 正しく入力されている場合
           $('#signup').prop('disabled', false);
@@ -109,30 +112,30 @@ header('Content-Type: text/html; charset=UTF-8');
       }
       
       $('.username').on('keyup', function() {
-        name_flag = $('.username').val().length >= 3
+        name_flg = $('.username').val().length >= 3
           ? true
           : false
-        setBtnState(name_flag, pw1_flag, pw2_flag, match_flag);
+        setBtnState(name_flg, pw1_flg, pw2_flg, match_flg);
       });
       
       $('.pw1').on('keyup', function() {
-        pw1_flag = $('.pw1').val().length >= 4
+        pw1_flg = $('.pw1').val().length >= 4
           ? true
           : false
-        match_flag = $('.pw1').val() === $('.pw2').val()
+        match_flg = $('.pw1').val() === $('.pw2').val()
           ? true
           : false
-        setBtnState(name_flag, pw1_flag, pw2_flag, match_flag);
+        setBtnState(name_flg, pw1_flg, pw2_flg, match_flg);
       });
       
       $('.pw2').on('keyup', function() {
-        pw2_flag = $('.pw2').val().length >= 4
+        pw2_flg = $('.pw2').val().length >= 4
           ? true
           : false
-        match_flag = $('.pw1').val() === $('.pw2').val()
+        match_flg = $('.pw1').val() === $('.pw2').val()
           ? true
           : false
-        setBtnState(name_flag, pw1_flag, pw2_flag, match_flag);
+        setBtnState(name_flg, pw1_flg, pw2_flg, match_flg);
       });
     });
     </script>

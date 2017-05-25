@@ -36,11 +36,11 @@ try {
   </thead>
   <tbody>
     <?php $i = 1; foreach ($questionnaries as $row): ?>
-    <tr data-id="<?=$row['q_id']?>">
+    <tr data-id="<?=h($row['q_id'])?>">
       <td><?=$i?></td>
-      <td><?=$row['title']?></td>
-      <td><?=$row['created']?></td>
-      <td><?=is_null($row['updated'])?"---":$row['updated']?></td>
+      <td><?=h($row['title'])?></td>
+      <td><?=h($row['created'])?></td>
+      <td><?=is_null($row['updated'])?"---":h($row['updated'])?></td>
     </tr>
     <?php $i++; endforeach; ?>
   </tbody>

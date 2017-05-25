@@ -9,7 +9,12 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $questionnaries = $dbh->query("select q_id,title,created,updated from questionnaries order by created");
+    $questionnaries = $dbh->query("select q_id,title,created,updated,owner from questionnaries order by created");
+    $owners = $dbh->query("select user_id,user_name from users,questionnaries where owner = user_id");
+    // キーがユーザID、値がユーザ名の連想配列を作る
+    while ($row = $owners -> fetch()) {
+      $users[$row['user_id']] = $row['user_name'];
+    }
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "アンケート一覧の取得に失敗しました．";
@@ -28,16 +33,18 @@ try {
   <thead>
     <th>番号</th>
     <th>タイトル</th>
+    <th>作成者</th>
     <th>作成日時</th>
     <th>更新日時</th>
   </thead>
   <tbody>
     <?php $i = 1; foreach ($questionnaries as $row): ?>
-    <tr data-id="<?=$row['q_id']?>">
+    <tr data-id="<?=h($row['q_id'])?>">
       <td><?=$i?></td>
-      <td><?=$row['title']?></td>
-      <td><?=$row['created']?></td>
-      <td><?=is_null($row['updated'])?"---":$row['updated']?></td>
+      <td><?=h($row['title'])?></td>
+      <td><?=h($users[$row['owner']])?></td>
+      <td><?=h($row['created'])?></td>
+      <td><?=is_null($row['updated'])?"---":h($row['updated'])?></td>
     </tr>
     <?php $i++; endforeach; ?>
   </tbody>
