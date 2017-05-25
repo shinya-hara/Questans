@@ -9,10 +9,10 @@ try {
   try {
     $id = (int)$_POST['id'];
     // アンケート情報の取得
-    $stmt = $dbh->prepare("select title,created,updated from questionnaries where q_id = ?");
+    $stmt = $dbh->prepare("select title,created,updated,owner from questionnaries where q_id = ?");
     $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
     $stmt->execute();
-    $questionnaries = $stmt->fetch(PDO::FETCH_ASSOC);
+    $questionnaries = $stmt->fetch();
     // 質問の取得
     $stmt = $dbh->prepare("select q_num,question from questions where q_id = ? order by q_num");
     $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
@@ -65,15 +65,10 @@ try {
     <?php endforeach; ?>
   </tbody>
 </table>
-
-<button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">
-  EDIT
-</button>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">
-  DELETE
-</button>
+<?php if ($questionnaries['owner'] == $_SESSION['user_id']): ?>
+<button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">EDIT</button>
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">DELETE</button>
+<?php endif; ?>
 
 <!-- Modal -->
 <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
@@ -105,9 +100,15 @@ try {
   $(function() {
     // 一覧に戻る
     $('#back').on('click', function() {
-      $.get('list.php', function(data) {
-        $('main').html(data);
-      });
+      if ("<?=$_SESSION['from']?>" === "mylist") {
+        $.get('mylist.php', function(data) {
+          $('main').html(data);
+        });
+      } else if ("<?=$_SESSION['from']?>" === "all-list") {
+        $.get('list.php', function(data) {
+          $('main').html(data);
+        });
+      }
     });
     
     // 編集
@@ -137,7 +138,7 @@ try {
         $('#close').show();
         // ダイアログを閉じるとアンケート一覧に戻る
         $('#delModal').on('hidden.bs.modal', function() {
-          $.get('list.php', function(data) {
+          $.get('mylist.php', function(data) {
             $('main').html(data);
           });
         });

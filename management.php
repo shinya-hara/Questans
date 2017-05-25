@@ -38,7 +38,7 @@ require_logined_session();
       <h2>管理画面</h2>
       <a href="make.php"><button class="btn btn-default" <?=$_SESSION['username']=='guest'?'disabled':''?>>アンケート作成画面</button></a>
       <main>
-        <?php include 'list.php'; ?>
+        <?php include 'mylist.php'; ?>
       </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

@@ -3,13 +3,16 @@ require_once __DIR__.'/functions.php';
 require_once __DIR__.'/db_info.php';
 require_logined_session();
 
-$_SESSION['from'] = "all-list"; // 遷移元を表す変数
+$_SESSION['from'] = "mylist"; // 遷移元を表す変数
 try {
   $dbh = new PDO($dsn, $user, $password,
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $questionnaries = $dbh->query("select q_id,title,created,updated from questionnaries order by created");
+    $stmt = $dbh->prepare("select q_id,title,created,updated from questionnaries where owner = ? order by created");
+    $stmt->bindValue(1, (int)$_SESSION['user_id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $questionnaries = $stmt->fetchAll();
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "アンケート一覧の取得に失敗しました．";
@@ -22,8 +25,8 @@ try {
 }
 ?>
 <?php include __DIR__.'/flash.php'; ?>
-<button type="button" class="btn btn-default" id="mylist"><?=h($_SESSION['username'])?>のアンケート一覧</button>
-<h3>全ユーザのアンケート一覧</h3>
+<button type="button" class="btn btn-default" id="all-list">全ユーザのアンケート一覧</button>
+<h3><?=h($_SESSION['username'])?>のアンケート一覧</h3>
 <table class="table table-hover" id="list">
   <thead>
     <th>番号</th>
@@ -56,9 +59,9 @@ try {
         $('main').html(data);
       });
     });
-    // 自分のアンケート一覧
-    $('#mylist').on('click', function() {
-      $.get('mylist.php', function(data) {
+    // 全ユーザのアンケート一覧
+    $('#all-list').on('click', function() {
+      $.get('list.php', function(data) {
         $('main').html(data);
       });
     });
