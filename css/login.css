@@ -96,11 +96,3 @@ html,body {
 .form-box .signup, .form-box .guest {
   width: 48%;
 }
-
-.form-box .success {
-  border: 1px solid #3c763d;
-}
-
-.form-box .danger {
-  border: 1px solid #843534;
-}

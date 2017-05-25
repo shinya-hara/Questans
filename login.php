@@ -26,13 +26,13 @@ try {
 
 // ユーザから受け取ったユーザ名とパスワード
 $username = filter_input(INPUT_POST, 'username');
-$password = filter_input(INPUT_POST, 'password');
+$userpass = filter_input(INPUT_POST, 'password');
 // POSTメソッドのときのみ実行
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (
     validate_token(filter_input(INPUT_POST, 'token')) &&
     password_verify(
-      $password,
+      $userpass,
       isset($hashes[$username])
       ? $hashes[$username]
       : '$2y$10$abcdefghijklmnopqrstuv' // ユーザ名が存在しないときだけ極端に速くなるのを防ぐ

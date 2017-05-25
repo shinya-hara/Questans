@@ -1,62 +1,60 @@
 <?php
+// エラーを表示する
+error_reporting(-1);
+ini_set('display_errors', 'On');
+
 require_once __DIR__ . '/db_info.php';
 require_once __DIR__ . '/functions.php';
 require_unlogined_session();
 
-try {
-  $dbh = new PDO($dsn, $user, $password,
-                 [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                   PDO::ATTR_EMULATE_PREPARES => false ]);
-  try {
-    $stmt = $dbh->prepare("select name,password from users");
-    $stmt->execute();
-    // キーがユーザ名、値がパスワードの連想配列を作る
-    while ($row = $stmt -> fetch()) {
-      $hashes[$row['name']] = $row['password'];
-    }
-  } catch (PDOException $e) {
-    header('Content-Type: text/plain; charset=UTF-8', true, 500);
-    exit('ユーザ情報の取得に失敗しました．');
-  }
-  
-} catch (PDOException $e) {
-  header('Content-Type: text/plain; charset=UTF-8', true, 500);
-  exit('データベースの接続に失敗しました．');
-}
-
-// ユーザから受け取ったユーザ名とパスワード
-$username = filter_input(INPUT_POST, 'username');
-$password = filter_input(INPUT_POST, 'password');
+// ユーザから受け取ったユーザ名
+// $username = isset( $_POST['username'] ) ? $_POST['username'] : null;
+$username = trim_emspace(filter_input(INPUT_POST, 'username'));
+$userpass = filter_input(INPUT_POST, 'password');
 // POSTメソッドのときのみ実行
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (
-    validate_token(filter_input(INPUT_POST, 'token')) &&
-    password_verify(
-      $password,
-      isset($hashes[$username])
-      ? $hashes[$username]
-      : '$2y$10$abcdefghijklmnopqrstuv' // ユーザ名が存在しないときだけ極端に速くなるのを防ぐ
-      )
-    ) {
-    // 認証が成功したとき
-    // セッションIDの追跡を防ぐ
-    session_regenerate_id(true);
-    // ログイン完了後にフラッシュメッセージを表示する
-    $_SESSION['status'] = "success";
-    $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
-    $_SESSION['flash_flag'] = true;
-    // ユーザ名をセット
-    $_SESSION['username'] = $username;
-    // ログイン完了後に /management.php に遷移
-    header('Location: /management.php');
-    exit;
+  if (validate_token(filter_input(INPUT_POST, 'token'))) {
+    try {
+      $dbh = new PDO($dsn, $user, $password,
+                     [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                       PDO::ATTR_EMULATE_PREPARES => false ]);
+      try {
+        $stmt = $dbh->prepare("select name from users where name = ?");
+        $stmt->bindValue(1, $username);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $rowCount = count($result);   // 同じユーザ名のレコード件数 0 or 1
+        
+        if ($rowCount > 0) {          // 同じユーザ名が登録済み
+          $_SESSION['status'] = "danger";
+          $_SESSION['flash_msg'] = "ユーザ名 ".$username." は既に登録されています．";
+          $_SESSION['flash_flag'] = true;
+        } else {
+          $dbh->beginTransaction();     // トランザクションの開始
+          $stmt = $dbh->prepare("insert into users (name, password, role) values (?, ?, 2)");
+          $stmt->bindValue(1, $username);
+          $stmt->bindValue(2, password_hash($userpass, PASSWORD_BCRYPT));
+          // $stmt->bindValue(3, 2, PDO::PARAM_INT);   // role=2: 一般ユーザ
+          $stmt->execute();
+          $_SESSION['status'] = "success";
+          $_SESSION['flash_msg'] = "ユーザ名 ".$username." を登録しました．";
+          $_SESSION['flash_flag'] = true;
+          $dbh->commit();
+          echo '登録できたで';
+        }
+      } catch (PDOException $e) {
+        echo '登録ミスったで';
+        $dbh->rollBack();
+        $_SESSION['status'] = "danger";
+        $_SESSION['flash_msg'] = "ユーザ名 ".$username." の登録に失敗しました．";
+        $_SESSION['flash_flag'] = true;
+        header('Content-Type: text/plain; charset=UTF-8', true, 500);
+      }
+    } catch (PDOException $e) {
+      header('Content-Type: text/plain; charset=UTF-8', true, 500);
+      exit('データベースの接続に失敗しました．');
+    }
   }
-  // 認証が失敗したとき
-  // 「403 Forbidden」
-  http_response_code(403);
-  $_SESSION['status'] = "danger";
-  $_SESSION['flash_msg'] = "ユーザ名またはパスワードが違います";
-  $_SESSION['flash_flag'] = true;
 }
 header('Content-Type: text/html; charset=UTF-8');
 ?>
@@ -83,10 +81,11 @@ header('Content-Type: text/html; charset=UTF-8');
       <div class="login-container">
         <div class="avatar"></div>
         <div class="form-box">
-          <form action="" method="">
+          <form action="" method="post">
             <input pattern="^[0-9A-Za-z]+$" minlength="3" name="username" type="text" placeholder="username" class="username">
             <input pattern="^[0-9A-Za-z]+$" minlength="4" name="password" type="password" placeholder="password" class="pw1">
             <input pattern="^[0-9A-Za-z]+$" minlength="4" name="confirm" type="password" placeholder="confirm password" class="pw2">
+            <input type="hidden" name="token" value="<?=h(generate_token())?>">
             <button class="btn btn-primary btn-block mtop" type="submit" id="signup" disabled>Sign Up</button>
             <div class="text-center">or</div>
             <button class="btn btn-info btn-block" type="button" onClick="location.href='login.php'">Login</button>
@@ -105,9 +104,10 @@ header('Content-Type: text/html; charset=UTF-8');
       
       // フラグの状態に応じてボタンの状態を決定する
       function setBtnState(name_flag, pw1_flag, pw2_flag, match_flag) {
-        if (!name_flag || !pw1_flag || !pw2_flag || !match_flag) { // フラグにfalseがあれば
+        // フラグにfalseがある場合（不正入力がある場合）
+        if (!name_flag || !pw1_flag || !pw2_flag || !match_flag) {
           $('#signup').prop('disabled', true);
-        } else {
+        } else {  // 正しく入力されている場合
           $('#signup').prop('disabled', false);
         }
       }
@@ -138,9 +138,7 @@ header('Content-Type: text/html; charset=UTF-8');
           : false
         setBtnState(name_flag, pw1_flag, pw2_flag, match_flag);
       });
-      
     });
-      
     </script>
   </body>
 </html>
