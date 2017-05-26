@@ -1,8 +1,4 @@
 <?php
-// エラーを表示する
-error_reporting(-1);
-ini_set('display_errors', 'On');
-
 require_once __DIR__ . '/db_info.php';
 require_once __DIR__ . '/functions.php';
 require_unlogined_session();

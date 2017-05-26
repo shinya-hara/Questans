@@ -25,7 +25,7 @@ try {
 }
 ?>
 <?php include __DIR__.'/flash.php'; ?>
-<button type="button" class="btn btn-default" id="all-list">全ユーザのアンケート一覧</button>
+<button type="button" class="btn btn-default" id="all-list">公開アンケート一覧</button>
 <h3><?=h($_SESSION['username'])?>のアンケート一覧</h3>
 <table class="table table-hover" id="list">
   <thead>
@@ -50,7 +50,7 @@ try {
 <script>
   $(function() {
     // 詳細
-    $('.info, tr').on('click', function() {
+    $('tr').on('click', function() {
       $.post('detail.php',
       {
         'id': $(this).attr('data-id')

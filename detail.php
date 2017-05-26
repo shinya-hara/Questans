@@ -7,7 +7,6 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $id = (int)$_POST['id'];
     // アンケート情報の取得
     $stmt = $dbh->prepare("select title,created,updated,owner from questionnaries where q_id = ?");
     $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
@@ -24,18 +23,20 @@ try {
     $stmt->execute();
     $choices = $stmt->fetchAll();
   } catch (PDOException $e) {
+    echo '取得失敗';
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "詳細の取得に失敗しました．";
     $_SESSION['flash_flag'] = true;
   }
 } catch (PDOException $e) {
+  echo '接続失敗';
   $_SESSION['status'] = "danger";
   $_SESSION['flash_msg'] = "データベースの接続に失敗しました．";
   $_SESSION['flash_flag'] = true;
 }
 ?>
 <?php include __DIR__.'/flash.php'; ?>
-<button type="button" class="btn btn-primary" id="back">BACK</button>
+<button type="button" class="btn btn-primary" id="back">Back</button>
 <h3>
   <?=$questionnaries['title']?><br>
   <small>
@@ -66,8 +67,10 @@ try {
   </tbody>
 </table>
 <?php if ($questionnaries['owner'] == $_SESSION['user_id']): ?>
-<button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">EDIT</button>
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">DELETE</button>
+<button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">Edit</button>
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">Delete</button>
+<?php else: ?>
+<a href="answer.php?q_id=<?=$_POST['id']?>"><button type="button" class="btn btn-primary" id="answer">Answer a Questionnarie</button></a>
 <?php endif; ?>
 
 <!-- Modal -->
@@ -100,11 +103,15 @@ try {
   $(function() {
     // 一覧に戻る
     $('#back').on('click', function() {
-      if ("<?=$_SESSION['from']?>" === "mylist") {
-        $.get('mylist.php', function(data) {
+      if ("<?=$_SESSION['from']?>" === "userpage") {
+        $.post('user.php',
+        {
+          'req_user_id': <?=$_SESSION['prev_req_user_id']?>
+        },
+        function(data) {
           $('main').html(data);
         });
-      } else if ("<?=$_SESSION['from']?>" === "all-list") {
+      } else if ("<?=$_SESSION['from']?>" === "list") {
         $.get('list.php', function(data) {
           $('main').html(data);
         });
