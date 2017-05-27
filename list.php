@@ -29,7 +29,6 @@ try {
 ?>
 <?php include __DIR__.'/flash.php'; ?>
 <h2>公開アンケート一覧</h2>
-<button type="button" class="btn btn-default" id="mypage">マイページ</button>
 <?php include __DIR__.'/list_table.php'; ?>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -50,16 +49,6 @@ try {
       $.post('user.php',
       {
         'req_user_id': $(this).attr('data-userid')
-      },
-      function(data) {
-        $('main').html(data);
-      });
-    });
-    // 自分のアンケート一覧
-    $('#mypage').on('click', function() {
-      $.post('user.php',
-      {
-        'req_user_id': <?=$_SESSION['user_id']?>
       },
       function(data) {
         $('main').html(data);

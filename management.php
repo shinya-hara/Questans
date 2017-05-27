@@ -17,21 +17,35 @@ require_logined_session();
     .table tbody>tr>td {
       vertical-align: middle;
     }
-    .table tbody>tr>td.owner {
+    .table tbody>tr>td.owner, span.owner {
       color: #337ab7;
+      cursor: pointer;
     }
-    .table tbody>tr>td.owner:hover {
+    .table tbody>tr>td.owner:hover, .owner:hover {
       color: #23527c;
       text-decoration: underline;
     }
     .modal-backdrop.in {
       opacity: 0.3;
     }
+    /*.jumbotron {*/
+    /*  background-color: #428bca;*/
+    /*  color: #fff;*/
+    /*}*/
     </style>
   </head>
   <body>
+    <!--<header class="jumbotron">-->
+      <div class="container">
+        <div class="clearfix">
+          <h1 class="pull-left">アンケートシステム</h1>
+          <button type="button" class="btn btn-default pull-right" id="mypage"><?=h($_SESSION['username'])?></button>
+          <a href="/logout.php?token=<?=h(generate_token())?>" class="btn btn-default pull-right">ログアウト</a>
+          <a href="make.php"><button class="btn btn-default pull-right" <?=$_SESSION['username']=='guest'?'disabled':''?>>アンケート作成画面</button></a>
+        </div>
+      </div>
+    <!--</header>-->
     <div class="container">
-      <h1>アンケートシステム</h1>
       <?php if ($_SESSION['username'] == 'guest'): ?>
       <div class="alert alert-warning">
         ゲストユーザでログインしています.<br>
@@ -39,8 +53,6 @@ require_logined_session();
         ゲストユーザではアンケートを作成できません.
       </div>
       <?php endif; ?>
-      <a href="/logout.php?token=<?=h(generate_token())?>" class="btn btn-default">ログアウト</a>
-      <a href="make.php"><button class="btn btn-default" <?=$_SESSION['username']=='guest'?'disabled':''?>>アンケート作成画面</button></a>
       <hr>
       <main></main>
     </div>
@@ -48,12 +60,15 @@ require_logined_session();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
     $(function() {
-      $.post('user.php',
+      var post = $.post('user.php',
       {
         'req_user_id': <?=$_SESSION['user_id']?>
       },
       function(data) {
         $('main').html(data);
+      });
+      $('#mypage').on('click', function() {
+        post;
       });
     });
     </script>

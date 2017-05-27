@@ -41,7 +41,7 @@ try {
   echo 'データベースの接続に失敗しました．';
 }
 ?>
-<button type="button" class="btn btn-primary" id="back" data-id="<?=(int)$_POST['id']?>">BACK</button>
+<button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['id']?>">Back</button>
 <h3>編集</h3>
 <form method="post" action="ajax.php" data-toggle="validator" role="form">
   <div class="form-group has-feedback">

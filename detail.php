@@ -8,7 +8,7 @@ try {
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     // アンケート情報の取得
-    $stmt = $dbh->prepare("select title,created,updated,owner from questionnaries where q_id = ?");
+    $stmt = $dbh->prepare("select title,created,updated,owner,user_name from questionnaries,users where q_id = ? && owner = user_id");
     $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
     $stmt->execute();
     $questionnaries = $stmt->fetch();
@@ -23,23 +23,22 @@ try {
     $stmt->execute();
     $choices = $stmt->fetchAll();
   } catch (PDOException $e) {
-    echo '取得失敗';
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "詳細の取得に失敗しました．";
     $_SESSION['flash_flag'] = true;
   }
 } catch (PDOException $e) {
-  echo '接続失敗';
   $_SESSION['status'] = "danger";
   $_SESSION['flash_msg'] = "データベースの接続に失敗しました．";
   $_SESSION['flash_flag'] = true;
 }
 ?>
 <?php include __DIR__.'/flash.php'; ?>
-<button type="button" class="btn btn-primary" id="back">Back</button>
+<button type="button" class="btn btn-default" id="back">Back</button>
 <h3>
   <?=$questionnaries['title']?><br>
   <small>
+    Owner <span class="owner"><?=$questionnaries['user_name']?></span><br>
     Created at <?=$questionnaries['created']?><br>
     Updated at <?=is_null($questionnaries['updated'])?"---":$questionnaries['updated']?>
   </small>
@@ -116,6 +115,17 @@ try {
           $('main').html(data);
         });
       }
+    });
+    
+    // ユーザページ
+    $('span.owner').on('click', function() {
+      $.post('user.php',
+      {
+        'req_user_id': <?=$questionnaries['owner']?>
+      },
+      function(data) {
+        $('main').html(data);
+      });
     });
     
     // 編集
