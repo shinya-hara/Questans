@@ -10,8 +10,8 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $questionnaries = $dbh->query("select q_id,title,created,updated,owner from questionnaries order by created");
-    $owners = $dbh->query("select user_id,user_name from users,questionnaries where owner = user_id");
+    $questionnaires = $dbh->query("select q_id,title,created,updated,owner from questionnaires order by created");
+    $owners = $dbh->query("select user_id,user_name from users,questionnaires where owner = user_id");
     // キーがユーザID、値がユーザ名の連想配列を作る
     while ($row = $owners -> fetch()) {
       $users[$row['user_id']] = $row['user_name'];

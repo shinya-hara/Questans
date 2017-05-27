@@ -29,7 +29,7 @@ $jsonCs = json_encode($choices);
       <a href="management.php"><input type="button" value="管理画面" class="btn btn-default"></a>
       <hr>
       <h2>作成</h2>
-      <form method="post" action="ajax.php" data-toggle="validator" role="form">
+      <form method="post" action="confirm.php" data-toggle="validator" role="form">
         <div class="form-group has-feedback">
           <label for="title" class="control-label">タイトル</label>
           <input type="text" class="form-control" id="title" name="title" placeholder="アンケートのタイトル" data-error="タイトルを入力してください．" required>
@@ -156,8 +156,8 @@ $jsonCs = json_encode($choices);
         $('form').validator('update');
       });
       
-      // ajax.phpから「修正」を選択して遷移してきた場合
-      if (/ajax\.php$/.test(document.referrer)) {
+      // confirm.phpから「修正」を選択して遷移してきた場合
+      if (/confirm\.php$/.test(document.referrer)) {
         // json形式の質問をパースし格納
         var question = JSON.parse('<?=$jsonQs?>');
         var choice = JSON.parse('<?=$jsonCs?>');

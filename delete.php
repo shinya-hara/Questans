@@ -8,7 +8,7 @@ try {
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     // アンケート情報の取得
-    $stmt = $dbh->prepare("delete from questionnaries where q_id = ?");
+    $stmt = $dbh->prepare("delete from questionnaires where q_id = ?");
     $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
     $stmt->execute();
     $rowCount = $stmt->rowCount();

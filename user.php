@@ -9,12 +9,11 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    // $questionnaries = $dbh->query("select q_id,title,created,updated,owner from questionnaries order by created");
-    $stmt = $dbh->prepare("select q_id,title,created,updated,owner from questionnaries where owner = ? order by created");
+    $stmt = $dbh->prepare("select q_id,title,created,updated,owner from questionnaires where owner = ? order by created");
     $stmt->bindValue(1, (int)$_POST['req_user_id'], PDO::PARAM_INT);
     $stmt->execute();
-    $questionnaries = $stmt->fetchAll();
-    $owners = $dbh->query("select user_id,user_name from users,questionnaries where owner = user_id");
+    $questionnaires = $stmt->fetchAll();
+    $owners = $dbh->query("select user_id,user_name from users,questionnaires where owner = user_id");
     // キーがユーザID、値がユーザ名の連想配列を作る
     while ($row = $owners -> fetch()) {
       $users[$row['user_id']] = $row['user_name'];

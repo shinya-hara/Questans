@@ -10,10 +10,10 @@ try {
     $id = (int)$_POST['id'];
     $_SESSION['update_id'] = $id;
     // アンケート情報の取得
-    $stmt = $dbh->prepare("select title from questionnaries where q_id = ?");
+    $stmt = $dbh->prepare("select title from questionnaires where q_id = ?");
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
     $stmt->execute();
-    $questionnaries = $stmt->fetch(PDO::FETCH_ASSOC);
+    $questionnaires = $stmt->fetch(PDO::FETCH_ASSOC);
     // 質問の取得
     $stmt = $dbh->prepare("select question from questions where q_id = ? order by q_num");
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
@@ -43,7 +43,7 @@ try {
 ?>
 <button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['id']?>">Back</button>
 <h3>編集</h3>
-<form method="post" action="ajax.php" data-toggle="validator" role="form">
+<form method="post" action="confirm.php" data-toggle="validator" role="form">
   <div class="form-group has-feedback">
     <label for="title" class="control-label">タイトル</label>
     <input type="text" class="form-control" id="title" name="title" placeholder="アンケートのタイトル" data-error="タイトルを入力してください．" required>
@@ -179,7 +179,7 @@ try {
     var question = JSON.parse('<?=$jsonQs?>');
     var choice = JSON.parse('<?=$jsonCs?>');
     // 前回のフォームの内容を再現
-    $('#title').val("<?=$questionnaries['title']?>");
+    $('#title').val("<?=$questionnaires['title']?>");
     for (var i = 0, len = question.length; i < len; i++) {
       $('#addQBtn').trigger('click');
       $('#q'+q_cnt).val(question[q_cnt-1]);

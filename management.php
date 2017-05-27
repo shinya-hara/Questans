@@ -11,11 +11,9 @@ require_logined_session();
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <title>管理画面 | アンケートシステム</title>
     <style>
-    #list tbody>tr {
-      cursor: pointer;
-    }
     .table tbody>tr>td {
       vertical-align: middle;
+      cursor: pointer;
     }
     .table tbody>tr>td.owner, span.owner {
       color: #337ab7;
@@ -54,13 +52,13 @@ require_logined_session();
       </div>
       <?php endif; ?>
       <hr>
-      <main></main>
+      <main>処理中...</main>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
     $(function() {
-      var post = $.post('user.php',
+      $.post('user.php',
       {
         'req_user_id': <?=$_SESSION['user_id']?>
       },
@@ -68,7 +66,13 @@ require_logined_session();
         $('main').html(data);
       });
       $('#mypage').on('click', function() {
-        post;
+        $.post('user.php',
+        {
+          'req_user_id': <?=$_SESSION['user_id']?>
+        },
+        function(data) {
+          $('main').html(data);
+        });
       });
     });
     </script>

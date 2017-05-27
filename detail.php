@@ -8,10 +8,10 @@ try {
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     // アンケート情報の取得
-    $stmt = $dbh->prepare("select title,created,updated,owner,user_name from questionnaries,users where q_id = ? && owner = user_id");
+    $stmt = $dbh->prepare("select title,created,updated,owner,user_name from questionnaires,users where q_id = ? && owner = user_id");
     $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
     $stmt->execute();
-    $questionnaries = $stmt->fetch();
+    $questionnaires = $stmt->fetch();
     // 質問の取得
     $stmt = $dbh->prepare("select q_num,question from questions where q_id = ? order by q_num");
     $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
@@ -36,11 +36,11 @@ try {
 <?php include __DIR__.'/flash.php'; ?>
 <button type="button" class="btn btn-default" id="back">Back</button>
 <h3>
-  <?=$questionnaries['title']?><br>
+  <?=$questionnaires['title']?><br>
   <small>
-    Owner <span class="owner"><?=$questionnaries['user_name']?></span><br>
-    Created at <?=$questionnaries['created']?><br>
-    Updated at <?=is_null($questionnaries['updated'])?"---":$questionnaries['updated']?>
+    Owner <span class="owner"><?=$questionnaires['user_name']?></span><br>
+    Created at <?=$questionnaires['created']?><br>
+    Updated at <?=is_null($questionnaires['updated'])?"---":$questionnaires['updated']?>
   </small>
 </h3>
 <!-- 質問 -->
@@ -65,11 +65,11 @@ try {
     <?php endforeach; ?>
   </tbody>
 </table>
-<?php if ($questionnaries['owner'] == $_SESSION['user_id']): ?>
+<?php if ($questionnaires['owner'] == $_SESSION['user_id']): ?>
 <button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">Edit</button>
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">Delete</button>
 <?php else: ?>
-<a href="answer.php?q_id=<?=$_POST['id']?>"><button type="button" class="btn btn-primary" id="answer">Answer a Questionnarie</button></a>
+<a href="answer.php?q_id=<?=$_POST['id']?>"><button type="button" class="btn btn-primary" id="answer">Answer a Questionnaire</button></a>
 <?php endif; ?>
 
 <!-- Modal -->
@@ -121,7 +121,7 @@ try {
     $('span.owner').on('click', function() {
       $.post('user.php',
       {
-        'req_user_id': <?=$questionnaries['owner']?>
+        'req_user_id': <?=$questionnaires['owner']?>
       },
       function(data) {
         $('main').html(data);

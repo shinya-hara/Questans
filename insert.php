@@ -16,7 +16,7 @@ try {
   try {
     $dbh->beginTransaction();   // トランザクションの開始
     // アンケートをDBに格納
-    $stmt = $dbh->prepare("insert into questionnaries (title, created, owner) values (?, ?, ?)");
+    $stmt = $dbh->prepare("insert into questionnaires (title, created, owner) values (?, ?, ?)");
     $stmt->bindValue(1, $_SESSION['title']);
     date_default_timezone_set('Asia/Tokyo');  // タイムゾーンの設定
     $stmt->bindValue(2, date("Y-m-d H:i:s", time()));   // 現在時刻を取得
