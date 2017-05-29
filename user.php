@@ -13,6 +13,7 @@ try {
     $stmt->bindValue(1, (int)$_POST['req_user_id'], PDO::PARAM_INT);
     $stmt->execute();
     $questionnaires = $stmt->fetchAll();
+    $rowCount = count($questionnaires);   // ユーザの作成したアンケート数
     $owners = $dbh->query("select user_id,user_name from users,questionnaires where owner = user_id");
     // キーがユーザID、値がユーザ名の連想配列を作る
     $users[$_SESSION['user_id']] = $_SESSION['username'];
@@ -33,8 +34,13 @@ try {
 
 <?php include __DIR__.'/flash.php'; ?>
 <h2><?=$users[$_POST['req_user_id']]?></h2>
+<?php if ($rowCount > 0):
+  include __DIR__.'/list_table.php'; ?>
+<?php else: ?>
+  <h3>まだアンケートがありません．<br>最初のアンケートを作成しましょう！</h3>
+  <a href="make.php"><button class="btn btn-primary btn-lg" <?=$_SESSION['username']=='guest'?'disabled':''?>><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
+<?php endif; ?>
 <button type="button" class="btn btn-default" id="list">公開アンケート一覧</button>
-<?php include __DIR__.'/list_table.php'; ?>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>

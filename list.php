@@ -11,6 +11,8 @@ try {
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     $questionnaires = $dbh->query("select q_id,title,created,updated,owner from questionnaires order by created");
+    $stmt = $dbh->query("select count(*) from questionnaires");
+    $rowCount = $stmt->fetchColumn();   // 公開アンケート数
     $owners = $dbh->query("select user_id,user_name from users,questionnaires where owner = user_id");
     // キーがユーザID、値がユーザ名の連想配列を作る
     while ($row = $owners -> fetch()) {
@@ -29,7 +31,12 @@ try {
 ?>
 <?php include __DIR__.'/flash.php'; ?>
 <h2>公開アンケート一覧</h2>
-<?php include __DIR__.'/list_table.php'; ?>
+<?php if ($rowCount > 0):
+  include __DIR__.'/list_table.php'; ?>
+<?php else: ?>
+  <h3>まだ公開されているアンケートがありません．<br>最初のアンケートを作成しましょう！</h3>
+  <a href="make.php"><button class="btn btn-primary btn-lg" <?=$_SESSION['username']=='guest'?'disabled':''?>><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
+<?php endif; ?>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>

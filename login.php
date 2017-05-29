@@ -97,7 +97,6 @@ header('Content-Type: text/html; charset=UTF-8');
             <div class="text-center">or</div>
             <div class="clearfix">
               <a href="signup.php"><button class="btn btn-primary pull-left signup" type="button">Sign Up</button></a>
-              <!--<a href="#"><button class="btn btn-warning pull-right guest" type="button">Guest</button></a>-->
               <button class="btn btn-warning pull-right guest" type="button">Guest</button>
             </div>
           </form>
