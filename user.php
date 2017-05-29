@@ -15,6 +15,7 @@ try {
     $questionnaires = $stmt->fetchAll();
     $owners = $dbh->query("select user_id,user_name from users,questionnaires where owner = user_id");
     // キーがユーザID、値がユーザ名の連想配列を作る
+    $users[$_SESSION['user_id']] = $_SESSION['username'];
     while ($row = $owners -> fetch()) {
       $users[$row['user_id']] = $row['user_name'];
     }

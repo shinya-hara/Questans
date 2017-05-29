@@ -21,13 +21,12 @@ $jsonCs = json_encode($choices);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
     <title>作成 | アンケートシステム</title>
   </head>
   <body>
+    <?php include __DIR__.'/header.php'; ?>
     <div class="container">
-      <h1>アンケートシステム</h1>
-      <a href="management.php"><input type="button" value="管理画面" class="btn btn-default"></a>
-      <hr>
       <h2>作成</h2>
       <form method="post" action="confirm.php" data-toggle="validator" role="form">
         <div class="form-group has-feedback">
@@ -53,10 +52,13 @@ $jsonCs = json_encode($choices);
       <?php include 'debug.php'; ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
     <script>
     $(function() {
       'use strict';
+      
+      $('.dropdown-toggle').dropdown();
       
       // 削除ボタンの属性を変更する
       // num: 押された削除ボタンの質問番号

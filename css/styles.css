@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+/* header */
+header {
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(43,91,6,.15);
+}
+
+header h1 {
+  line-height: 48px;
+  font-size: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+header h1>a {
+  color: #333;
+  display: block;
+}
+
+header h1>a:hover,
+header h1>a:focus {
+  color: #333;
+  text-decoration: none;
+}
+
+header>div.container>div.buttons {
+  margin: 7px 0;
+}
+
+header>div.container>div.buttons button {
+  margin-left: 10px;
+}
+
+/* アンケート一覧 */
+.table tbody>tr>td {
+  vertical-align: middle;
+}
+
+.table.list-table tbody>tr>td {
+  cursor: pointer;
+}
+
+.table.list-table tbody>tr>td.owner, span.owner {
+  color: #337ab7;
+  cursor: pointer;
+}
+
+.table.list-table tbody>tr>td.owner:hover, .owner:hover {
+  color: #23527c;
+  text-decoration: underline;
+}
+
+/* modal window */
+.modal-backdrop.in {
+  opacity: 0.3;
+}

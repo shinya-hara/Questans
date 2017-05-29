@@ -1,5 +1,7 @@
+@charset "UTF-8";
+
 body {
-  /*background: #eee url(img/bg.png);*/
+  /*background: url(../img/bg.png);*/
 }
 
 html,body {

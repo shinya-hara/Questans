@@ -70,18 +70,12 @@ try {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
     <title>確認 | アンケートシステム</title>
-    <style>
-      .table tbody>tr>td {
-        vertical-align: middle;
-      }
-    </style>
   </head>
   <body>
+    <?php include __DIR__.'/header.php'; ?>
     <div class="container">
-      <h1>アンケートシステム</h1>
-      <a href="management.php"><input type="button" value="管理画面" class="btn btn-default"></a>
-      <hr>
       <h2>確認</h2>
       <div id="flash"><?php include 'flash.php'; $_SESSION['flash_flag'] = false; ?></div>
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
@@ -89,33 +83,36 @@ try {
       <button type="button" id="insert" class="btn btn-primary">OK</button>
       <hr>
       <h3><?= $_SESSION['title'] ?></h3>
-      <table class="table table-striped text-center">
-        <thead>
-          <tr>
-            <th>番号</th>
-            <th>質問</th>
-            <?php for($i = 1; $i <= $_SESSION['c_num']; $i++): ?>
-            <th class="text-center"><?= h($_SESSION['c'.$i]) ?></th>
+      <div class="table-responsive">
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th>番号</th>
+              <th>質問</th>
+              <?php for($i = 1; $i <= $_SESSION['c_num']; $i++): ?>
+              <th class="text-center"><?= h($_SESSION['c'.$i]) ?></th>
+              <?php endfor; ?>
+            </tr>
+          </thead>
+          <tbody>
+            <?php for($i = 1; $i <= $_SESSION['q_num']; $i++): ?>
+            <tr>
+              <td><?= $i ?></td>
+              <td class="text-left"><?= h($_SESSION['q'.$i]) ?></td>
+              <?php for($j = 1; $j <= $_SESSION['c_num']; $j++): ?>
+              <td><input type="radio" name="a<?= $i ?>" value="<?= h($_SESSION['c'.$j]) ?>"></td>
+              <?php endfor; ?>
+            </tr>
             <?php endfor; ?>
-          </tr>
-        </thead>
-        <tbody>
-          <?php for($i = 1; $i <= $_SESSION['q_num']; $i++): ?>
-          <tr>
-            <td><?= $i ?></td>
-            <td class="text-left"><?= h($_SESSION['q'.$i]) ?></td>
-            <?php for($j = 1; $j <= $_SESSION['c_num']; $j++): ?>
-            <td><input type="radio" name="a<?= $i ?>" value="<?= h($_SESSION['c'.$j]) ?>"></td>
-            <?php endfor; ?>
-          </tr>
-          <?php endfor; ?>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
       <input type="button" class="btn btn-primary btn-block" value="回答">
       <div id="load"></div>
       <?php include 'debug.php'; ?>
     </div><!-- /container -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
     $(function(){
       // タイトルが重複していた場合、ボタンを無効化

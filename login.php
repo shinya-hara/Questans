@@ -71,11 +71,20 @@ header('Content-Type: text/html; charset=UTF-8');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/styles.css">
     <title>ログイン | アンケートシステム</title>
   </head>
   <body>
+    <header>
+      <div class="container clearfix">
+        <h1 class="pull-left"><a href="management.php">アンケートシステム</a></h1>
+        <div class="buttons">
+          <a href="signup.php"><button class="btn btn-primary pull-right" type="button">Sign Up</button></a>
+          <button class="btn btn-info pull-right" type="button">Login</button>
+        </div>
+      </div>
+    </header>
     <div class="container">
-      <h1>アンケートシステム</h1><hr>
       <?php include __DIR__.'/flash.php'; ?>
       <div class="login-container">
         <div class="avatar"></div>
