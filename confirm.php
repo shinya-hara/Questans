@@ -77,7 +77,7 @@ try {
     <?php include __DIR__.'/header.php'; ?>
     <div class="container">
       <h2>確認</h2>
-      <div id="flash"><?php include 'flash.php'; $_SESSION['flash_flag'] = false; ?></div>
+      <?php include __DIR__.'/flash.php'; ?>
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
       <a href="make.php"><button type="button" id="edit" class="btn btn-default">修正</button></a>
       <button type="button" id="insert" class="btn btn-primary">OK</button>
@@ -87,7 +87,7 @@ try {
         <table class="table text-center">
           <thead>
             <tr>
-              <th>番号</th>
+              <th class="td-num">番号</th>
               <th>質問</th>
               <?php for($i = 1; $i <= $_SESSION['c_num']; $i++): ?>
               <th class="text-center"><?= h($_SESSION['c'.$i]) ?></th>
@@ -97,7 +97,7 @@ try {
           <tbody>
             <?php for($i = 1; $i <= $_SESSION['q_num']; $i++): ?>
             <tr>
-              <td><?= $i ?></td>
+              <td class="td-num"><?= $i ?></td>
               <td class="text-left"><?= h($_SESSION['q'.$i]) ?></td>
               <?php for($j = 1; $j <= $_SESSION['c_num']; $j++): ?>
               <td><input type="radio" name="a<?= $i ?>" value="<?= h($_SESSION['c'.$j]) ?>"></td>

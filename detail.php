@@ -69,7 +69,10 @@ try {
 <button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">Edit</button>
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">Delete</button>
 <?php else: ?>
-<a href="answer.php?q_id=<?=$_POST['id']?>"><button type="button" class="btn btn-primary" id="answer">Answer a Questionnaire</button></a>
+<form method="post" action="answer.php">
+  <input type="hidden" name="q_id" value="<?=$_POST['id']?>">
+  <input type="submit" class="btn btn-primary" id="answer" value="Answer this Questionnaire">
+</form>
 <?php endif; ?>
 
 <!-- Modal -->
@@ -155,7 +158,12 @@ try {
         $('#close').show();
         // ダイアログを閉じるとアンケート一覧に戻る
         $('#delModal').on('hidden.bs.modal', function() {
-          $.get('mylist.php', function(data) {
+          $.post('user.php',
+          {
+            'req_user_id': <?=$_SESSION['user_id']?>
+          },
+          function(data) {
+            $('.modal-backdrop').remove();
             $('main').html(data);
           });
         });

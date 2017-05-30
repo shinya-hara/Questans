@@ -1,22 +1,22 @@
-<div class="table-responsive">
+<!--<div class="table-responsive">-->
   <table class="table table-hover list-table">
     <thead>
-      <th>番号</th>
+      <th class="none text-center td-num">番号</th>
       <th>タイトル</th>
       <th>作成者</th>
-      <th>作成日時</th>
-      <th>更新日時</th>
+      <th class="none">作成日時</th>
+      <th class="none">更新日時</th>
     </thead>
     <tbody>
       <?php $i = 1; foreach ($questionnaires as $row): ?>
       <tr data-id="<?=h($row['q_id'])?>">
-        <td><?=$i?></td>
+        <td class="none text-center td-num"><?=$i?></td>
         <td><?=h($row['title'])?></td>
         <td class="owner" data-userid="<?=$row['owner']?>"><?=h($users[$row['owner']])?></td>
-        <td><?=h($row['created'])?></td>
-        <td><?=is_null($row['updated'])?"---":h($row['updated'])?></td>
+        <td class="none"><?=substr(h($row['created']),0,16)?></td>
+        <td class="none"><?=is_null($row['updated'])?"---":substr(h($row['updated']),0,16)?></td>
       </tr>
       <?php $i++; endforeach; ?>
     </tbody>
   </table>
-</div>
+<!--</div>-->

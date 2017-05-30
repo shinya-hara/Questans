@@ -1,4 +1,10 @@
 @charset "UTF-8";
+/* Media Queries */
+@media (max-width: 767px) {
+  .none {
+    display: none;
+  }
+}
 
 /* header */
 header {
@@ -49,6 +55,11 @@ header>div.container>div.buttons button {
 .table.list-table tbody>tr>td.owner:hover, .owner:hover {
   color: #23527c;
   text-decoration: underline;
+}
+
+.table thead>tr>th.td-num,
+.table tbody>tr>td.td-num {
+  width: 50px;
 }
 
 /* modal window */
