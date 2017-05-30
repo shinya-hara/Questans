@@ -9,7 +9,7 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $stmt = $dbh->prepare("select q_id,title,created,updated,owner from questionnaires where owner = ? order by created");
+    $stmt = $dbh->prepare("select q_id,title,created,updated,owner from questionnaires where owner = ? order by created desc");
     $stmt->bindValue(1, (int)$_POST['req_user_id'], PDO::PARAM_INT);
     $stmt->execute();
     $questionnaires = $stmt->fetchAll();
@@ -41,8 +41,6 @@ try {
   <a href="make.php"><button class="btn btn-primary btn-lg" <?=$_SESSION['username']=='guest'?'disabled':''?>><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
 <?php endif; ?>
 <button type="button" class="btn btn-default" id="list">公開アンケート一覧</button>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
   $(function() {
     // 詳細

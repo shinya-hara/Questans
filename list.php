@@ -1,5 +1,4 @@
 <?php
-ini_set( 'display_errors', 1 );
 require_once __DIR__.'/functions.php';
 require_once __DIR__.'/db_info.php';
 require_logined_session();
@@ -10,7 +9,7 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $questionnaires = $dbh->query("select q_id,title,created,updated,owner from questionnaires order by created");
+    $questionnaires = $dbh->query("select q_id,title,created,updated,owner from questionnaires order by created desc");
     $stmt = $dbh->query("select count(*) from questionnaires");
     $rowCount = $stmt->fetchColumn();   // 公開アンケート数
     $owners = $dbh->query("select user_id,user_name from users,questionnaires where owner = user_id");
@@ -37,8 +36,6 @@ try {
   <h3>まだ公開されているアンケートがありません．<br>最初のアンケートを作成しましょう！</h3>
   <a href="make.php"><button class="btn btn-primary btn-lg" <?=$_SESSION['username']=='guest'?'disabled':''?>><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
 <?php endif; ?>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
   $(function() {
     // 詳細

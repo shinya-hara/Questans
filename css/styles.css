@@ -61,8 +61,3 @@ header>div.container>div.buttons button {
 .table tbody>tr>td.td-num {
   width: 50px;
 }
-
-/* modal window */
-.modal-backdrop.in {
-  opacity: 0.3;
-}
