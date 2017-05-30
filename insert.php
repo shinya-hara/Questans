@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__.'/functions.php';
-
 session_start();
 
 // DB接続のための情報を読み込む

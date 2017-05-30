@@ -46,30 +46,46 @@ try {
     <div class="container">
       <h2>アンケート回答</h2>
       <?php include __DIR__.'/flash.php'; ?>
-      <table class="table text-center">
-        <thead>
-          <tr>
-            <th class="text-center td-num">番号</th>
-            <th>質問</th>
-            <?php for ($i = 0; $i < $cCount; $i++): ?>
-            <th class="text-center"><?=h($choices[$i]['choice'])?></th>
+      <form method="post" action="answered.php">
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th class="text-center td-num none">番号</th>
+              <th>質問</th>
+              <?php for ($i = 0; $i < $cCount; $i++): ?>
+              <th class="text-center"><?=h($choices[$i]['choice'])?></th>
+              <?php endfor; ?>
+            </tr>
+          </thead>
+          <tbody>
+            <?php for ($i = 0; $i < $qCount; $i++): ?>
+            <tr>
+              <td class="td-num none"><?=$i+1?></td>
+              <td class="text-left"><?=h($questions[$i]['question'])?></td>
+              <?php for ($j = 0; $j < $cCount; $j++): ?>
+              <td><input type="radio" name="a<?=$i+1?>" value="<?=$choices[$j]['c_num']?>" required></td>
+              <?php endfor; ?>
+            </tr>
             <?php endfor; ?>
-          </tr>
-        </thead>
-        <tbody>
-          <?php for ($i = 0; $i < $qCount; $i++): ?>
-          <tr>
-            <td class="td-num"><?=$i+1?></td>
-            <td class="text-left"><?=h($questions[$i]['question'])?></td>
-            <?php for ($j = 0; $j < $cCount; $j++): ?>
-            <td><input type="radio" name="q<?=$i+1?>"></td>
-            <?php endfor; ?>
-          </tr>
-          <?php endfor; ?>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+        <input type="hidden" name="q_id" value="<?=$_SESSION['q_id']?>">
+        <input type="hidden" name="q_cnt" value="<?=$qCount?>">
+        <input type="submit" class="btn btn-primary btn-block" value="回答">
+        <!--<button type="button" class="btn btn-primary btn-block">回答</button>-->
+      </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+      $(function() {
+        // $('button').on('click', function() {
+        //   for (var i = 1; i <= '<?=$qCount?>'; i++) {
+        //     console.log(i,$('input[name="q'+i+'"]:checked').val());
+        //     $('input[name="q'+i+'"]:checked').val();
+        //   }
+        // });
+      });
+    </script>
   </body>
 </html>
