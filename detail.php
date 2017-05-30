@@ -22,6 +22,12 @@ try {
     $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
     $stmt->execute();
     $choices = $stmt->fetchAll();
+    // このアンケートに回答済みかチェック
+    $stmt = $dbh->prepare("select count(*) from answers where q_id = ? and user_id = ? limit 1");
+    $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
+    $stmt->bindValue(2, (int)$_SESSION['user_id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $rowCount = $stmt->fetchColumn(); // 回答済みなら1, 未回答なら0
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "詳細の取得に失敗しました．";
@@ -71,7 +77,13 @@ try {
 <?php else: ?>
 <form method="post" action="answer.php">
   <input type="hidden" name="q_id" value="<?=$_POST['id']?>">
-  <input type="submit" class="btn btn-primary" id="answer" value="Answer this Questionnaire">
+  <?php if ($rowCount > 0): ?>
+  <span data-toggle="tooltip" data-placement="right" title="回答済み">
+    <a class="btn btn-primary" disabled>このアンケートに回答する</a>
+  </span>
+  <?php else: ?>
+  <input type="submit" class="btn btn-primary" id="answer" value="このアンケートに回答する">
+  <?php endif; ?>
 </form>
 <?php endif; ?>
 
@@ -103,6 +115,8 @@ try {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
   $(function() {
+    $('[data-toggle="tooltip"]').tooltip()
+    
     // 一覧に戻る
     $('#back').on('click', function() {
       if ("<?=$_SESSION['from']?>" === "userpage") {
