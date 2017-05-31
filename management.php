@@ -19,14 +19,14 @@ require_logined_session();
       <?php if ($_SESSION['username'] == 'guest'): ?>
       <div class="alert alert-warning">
         ゲストユーザでログインしています.<br>
-        アンケートの回答結果は送信されますが，個人の回答は管理できません.
-        ゲストユーザではアンケートを作成できません.
+        <!--アンケートの回答結果は送信されますが，個人の回答は管理できません.-->
+        <!--ゲストユーザではアンケートを作成できません.-->
+        アンケート内容の確認はできますが，アンケートの作成および回答ができません.
       </div>
       <?php endif; ?>
       <main>読み込み中...</main>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
     $(function() {

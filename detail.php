@@ -43,23 +43,33 @@ try {
 <button type="button" class="btn btn-default" id="back">Back</button>
 <!-- ジャンボトロン ver. -->
 <!--<div class="jumbotron">-->
-<!--  <h1><?=$questionnaires['title']?></h1>-->
+<!--  <h1><?=h($questionnaires['title'])?></h1>-->
 <!--  <p>-->
-<!--    Owner <span class="owner"><?=$questionnaires['user_name']?></span><br>-->
-<!--    Created at <?=$questionnaires['created']?><br>-->
-<!--    Updated at <?=is_null($questionnaires['updated'])?"---":$questionnaires['updated']?>-->
+<!--    Owner <span class="owner"><?=h($questionnaires['user_name'])?></span><br>-->
+<!--    Created at <?=h($questionnaires['created'])?><br>-->
+<!--    Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>-->
 <!--  </p>-->
 <!--</div>-->
 
 <!-- h3 ver. -->
-<h3>
-  <?=$questionnaires['title']?><br>
-  <small>
-    Owner <span class="owner"><?=$questionnaires['user_name']?></span><br>
-    Created at <?=$questionnaires['created']?><br>
-    Updated at <?=is_null($questionnaires['updated'])?"---":$questionnaires['updated']?>
-  </small>
-</h3>
+<!--<h3>-->
+<!--  <?=h($questionnaires['title'])?><br>-->
+<!--  <small>-->
+<!--    Owner <span class="owner"><?=h($questionnaires['user_name'])?></span><br>-->
+<!--    Created at <?=h($questionnaires['created'])?><br>-->
+<!--    Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>-->
+<!--  </small>-->
+<!--</h3>-->
+
+
+<h2><?=h($questionnaires['title'])?></h2>
+<p>
+  Owner <span class="owner"><?=h($questionnaires['user_name'])?></span><br>
+  Created at <?=h($questionnaires['created'])?><br>
+  Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>
+</p>
+
+
 <!-- 質問 -->
 <table class="table">
   <thead>
@@ -67,7 +77,7 @@ try {
   </thead>
   <tbody>
     <?php foreach($questions as $row): ?>
-    <tr><td class="text-center td-num"><?=$row['q_num']?></td><td><?=$row['question']?></td></tr>
+    <tr><td class="text-center td-num"><?=$row['q_num']?></td><td><?=h($row['question'])?></td></tr>
     <?php endforeach; ?>
   </tbody>
 </table>
@@ -78,7 +88,7 @@ try {
   </thead>
   <tbody>
     <?php foreach($choices as $row): ?>
-    <tr><td class="text-center td-num"><?=$row['c_num']?></td><td><?=$row['choice']?></td></tr>
+    <tr><td class="text-center td-num"><?=$row['c_num']?></td><td><?=h($row['choice'])?></td></tr>
     <?php endforeach; ?>
   </tbody>
 </table>
@@ -90,6 +100,11 @@ try {
   <input type="hidden" name="q_id" value="<?=$_POST['id']?>">
   <?php if ($rowCount > 0): ?>
   <span data-toggle="tooltip" data-placement="right" title="回答済み">
+    <a class="btn btn-primary" disabled>このアンケートに回答する</a>
+  </span>
+  <?php elseif ($_SESSION['username'] == 'guest'): ?>
+  <!--<input type="button" class="btn btn-primary" value="このアンケートに回答する" disabled>-->
+  <span data-toggle="tooltip" data-placement="right" title="ゲストユーザでは回答できません">
     <a class="btn btn-primary" disabled>このアンケートに回答する</a>
   </span>
   <?php else: ?>

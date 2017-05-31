@@ -8,6 +8,11 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
+    // アンケート情報の取得
+    $stmt = $dbh->prepare("select title,created,updated,owner,user_name from questionnaires,users where q_id = ? && owner = user_id");
+    $stmt->bindValue(1, (int)$_SESSION['q_id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $questionnaires = $stmt->fetch();
     // 質問を取得
     $stmt = $dbh->prepare("select * from questions where q_id = ? order by q_num");
     $stmt->bindValue(1, $_SESSION['q_id'], PDO::PARAM_INT);
@@ -46,6 +51,12 @@ try {
     <div class="container">
       <h2>アンケート回答</h2>
       <?php include __DIR__.'/flash.php'; ?>
+      <h3><?=$questionnaires['title']?></h3>
+      <p>
+        Owner <?=h($questionnaires['user_name'])?><br>
+        Created at <?=h($questionnaires['created'])?><br>
+        Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>
+      </p>
       <form method="post" action="answered.php">
         <table class="table text-center">
           <thead>

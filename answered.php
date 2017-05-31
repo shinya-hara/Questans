@@ -78,9 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?= $_SESSION['status'] == "success" ? "<h2>送信完了</h2>" : "<h2>送信失敗</h2>"; ?>
       <?php include __DIR__.'/flash.php'; ?>
       <?php
-      for ($i = 1; $i <= $_POST['q_cnt']; $i++) {
-        echo $i.'番の回答は 選択肢'.$_POST['a'.$i].'<br>';
-      }
+      // for ($i = 1; $i <= $_POST['q_cnt']; $i++) {
+      //   echo $i.'番の回答は 選択肢'.$_POST['a'.$i].'<br>';
+      // }
       ?>
       <a href="management.php" class="btn btn-default">マイページ</a>
     </div>
