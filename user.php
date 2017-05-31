@@ -36,9 +36,12 @@ try {
 <h2><?=$users[$_POST['req_user_id']]?></h2>
 <?php if ($rowCount > 0):
   include __DIR__.'/list_table.php'; ?>
+<?php elseif ($_SESSION['username'] == 'guest'): ?>
+  <h3>ゲストユーザでアンケートは作成できません．<br>アンケート内容の確認のみが行えます．</h3>
+  <a href="make.php"><button class="btn btn-primary btn-lg" disabled><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
 <?php else: ?>
   <h3>まだアンケートがありません．<br>最初のアンケートを作成しましょう！</h3>
-  <a href="make.php"><button class="btn btn-primary btn-lg" <?=$_SESSION['username']=='guest'?'disabled':''?>><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
+  <a href="make.php"><button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
 <?php endif; ?>
 <button type="button" class="btn btn-default" id="list">公開アンケート一覧</button>
 <script>
