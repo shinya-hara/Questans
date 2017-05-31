@@ -93,6 +93,7 @@ try {
   </tbody>
 </table>
 <?php if ($questionnaires['owner'] == $_SESSION['user_id']): ?>
+<button type="button" class="btn btn-success" id="result" data-id="<?=$_POST['id']?>">結果を見る</button>
 <button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">Edit</button>
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">Delete</button>
 <?php else: ?>
@@ -161,6 +162,17 @@ try {
       $.post('user.php',
       {
         'req_user_id': <?=$questionnaires['owner']?>
+      },
+      function(data) {
+        $('main').html(data);
+      });
+    });
+    
+    // 結果を見る
+    $('#result').on('click', function() {
+      $.post('result.php',
+      {
+        'id': $(this).attr('data-id')
       },
       function(data) {
         $('main').html(data);
