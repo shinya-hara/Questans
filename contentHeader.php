@@ -1,6 +1,22 @@
 <div class="questionnaireMainHeader">
   <div class="container">
-    <h2><?=$questionnaires['title']?></h2>
+    <div class="row">
+      <div class="col-sm-10">
+        <h2><?=$questionnaires['title']?></h2>
+      </div>
+      <div class="col-sm-2">
+        <div class="text-center showHeaderAnswered">
+          <!--<span class="showHeaderAnsweredText">回答数</span>-->
+          <!--<span class="showHeaderAnsweredCount">12</span>-->
+          <div class="text-center showHeaderAnsweredCount"><?=$answeredCount?></div>
+          <div class="text-center showHeaderAnsweredText">回答数</div>
+        </div>
+        <?php if ($questionnaires['owner'] != $_SESSION['user_id']): ?>
+        <!--<button type="button" class="btn btn-default btn-block" id="headerAnswerBtn">回答する</button>-->
+        <?php endif; ?>
+      </div>
+    </div>
+    
   </div>
 </div>
 <div class="questionnaireAsideHeader">

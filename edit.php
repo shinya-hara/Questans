@@ -7,7 +7,7 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $id = (int)$_POST['id'];
+    $id = (int)$_POST['q_id'];
     $_SESSION['update_id'] = $id;
     // アンケート情報の取得
     $stmt = $dbh->prepare("select title from questionnaires where q_id = ?");
@@ -23,7 +23,7 @@ try {
     $jsonQs = json_encode($questions);
     // 選択肢の取得
     $stmt = $dbh->prepare("select choice from choices where q_id = ? order by c_num");
-    $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
+    $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
     $stmt->execute();
     $choices = $stmt->fetchAll(PDO::FETCH_NUM);
     // json形式に変換
@@ -42,7 +42,7 @@ try {
 }
 ?>
 <div class="container">
-  <button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['id']?>">Back</button>
+  <button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['q_id']?>">Back</button>
   <h3>編集</h3>
   <form method="post" action="confirm.php" data-toggle="validator" role="form">
     <div class="form-group has-feedback">
@@ -72,7 +72,7 @@ try {
     $('#back').on('click', function() {
       $.post('detail.php',
       {
-        'id': $(this).attr('data-id')
+        'q_id': $(this).attr('data-id')
       },
       function(data) {
         $('main').html(data);

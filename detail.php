@@ -9,25 +9,30 @@ try {
   try {
     // アンケート情報の取得
     $stmt = $dbh->prepare("select title,created,updated,owner,user_name from questionnaires,users where q_id = ? && owner = user_id");
-    $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
+    $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
     $stmt->execute();
     $questionnaires = $stmt->fetch();
     // 質問の取得
     $stmt = $dbh->prepare("select q_num,question from questions where q_id = ? order by q_num");
-    $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
+    $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
     $stmt->execute();
     $questions = $stmt->fetchAll();
     // 選択肢の取得
     $stmt = $dbh->prepare("select c_num,choice from choices where q_id = ? order by c_num");
-    $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
+    $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
     $stmt->execute();
     $choices = $stmt->fetchAll();
     // このアンケートに回答済みかチェック
     $stmt = $dbh->prepare("select count(*) from answers where q_id = ? and user_id = ? limit 1");
-    $stmt->bindValue(1, (int)$_POST['id'], PDO::PARAM_INT);
+    $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
     $stmt->bindValue(2, (int)$_SESSION['user_id'], PDO::PARAM_INT);
     $stmt->execute();
     $rowCount = $stmt->fetchColumn(); // 回答済みなら1, 未回答なら0
+    // アンケートの回答数をカウント
+    $stmt = $dbh->prepare("select count(*) from answers where q_id = ?");
+    $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $answeredCount = $stmt->fetchColumn();
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "詳細の取得に失敗しました．";
@@ -43,14 +48,6 @@ try {
 <?php include __DIR__.'/contentHeader.php'; ?>
 <div class="container">
   <button type="button" class="btn btn-default" id="back">Back</button>
-  
-  <!--<h2><?=h($questionnaires['title'])?></h2>-->
-  <!--<p>-->
-  <!--  Owner <span class="owner"><?=h($questionnaires['user_name'])?></span><br>-->
-  <!--  Created at <?=h($questionnaires['created'])?><br>-->
-  <!--  Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>-->
-  <!--</p>-->
-  
   
   <!-- 質問 -->
   <table class="table">
@@ -75,12 +72,12 @@ try {
     </tbody>
   </table>
   <?php if ($questionnaires['owner'] == $_SESSION['user_id']): ?>
-  <button type="button" class="btn btn-success" id="result" data-id="<?=$_POST['id']?>">結果を見る</button>
-  <button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">Edit</button>
+  <button type="button" class="btn btn-success" id="result" data-id="<?=$_POST['q_id']?>">結果を見る</button>
+  <button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['q_id']?>">Edit</button>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">Delete</button>
   <?php else: ?>
   <form method="post" action="answer.php">
-    <input type="hidden" name="q_id" value="<?=$_POST['id']?>">
+    <input type="hidden" name="q_id" value="<?=$_POST['q_id']?>">
     <?php if ($rowCount > 0): ?>
     <span data-toggle="tooltip" data-placement="right" title="回答済み">
       <a class="btn btn-primary" disabled>このアンケートに回答する</a>
@@ -112,7 +109,7 @@ try {
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" id="delete" data-id="<?=$_POST['id']?>">Delete</button>
+          <button type="button" class="btn btn-danger" id="delete" data-id="<?=$_POST['q_id']?>">Delete</button>
           <button type="button" class="btn btn-primary" id="close" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -155,7 +152,7 @@ try {
     $('#result').on('click', function() {
       $.post('result.php',
       {
-        'id': $(this).attr('data-id')
+        'q_id': $(this).attr('data-id')
       },
       function(data) {
         $('main').html(data);
@@ -166,7 +163,7 @@ try {
     $('#edit').on('click', function() {
       $.post('edit.php',
       {
-        'id': $(this).attr('data-id')
+        'q_id': $(this).attr('data-id')
       },
       function(data) {
         $('main').html(data);
@@ -180,7 +177,7 @@ try {
       $('#modal-msg').html("削除中...");
       $.post('delete.php',
       {
-        'id': $(this).attr('data-id')
+        'q_id': $(this).attr('data-id')
       },
       function(data) {
         // ダイアログメッセージの変更

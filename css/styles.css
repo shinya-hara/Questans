@@ -44,6 +44,7 @@ header>div.container>div.buttons button {
   color: #fff;
   padding: 25px 0;
 }
+
 .questionnaireAsideHeader {
   background-color: #fafafa;
   color: #888;
@@ -51,8 +52,19 @@ header>div.container>div.buttons button {
   padding: 10px 0;
   border-bottom: 1px solid #eee;
 }
+
 .questionnaireAsideHeader .username {
   margin-right: 15px;
+}
+
+.showHeaderAnsweredCount {
+  font-size: 24px;
+  margin-bottom: -3px;
+}
+.showHeaderAnsweredText {
+  font-size: 12px;
+  margin-bottom: 8px;
+  opacity: 0.8;
 }
 
 /* フラッシュメッセージ */

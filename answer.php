@@ -25,6 +25,11 @@ try {
     $stmt->execute();
     $choices = $stmt->fetchAll();
     $cCount = count($choices);  // 選択肢数
+    // アンケートの回答数をカウント
+    $stmt = $dbh->prepare("select count(*) from answers where q_id = ?");
+    $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $answeredCount = $stmt->fetchColumn();
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "アンケート一覧の取得に失敗しました．";
@@ -85,6 +90,7 @@ try {
     <script>
       $(function() {
         $('[data-toggle="tooltip"]').tooltip();
+        $('#headerAnswerBtn').hide();
       });
     </script>
   </body>

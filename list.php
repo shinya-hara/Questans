@@ -47,7 +47,7 @@ try {
     $('tr td:not(.owner)').on('click', function() {
       $.post('detail.php',
       {
-        'id': $(this).parent().attr('data-id')
+        'q_id': $(this).parent().attr('data-id')
       },
       function(data) {
         $('main').html(data);
