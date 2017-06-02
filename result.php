@@ -50,37 +50,40 @@ try {
 }
 ?>
 <?php include __DIR__.'/flash.php'; ?>
-<button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['id']?>">Back</button>
-
-<h2>結果</h2>
-<h3><?=$questionnaires['title']?></h3>
-<p>
-  Owner <span class="owner"><?=h($questionnaires['user_name'])?></span><br>
-  Created at <?=h($questionnaires['created'])?><br>
-  Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>
-</p>
-<table class="table text-center">
-  <thead>
-    <tr>
-      <th class="text-center td-num none">番号</th>
-      <th>質問</th>
-      <?php for ($i = 0; $i < $cCount; $i++): ?>
-      <th class="text-center"><?=h($choices[$i]['choice'])?></th>
+<?php include __DIR__.'/contentHeader.php'; ?>
+<div class="container">
+  <button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['id']?>">Back</button>
+  
+  <h2>結果</h2>
+  <h3><?=$questionnaires['title']?></h3>
+  <p>
+    Owner <span class="owner"><?=h($questionnaires['user_name'])?></span><br>
+    Created at <?=h($questionnaires['created'])?><br>
+    Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>
+  </p>
+  <table class="table text-center">
+    <thead>
+      <tr>
+        <th class="text-center td-num none">番号</th>
+        <th>質問</th>
+        <?php for ($i = 0; $i < $cCount; $i++): ?>
+        <th class="text-center"><?=h($choices[$i]['choice'])?></th>
+        <?php endfor; ?>
+      </tr>
+    </thead>
+    <tbody>
+      <?php for ($i = 0; $i < $qCount; $i++): ?>
+      <tr>
+        <td class="td-num none"><?=$i+1?></td>
+        <td class="text-left"><?=h($questions[$i]['question'])?></td>
+        <?php for ($j = 0; $j < $cCount; $j++): ?>
+        <td><?=$results_array[$i+1][$j+1]?></td>
+        <?php endfor; ?>
+      </tr>
       <?php endfor; ?>
-    </tr>
-  </thead>
-  <tbody>
-    <?php for ($i = 0; $i < $qCount; $i++): ?>
-    <tr>
-      <td class="td-num none"><?=$i+1?></td>
-      <td class="text-left"><?=h($questions[$i]['question'])?></td>
-      <?php for ($j = 0; $j < $cCount; $j++): ?>
-      <td><?=$results_array[$i+1][$j+1]?></td>
-      <?php endfor; ?>
-    </tr>
-    <?php endfor; ?>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
 <script>
   $(function() {
     // 詳細に戻る

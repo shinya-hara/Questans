@@ -38,6 +38,28 @@ header>div.container>div.buttons button {
   margin-left: 10px;
 }
 
+/* コンテンツヘッダー */
+.questionnaireMainHeader {
+  background-color: #337ab7;
+  color: #fff;
+  padding: 25px 0;
+}
+.questionnaireAsideHeader {
+  background-color: #fafafa;
+  color: #888;
+  margin-bottom: 30px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.questionnaireAsideHeader .username {
+  margin-right: 15px;
+}
+
+/* フラッシュメッセージ */
+#flash {
+  margin-top: 10px;
+}
+
 /* アンケート一覧 */
 .table tbody>tr>td {
   vertical-align: middle;
@@ -47,7 +69,7 @@ header>div.container>div.buttons button {
   cursor: pointer;
 }
 
-.table.list-table tbody>tr>td.owner, span.owner {
+.table.list-table tbody>tr>td.owner, div.owner {
   color: #337ab7;
   cursor: pointer;
 }

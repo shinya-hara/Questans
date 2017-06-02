@@ -41,29 +41,31 @@ try {
   echo 'データベースの接続に失敗しました．';
 }
 ?>
-<button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['id']?>">Back</button>
-<h3>編集</h3>
-<form method="post" action="confirm.php" data-toggle="validator" role="form">
-  <div class="form-group has-feedback">
-    <label for="title" class="control-label">タイトル</label>
-    <input type="text" class="form-control" id="title" name="title" placeholder="アンケートのタイトル" data-error="タイトルを入力してください．" required>
-    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-    <!--<div class="help-block with-errors"></div>-->
-  </div>
-  <div class="row">
-    <div class="col-sm-6">
-      <input type="button" value="Add new question" class="btn btn-info center-block" id="addQBtn">
+<div class="container">
+  <button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['id']?>">Back</button>
+  <h3>編集</h3>
+  <form method="post" action="confirm.php" data-toggle="validator" role="form">
+    <div class="form-group has-feedback">
+      <label for="title" class="control-label">タイトル</label>
+      <input type="text" class="form-control" id="title" name="title" placeholder="アンケートのタイトル" data-error="タイトルを入力してください．" required>
+      <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+      <!--<div class="help-block with-errors"></div>-->
     </div>
-    <div class="col-sm-6">
-      <input type="button" value="Add new choice" class="btn btn-info center-block" id="addCBtn">
+    <div class="row">
+      <div class="col-sm-6">
+        <input type="button" value="Add new question" class="btn btn-info center-block" id="addQBtn">
+      </div>
+      <div class="col-sm-6">
+        <input type="button" value="Add new choice" class="btn btn-info center-block" id="addCBtn">
+      </div>
     </div>
-  </div>
-  <div class="form-group">
-    <input class="btn btn-primary btn-block" type="submit" value="更新">
-  </div>
-  <input type="hidden" name="q_num" value='0'><!-- 質問数 -->
-  <input type="hidden" name="c_num" value='0'><!-- 選択肢数 -->
-</form>
+    <div class="form-group">
+      <input class="btn btn-primary btn-block" type="submit" value="更新">
+    </div>
+    <input type="hidden" name="q_num" value='0'><!-- 質問数 -->
+    <input type="hidden" name="c_num" value='0'><!-- 選択肢数 -->
+  </form>
+</div>
 <script>
   $(function() {
     // 詳細に戻る

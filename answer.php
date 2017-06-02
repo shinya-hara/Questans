@@ -45,53 +45,12 @@ try {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
     <title>回答 | アンケートシステム</title>
-    <style>
-      .questionnaireMainHeader {
-        background-color: #337ab7;
-        color: #fff;
-        padding: 25px 0;
-      }
-      .questionnaireAsideHeader {
-        background-color: #fafafa;
-        color: #888;
-        margin-bottom: 30px;
-        padding: 10px 0;
-      }
-    </style>
   </head>
   <body>
     <?php include __DIR__.'/header.php'; ?>
-    <div class="questionnaireMainHeader">
-      <div class="container">
-        <!--<div class="row">-->
-        <!--  <div class="col-sm-8">-->
-            <h2><?=$questionnaires['title']?></h2>
-          <!--</div>-->
-          <!--<div class="col-sm-4">-->
-            <!--<p>-->
-            <!--  Owner <?=h($questionnaires['user_name'])?><br>-->
-            <!--  Created at <?=h($questionnaires['created'])?><br>-->
-            <!--  Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>-->
-            <!--</p>-->
-          <!--</div>-->
-        <!--</div>-->
-      </div>
-    </div>
-    <div class="questionnaireAsideHeader">
-      <div class="container">
-        <div><?=h($questionnaires['user_name'])?> <?=is_null($questionnaires['updated'])?h($questionnaires['created'])."に作成":h($questionnaires['updated'])."に更新"?></div>
-      </div>
-    </div>
+    <?php include __DIR__.'/contentHeader.php'; ?>
     <div class="container">
-      <!--<h2>アンケート回答</h2>-->
-      <!--<?php include __DIR__.'/flash.php'; ?>-->
-      <!--<h3><?=$questionnaires['title']?></h3>-->
-      <!--<p>-->
-      <!--  Owner <?=h($questionnaires['user_name'])?><br>-->
-      <!--  Created at <?=h($questionnaires['created'])?><br>-->
-      <!--  Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>-->
-      <!--</p>-->
-      <form method="post" action="answered.php">
+      <form method="post" action="answered.php" role="form" data-toggle="validator">
         <table class="table text-center">
           <thead>
             <tr>
@@ -122,8 +81,10 @@ try {
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
     <script>
       $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
       });
     </script>
   </body>

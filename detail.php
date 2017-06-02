@@ -40,98 +40,81 @@ try {
 }
 ?>
 <?php include __DIR__.'/flash.php'; ?>
-<button type="button" class="btn btn-default" id="back">Back</button>
-<!-- ジャンボトロン ver. -->
-<!--<div class="jumbotron">-->
-<!--  <h1><?=h($questionnaires['title'])?></h1>-->
-<!--  <p>-->
-<!--    Owner <span class="owner"><?=h($questionnaires['user_name'])?></span><br>-->
-<!--    Created at <?=h($questionnaires['created'])?><br>-->
-<!--    Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>-->
-<!--  </p>-->
-<!--</div>-->
-
-<!-- h3 ver. -->
-<!--<h3>-->
-<!--  <?=h($questionnaires['title'])?><br>-->
-<!--  <small>-->
-<!--    Owner <span class="owner"><?=h($questionnaires['user_name'])?></span><br>-->
-<!--    Created at <?=h($questionnaires['created'])?><br>-->
-<!--    Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>-->
-<!--  </small>-->
-<!--</h3>-->
-
-
-<h2><?=h($questionnaires['title'])?></h2>
-<p>
-  Owner <span class="owner"><?=h($questionnaires['user_name'])?></span><br>
-  Created at <?=h($questionnaires['created'])?><br>
-  Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>
-</p>
-
-
-<!-- 質問 -->
-<table class="table">
-  <thead>
-    <tr><th class="text-center td-num">番号</th><th>質問</th></tr>
-  </thead>
-  <tbody>
-    <?php foreach($questions as $row): ?>
-    <tr><td class="text-center td-num"><?=$row['q_num']?></td><td><?=h($row['question'])?></td></tr>
-    <?php endforeach; ?>
-  </tbody>
-</table>
-<!-- 選択肢 -->
-<table class="table">
-  <thead>
-    <tr><th class="text-center td-num">番号</th><th>選択肢</th></tr>
-  </thead>
-  <tbody>
-    <?php foreach($choices as $row): ?>
-    <tr><td class="text-center td-num"><?=$row['c_num']?></td><td><?=h($row['choice'])?></td></tr>
-    <?php endforeach; ?>
-  </tbody>
-</table>
-<?php if ($questionnaires['owner'] == $_SESSION['user_id']): ?>
-<button type="button" class="btn btn-success" id="result" data-id="<?=$_POST['id']?>">結果を見る</button>
-<button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">Edit</button>
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">Delete</button>
-<?php else: ?>
-<form method="post" action="answer.php">
-  <input type="hidden" name="q_id" value="<?=$_POST['id']?>">
-  <?php if ($rowCount > 0): ?>
-  <span data-toggle="tooltip" data-placement="right" title="回答済み">
-    <a class="btn btn-primary" disabled>このアンケートに回答する</a>
-  </span>
-  <?php elseif ($_SESSION['username'] == 'guest'): ?>
-  <!--<input type="button" class="btn btn-primary" value="このアンケートに回答する" disabled>-->
-  <span data-toggle="tooltip" data-placement="right" title="ゲストユーザでは回答できません">
-    <a class="btn btn-primary" disabled>このアンケートに回答する</a>
-  </span>
+<?php include __DIR__.'/contentHeader.php'; ?>
+<div class="container">
+  <button type="button" class="btn btn-default" id="back">Back</button>
+  
+  <!--<h2><?=h($questionnaires['title'])?></h2>-->
+  <!--<p>-->
+  <!--  Owner <span class="owner"><?=h($questionnaires['user_name'])?></span><br>-->
+  <!--  Created at <?=h($questionnaires['created'])?><br>-->
+  <!--  Updated at <?=is_null($questionnaires['updated'])?"---":h($questionnaires['updated'])?>-->
+  <!--</p>-->
+  
+  
+  <!-- 質問 -->
+  <table class="table">
+    <thead>
+      <tr><th class="text-center td-num">番号</th><th>質問</th></tr>
+    </thead>
+    <tbody>
+      <?php foreach($questions as $row): ?>
+      <tr><td class="text-center td-num"><?=$row['q_num']?></td><td><?=h($row['question'])?></td></tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
+  <!-- 選択肢 -->
+  <table class="table">
+    <thead>
+      <tr><th class="text-center td-num">番号</th><th>選択肢</th></tr>
+    </thead>
+    <tbody>
+      <?php foreach($choices as $row): ?>
+      <tr><td class="text-center td-num"><?=$row['c_num']?></td><td><?=h($row['choice'])?></td></tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
+  <?php if ($questionnaires['owner'] == $_SESSION['user_id']): ?>
+  <button type="button" class="btn btn-success" id="result" data-id="<?=$_POST['id']?>">結果を見る</button>
+  <button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['id']?>">Edit</button>
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">Delete</button>
   <?php else: ?>
-  <input type="submit" class="btn btn-primary" id="answer" value="このアンケートに回答する">
+  <form method="post" action="answer.php">
+    <input type="hidden" name="q_id" value="<?=$_POST['id']?>">
+    <?php if ($rowCount > 0): ?>
+    <span data-toggle="tooltip" data-placement="right" title="回答済み">
+      <a class="btn btn-primary" disabled>このアンケートに回答する</a>
+    </span>
+    <?php elseif ($_SESSION['username'] == 'guest'): ?>
+    <!--<input type="button" class="btn btn-primary" value="このアンケートに回答する" disabled>-->
+    <span data-toggle="tooltip" data-placement="right" title="ゲストユーザでは回答できません">
+      <a class="btn btn-primary" disabled>このアンケートに回答する</a>
+    </span>
+    <?php else: ?>
+    <input type="submit" class="btn btn-primary" id="answer" value="このアンケートに回答する">
+    <?php endif; ?>
+  </form>
   <?php endif; ?>
-</form>
-<?php endif; ?>
-
-<!-- Modal -->
-<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="delModalLabel">アンケートの削除</h4>
-      </div>
-      <div class="modal-body" id="modal-msg">
-        このアンケートを削除しますか？<br>
-        この操作は取り消せません．
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger" id="delete" data-id="<?=$_POST['id']?>">Delete</button>
-        <button type="button" class="btn btn-primary" id="close" data-dismiss="modal">Close</button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="delModalLabel">アンケートの削除</h4>
+        </div>
+        <div class="modal-body" id="modal-msg">
+          このアンケートを削除しますか？<br>
+          この操作は取り消せません．
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="delete" data-id="<?=$_POST['id']?>">Delete</button>
+          <button type="button" class="btn btn-primary" id="close" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
@@ -158,7 +141,7 @@ try {
     });
     
     // ユーザページ
-    $('span.owner').on('click', function() {
+    $('div.owner').on('click', function() {
       $.post('user.php',
       {
         'req_user_id': <?=$questionnaires['owner']?>

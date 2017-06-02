@@ -44,12 +44,11 @@ $jsonCs = json_encode($choices);
           </div>
         </div>
         <div class="form-group">
-          <input class="btn btn-primary btn-block" type="submit" value="<?=$_SESSION['update']==1 ? '更新' : '作成'?>">
+          <input id="submit" class="btn btn-primary btn-block" type="submit" value="<?=$_SESSION['update']==1 ? '更新' : '作成'?>">
         </div>
         <input type="hidden" name="q_num" value='0'><!-- 質問数 -->
         <input type="hidden" name="c_num" value='0'><!-- 選択肢数 -->
       </form>
-      <?php include 'debug.php'; ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -60,7 +59,18 @@ $jsonCs = json_encode($choices);
       
       $('.dropdown-toggle').dropdown();
       
-      // 削除ボタンの属性を変更する
+      // 質問数と選択肢数に応じてsubmitボタンを制御
+      // q_cnt: 質問数
+      // c_cnt: 選択肢数
+      function setSubmitState(q_cnt, c_cnt) {
+        if (q_cnt > 0 && c_cnt > 0) {
+          $('#submit').prop('disabled', false);
+        } else {
+          $('#submit').prop('disabled', true);
+        }
+      }
+      
+      // 質問削除ボタンの属性を変更する
       // num: 押された削除ボタンの質問番号
       function q_update(num) {
         if (num >= q_cnt) {
@@ -84,11 +94,12 @@ $jsonCs = json_encode($choices);
         $('#delQBtn'+num).on('click', { num: num }, delQuestion);
         q_update(num+1);
       }
-      // テキストエリアを削除する
+      // 質問テキストエリアを削除する
       var delQuestion = function(e) {
         $('#q'+e.data.num+'-group').remove();
         q_update(e.data.num);
         $('form').validator('update');
+        setSubmitState(q_cnt, c_cnt);
       }
       
       // テキストエリアを増減させるボタンを設置
@@ -108,9 +119,10 @@ $jsonCs = json_encode($choices);
         $('#delQBtn'+q_cnt).on('click', { num: q_cnt }, delQuestion);
         $('#q'+q_cnt).focus();
         $('form').validator('update');
+        setSubmitState(q_cnt, c_cnt);
       });
       
-      // 削除ボタンの属性を変更する
+      // 選択肢削除ボタンの属性を変更する
       // num: 押された削除ボタンの選択肢番号
       function c_update(num) {
         if (num >= c_cnt) {
@@ -134,11 +146,12 @@ $jsonCs = json_encode($choices);
         $('#delCBtn'+num).on('click', { num: num }, delChoice);
         c_update(num+1);
       }
-      // テキストエリアを削除する
+      // 選択肢テキストエリアを削除する
       var delChoice = function(e) {
         $('#c'+e.data.num+'-group').remove();
         c_update(e.data.num);
         $('form').validator('update');
+        setSubmitState(q_cnt, c_cnt);
       }
       // 選択肢
       var c_cnt = 0;  // 選択肢数
@@ -156,6 +169,7 @@ $jsonCs = json_encode($choices);
         $('#delCBtn'+c_cnt).on('click', { num: c_cnt }, delChoice);
         $('#c'+c_cnt).focus();
         $('form').validator('update');
+        setSubmitState(q_cnt, c_cnt);
       });
       
       // confirm.phpから「修正」を選択して遷移してきた場合

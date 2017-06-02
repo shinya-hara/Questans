@@ -29,16 +29,18 @@ try {
 }
 ?>
 <?php include __DIR__.'/flash.php'; ?>
-<h2>公開アンケート一覧</h2>
-<?php if ($rowCount > 0):
-  include __DIR__.'/list_table.php'; ?>
-<?php elseif ($_SESSION['username'] == 'guest'): ?>
-  <h3>まだ公開されているアンケートがありません．<br>ゲストユーザ以外でログインし，最初のアンケートを作成しましょう！</h3>
-  <a href="make.php"><button class="btn btn-primary btn-lg" disabled><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
-<?php else: ?>
-  <h3>まだ公開されているアンケートがありません．<br>最初のアンケートを作成しましょう！</h3>
-  <a href="make.php"><button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
-<?php endif; ?>
+<div class="container">
+  <h2>公開アンケート一覧</h2>
+  <?php if ($rowCount > 0):
+    include __DIR__.'/list_table.php'; ?>
+  <?php elseif ($_SESSION['username'] == 'guest'): ?>
+    <h3>まだ公開されているアンケートがありません．<br>ゲストユーザ以外でログインし，最初のアンケートを作成しましょう！</h3>
+    <a href="make.php"><button class="btn btn-primary btn-lg" disabled><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
+  <?php else: ?>
+    <h3>まだ公開されているアンケートがありません．<br>最初のアンケートを作成しましょう！</h3>
+    <a href="make.php"><button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
+  <?php endif; ?>
+</div>
 <script>
   $(function() {
     // 詳細

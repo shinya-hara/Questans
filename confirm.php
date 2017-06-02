@@ -74,7 +74,7 @@ try {
     <title>確認 | アンケートシステム</title>
   </head>
   <body>
-    <div id="flash"><?php include __DIR__.'/header.php'; ?></div>
+    <div id="flash-wrap"><?php include __DIR__.'/header.php'; ?></div>
     <div class="container">
       <h2>確認</h2>
       <?php include __DIR__.'/flash.php'; ?>
@@ -109,7 +109,6 @@ try {
       </div>
       <input type="button" class="btn btn-primary btn-block" value="回答">
       <div id="load"></div>
-      <?php include 'debug.php'; ?>
     </div><!-- /container -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -132,9 +131,9 @@ try {
       // OKボタンを押した時の処理
       $('#insert').on('click', function() {
         if (/management\.php$/.test(document.referrer) || '<?=$_SESSION['update']?>' > 0) {
-          $('#flash').load('update.php', callback);
+          $('#flash-wrap').load('update.php', callback);
         } else if (/make\.php$/.test(document.referrer)) {
-          $('#flash').load('insert.php', callback);
+          $('#flash-wrap').load('insert.php', callback);
         } else {
           alert("不正なアクセスです．");
           window.location.href = "management.php";
