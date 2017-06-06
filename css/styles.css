@@ -1,8 +1,18 @@
 @charset "UTF-8";
 /* Media Queries */
+@media (min-width: 768px) {
+  .flex-center {
+    display: flex;
+    align-items: center;
+  }
+}
+
 @media (max-width: 767px) {
   .none {
     display: none;
+  }
+  .flex-center {
+    display: block;
   }
 }
 
@@ -43,6 +53,10 @@ header>div.container>div.buttons button {
   background-color: #337ab7;
   color: #fff;
   padding: 25px 0;
+}
+
+.questionnaireMainHeader .questoinnaireMainHeaderTitle {
+  margin: 0;
 }
 
 .questionnaireAsideHeader {

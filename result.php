@@ -57,7 +57,7 @@ try {
 <?php include __DIR__.'/flash.php'; ?>
 <?php include __DIR__.'/contentHeader.php'; ?>
 <div class="container">
-  <button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['q_id']?>">Back</button>
+  <button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['q_id']?>">戻る</button>
   
   <h3>結果</h3>
   <table class="table text-center">
@@ -85,6 +85,8 @@ try {
 </div>
 <script>
   $(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+    
     // 詳細に戻る
     $('#back').on('click', function() {
       $.post('detail.php',

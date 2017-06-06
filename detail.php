@@ -47,7 +47,7 @@ try {
 <?php include __DIR__.'/flash.php'; ?>
 <?php include __DIR__.'/contentHeader.php'; ?>
 <div class="container">
-  <button type="button" class="btn btn-default" id="back">Back</button>
+  <button type="button" class="btn btn-default" id="back">戻る</button>
   
   <!-- 質問 -->
   <table class="table">
@@ -73,8 +73,8 @@ try {
   </table>
   <?php if ($questionnaires['owner'] == $_SESSION['user_id']): ?>
   <button type="button" class="btn btn-success" id="result" data-id="<?=$_POST['q_id']?>">結果を見る</button>
-  <button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['q_id']?>">Edit</button>
-  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">Delete</button>
+  <button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['q_id']?>">編集</button>
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">削除</button>
   <?php else: ?>
   <form method="post" action="answer.php">
     <input type="hidden" name="q_id" value="<?=$_POST['q_id']?>">
@@ -108,9 +108,9 @@ try {
           この操作は取り消せません．
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" id="delete" data-id="<?=$_POST['q_id']?>">Delete</button>
-          <button type="button" class="btn btn-primary" id="close" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-danger" id="delete" data-id="<?=$_POST['q_id']?>">削除</button>
+          <button type="button" class="btn btn-primary" id="close" data-dismiss="modal">閉じる</button>
         </div>
       </div>
     </div>

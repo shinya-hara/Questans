@@ -1,8 +1,8 @@
 <div class="questionnaireMainHeader">
   <div class="container">
-    <div class="row">
+    <div class="row flex-center">
       <div class="col-sm-10">
-        <h2><?=$questionnaires['title']?></h2>
+        <h2 class="questoinnaireMainHeaderTitle"><?=$questionnaires['title']?></h2>
       </div>
       <div class="col-sm-2">
         <div class="text-center showHeaderAnswered">
