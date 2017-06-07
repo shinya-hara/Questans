@@ -77,22 +77,18 @@ try {
   <button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['q_id']?>">編集</button>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">削除</button>
   <?php else: ?>
-  <form method="post" action="answer.php">
-    <input type="hidden" name="q_id" value="<?=$_POST['q_id']?>">
-    <?php if ($rowCount > 0): ?>
-    <span data-toggle="tooltip" data-placement="right" title="回答済み">
-      <a class="btn btn-primary" disabled>このアンケートに回答する</a>
-    </span>
-    <?php elseif ($_SESSION['username'] == 'guest'): ?>
-    <!--<input type="button" class="btn btn-primary" value="このアンケートに回答する" disabled>-->
-    <span data-toggle="tooltip" data-placement="right" title="ゲストユーザでは回答できません">
-      <a class="btn btn-primary" disabled>このアンケートに回答する</a>
-    </span>
-    <?php else: ?>
-    <input type="submit" class="btn btn-primary" id="answer" value="このアンケートに回答する">
-    <input type="button" class="btn btn-primary" id="answer-ajax"  value="このアンケートに回答する (Ajax)" data-id="<?=$_POST['q_id']?>">
-    <?php endif; ?>
-  </form>
+  <input type="hidden" name="q_id" value="<?=$_POST['q_id']?>">
+  <?php if ($rowCount > 0): ?>
+  <span data-toggle="tooltip" data-placement="right" title="回答済み">
+    <a class="btn btn-primary" disabled>このアンケートに回答する</a>
+  </span>
+  <?php elseif ($_SESSION['username'] == 'guest'): ?>
+  <span data-toggle="tooltip" data-placement="right" title="ゲストユーザでは回答できません">
+    <a class="btn btn-primary" disabled>このアンケートに回答する</a>
+  </span>
+  <?php else: ?>
+  <input type="button" class="btn btn-primary" id="answer" value="このアンケートに回答する" data-id="<?=$_POST['q_id']?>">
+  <?php endif; ?>
   <?php endif; ?>
   
   <!-- Modal -->
@@ -123,7 +119,7 @@ try {
     $('[data-toggle="tooltip"]').tooltip();
     
     // 回答ページ
-    $('#answer-ajax').on('click', function() {
+    $('#answer').on('click', function() {
       $.post('ans.php',
       {
         'q_id': $(this).attr('data-id')
