@@ -60,7 +60,11 @@ try {
           <td class="td-num none"><?=$i+1?></td>
           <td class="text-left"><?=h($questions[$i]['question'])?></td>
           <?php for ($j = 0; $j < $cCount; $j++): ?>
-          <td><input type="radio" name="a<?=$i+1?>" value="<?=$choices[$j]['c_num']?>" required></td>
+            <?php if ($_POST['a'.($i+1)] == ($j+1)): ?>
+            <td><input type="radio" name="a<?=$i+1?>" value="<?=$choices[$j]['c_num']?>" checked required></td>
+            <?php else: ?>
+            <td><input type="radio" name="a<?=$i+1?>" value="<?=$choices[$j]['c_num']?>" required></td>
+            <?php endif; ?>
           <?php endfor; ?>
         </tr>
         <?php endfor; ?>
@@ -77,15 +81,15 @@ $(function() {
   $('[data-toggle="tooltip"]').tooltip();
   
   // 詳細に戻る
-    $('#back').on('click', function() {
-      $.post('detail.php',
-      {
-        'q_id': $(this).attr('data-id')
-      },
-      function(data) {
-        $('main').html(data);
-      });
+  $('#back').on('click', function() {
+    $.post('detail.php',
+    {
+      'q_id': $(this).attr('data-id')
+    },
+    function(data) {
+      $('main').html(data);
     });
+  });
   
   // 確認画面にAjaxで遷移
   $('form').submit(function(event){
@@ -111,7 +115,6 @@ $(function() {
   // ページから離れる際に確認
   var isChanged = true;  // フォームの状態を表すフラグ
   $(window).on('beforeunload', function() {
-    console.log(isChanged);
     if (isChanged) {
       return "このページを離れようとしています．";
     }

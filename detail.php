@@ -121,6 +121,7 @@ try {
   $(function() {
     $('[data-toggle="tooltip"]').tooltip();
     
+    // 回答ページ
     $('#answer-ajax').on('click', function() {
       $.post('ans.php',
       {

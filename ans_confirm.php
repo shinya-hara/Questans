@@ -44,7 +44,7 @@ try {
 <div class="container">
   <p>以下の内容で回答結果を送信します．よろしいですか？</p>
   <form method="post" action="ans_send.php" role="form" data-toggle="validator">
-    <button type="button" class="btn btn-default">修正</button>
+    <button type="button" class="btn btn-default" id="edit">修正</button>
     <input type="submit" class="btn btn-primary" id="submit" value="OK">
     <table class="table text-center">
       <thead>
@@ -81,6 +81,21 @@ try {
 $(function() {
   $('[data-toggle="tooltip"]').tooltip();
   
+  // 修正する（回答画面に戻る）
+  $('#edit').on('click', function() {
+    $.post('ans.php',
+    {
+      'q_id': <?=$_POST['q_id']?>,
+      <?php for ($i=1;$i<=(int)$_POST['q_cnt'];$i++) {
+        echo "'a".$i."':".$_POST['a'.$i].",";
+      } ?>
+    },
+    function(data) {
+      $('main').html(data);
+    });
+  });
+  
+  // 回答送信
   $('form').submit(function(event){
     event.preventDefault();
     var f = $(this);
@@ -104,7 +119,6 @@ $(function() {
   // ページから離れる際に確認
   var isChanged = true;  // フォームの状態を表すフラグ
   $(window).on('beforeunload', function() {
-    console.log(isChanged);
     if (isChanged) {
       return "このページを離れようとしています．";
     }
