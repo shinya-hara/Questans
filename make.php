@@ -44,10 +44,11 @@ $jsonCs = json_encode($choices);
           </div>
         </div>
         <div class="form-group">
-          <input id="submit" class="btn btn-primary btn-block" type="submit" value="<?=$_SESSION['update']==1 ? '更新' : '作成'?>">
+          <input id="submit" class="btn btn-primary btn-block" type="submit" value="<?=$_POST['update']==1 ? '更新' : '作成'?>">
         </div>
-        <input type="hidden" name="q_num" value='0'><!-- 質問数 -->
-        <input type="hidden" name="c_num" value='0'><!-- 選択肢数 -->
+        <input type="hidden" name="q_num" value="0"><!-- 質問数 -->
+        <input type="hidden" name="c_num" value="0"><!-- 選択肢数 -->
+        <input type="hidden" name="update" value="<?=isset($_POST['update'])?$_POST['update']:'0'?>"><!-- 更新を表すフラグ -->
       </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -175,8 +176,8 @@ $jsonCs = json_encode($choices);
       // confirm.phpから「修正」を選択して遷移してきた場合
       if (/confirm\.php$/.test(document.referrer)) {
         // json形式の質問をパースし格納
-        var question = JSON.parse('<?=$jsonQs?>');
-        var choice = JSON.parse('<?=$jsonCs?>');
+        var question = $.parseJSON('<?=$jsonQs?>'.replace(/(\r\n)/g, '\\n'));
+        var choice = $.parseJSON('<?=$jsonCs?>'.replace(/(\r\n)/g, '\\n'));
         // 前回のフォームの内容を再現
         $('#title').val("<?=$_SESSION['title']?>");
         for (var i = 0, len = question.length; i < len; i++) {

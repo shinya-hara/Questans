@@ -2,6 +2,7 @@
 require_once __DIR__.'/db_info.php';
 require_once __DIR__.'/functions.php';
 require_logined_session();
+$_SESSION['update'] = 0;        // アンケートの編集を表すフラグ
 $_SESSION['from'] = "userpage"; // 遷移元を表す変数
 $_SESSION['prev_req_user_id'] = $_POST['req_user_id']; // 呼び出されたユーザID
 try {

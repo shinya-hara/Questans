@@ -2,6 +2,7 @@
 require_once __DIR__.'/db_info.php';
 require_once __DIR__.'/functions.php';
 require_logined_session();
+$_SESSION['update'] = 0;
 try {
   $dbh = new PDO($dsn, $user, $password,
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

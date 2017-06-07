@@ -60,11 +60,12 @@ function validate_token($token)
 }
 /**
 * htmlspecialcharsのラッパー関数
+* nl2br()関数を用いて改行は許可
 *
 * @param string $str
 * @return string
 */
 function h($str)
 {
-  return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+  return nl2br(htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
 }

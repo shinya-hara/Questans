@@ -130,7 +130,7 @@ try {
       }
       // OKボタンを押した時の処理
       $('#insert').on('click', function() {
-        if (/management\.php$/.test(document.referrer) || '<?=$_SESSION['update']?>' > 0) {
+        if (/management\.php$/.test(document.referrer) || '<?=$_POST['update']?>' > 0) {
           $('#flash-wrap').load('update.php', callback);
         } else if (/make\.php$/.test(document.referrer)) {
           $('#flash-wrap').load('insert.php', callback);

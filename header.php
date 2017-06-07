@@ -13,7 +13,7 @@
           <li><a href="/logout.php?token=<?=h(generate_token())?>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> ログアウト</a></li>
         </ul>
       </div>
-      <a href="make.php"><button class="btn btn-primary pull-right" <?=$_SESSION['username']=='guest'?'disabled':''?>><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a>
+      <a href="make.php"><button id="make-questionnaire" class="btn btn-primary pull-right" <?=$_SESSION['username']=='guest'?'disabled':''?>><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a>
     </div>
   </div>
 </header>

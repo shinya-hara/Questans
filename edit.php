@@ -42,7 +42,7 @@ try {
 }
 ?>
 <div class="container">
-  <button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['q_id']?>">Back</button>
+  <button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['q_id']?>">戻る</button>
   <h3>編集</h3>
   <form method="post" action="confirm.php" data-toggle="validator" role="form">
     <div class="form-group has-feedback">
@@ -64,6 +64,7 @@ try {
     </div>
     <input type="hidden" name="q_num" value='0'><!-- 質問数 -->
     <input type="hidden" name="c_num" value='0'><!-- 選択肢数 -->
+    <input type="hidden" name="update" value='1'><!-- 更新を示すフラグ -->
   </form>
 </div>
 <script>
@@ -178,8 +179,8 @@ try {
       });
     
     // json形式の質問をパースし格納
-    var question = JSON.parse('<?=$jsonQs?>');
-    var choice = JSON.parse('<?=$jsonCs?>');
+    var question = $.parseJSON('<?=$jsonQs?>'.replace(/(\r\n)/g, '\\n'));
+    var choice = $.parseJSON('<?=$jsonCs?>'.replace(/(\r\n)/g, '\\n'));
     // 前回のフォームの内容を再現
     $('#title').val("<?=$questionnaires['title']?>");
     for (var i = 0, len = question.length; i < len; i++) {
