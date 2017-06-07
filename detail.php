@@ -89,6 +89,7 @@ try {
     </span>
     <?php else: ?>
     <input type="submit" class="btn btn-primary" id="answer" value="このアンケートに回答する">
+    <input type="button" class="btn btn-primary" id="answer-ajax"  value="このアンケートに回答する (Ajax)" data-id="<?=$_POST['q_id']?>">
     <?php endif; ?>
   </form>
   <?php endif; ?>
@@ -119,6 +120,16 @@ try {
 <script>
   $(function() {
     $('[data-toggle="tooltip"]').tooltip();
+    
+    $('#answer-ajax').on('click', function() {
+      $.post('ans.php',
+      {
+        'q_id': $(this).attr('data-id')
+      },
+      function(data) {
+        $('main').html(data);
+      });
+    });
     
     // 一覧に戻る
     $('#back').on('click', function() {
