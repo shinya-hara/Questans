@@ -53,10 +53,10 @@ try {
     </div>
     <div class="row">
       <div class="col-sm-6">
-        <input type="button" value="Add new question" class="btn btn-info center-block" id="addQBtn">
+        <input type="button" value="質問を追加" class="btn btn-info center-block" id="addQBtn">
       </div>
       <div class="col-sm-6">
-        <input type="button" value="Add new choice" class="btn btn-info center-block" id="addCBtn">
+        <input type="button" value="選択肢を追加" class="btn btn-info center-block" id="addCBtn">
       </div>
     </div>
     <div class="form-group">
