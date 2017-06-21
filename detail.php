@@ -24,11 +24,13 @@ try {
     $stmt->execute();
     $choices = $stmt->fetchAll();
     // このアンケートに回答済みかチェック
-    $stmt = $dbh->prepare("select count(*) from answers where q_id = ? and user_id = ? limit 1");
+    $stmt = $dbh->prepare("select * from answers where q_id = ? and user_id = ? limit 1");
     $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
     $stmt->bindValue(2, (int)$_SESSION['user_id'], PDO::PARAM_INT);
     $stmt->execute();
-    $rowCount = $stmt->fetchColumn(); // 回答済みなら1, 未回答なら0
+    $answered = $stmt->fetchAll();
+    $rowCount = count($answered);   // 回答済みなら1, 未回答なら0
+    // $rowCount = $stmt->fetchColumn(); // 回答済みなら1, 未回答なら0
     // アンケートの回答数をカウント
     $stmt = $dbh->prepare("select count(*) from answers where q_id = ?");
     $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
@@ -79,8 +81,9 @@ try {
   <?php else: ?>
   <input type="hidden" name="q_id" value="<?=$_POST['q_id']?>">
   <?php if ($rowCount > 0): ?>
-  <span data-toggle="tooltip" data-placement="right" title="回答済み">
-    <a class="btn btn-primary" disabled>このアンケートに回答する</a>
+  <span data-toggle="tooltip" data-placement="right" title="<?=$answered[0]['answered']?> に回答済み">
+    <!--<a class="btn btn-primary" disabled>このアンケートに回答する</a>-->
+    <input type="button" class="btn btn-primary" id="answer" value="このアンケートに再回答する" data-id="<?=$_POST['q_id']?>">
   </span>
   <?php elseif ($_SESSION['username'] == 'guest'): ?>
   <span data-toggle="tooltip" data-placement="right" title="ゲストユーザでは回答できません">

@@ -106,11 +106,11 @@ $(function() {
       timeout: 10000,
       dataType: 'text'
     })
-    .done(function( data ) {
+    .done(function(data) {
       // 通信が成功したときの処理
       $('main').html(data);
     })
-    .fail(function( data ) {
+    .fail(function(data) {
       // 通信が失敗したときの処理
       alert('通信に失敗しました．');
     })

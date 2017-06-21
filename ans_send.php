@@ -25,34 +25,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $stmt->bindValue(2, (int)$_SESSION['user_id'], PDO::PARAM_INT);
       $stmt->execute();
       $rowCount = $stmt->fetchColumn();
-      if ($rowCount == 0) {
-        // 回答情報の格納
-        $stmt = $dbh->prepare("insert into answers (q_id,user_id,answered) values (?, ?, ?)");
+      if ($rowCount != 0) {   // 再回答の場合
+        // 既に格納されている回答結果を削除する
+        $stmt = $dbh->prepare("delete from answers where q_id = ? and user_id = ?");
         $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
-        $stmt->bindValue(2, $_SESSION['user_id']);
-        date_default_timezone_set('Asia/Tokyo');  // タイムゾーンの設定
-        $stmt->bindValue(3, date("Y-m-d H:i:s", time()));   // 現在時刻を取得
+        $stmt->bindValue(2, (int)$_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->execute();
-        $id = $dbh->lastInsertId();   // 最後に追加したレコードのID
-        
-        // 回答詳細の格納
-        $stmt = $dbh->prepare("insert into ans_detail (ans_id,q_num,answer) values (?, ?, ?)");
-        $stmt->bindValue(1, $id, PDO::PARAM_INT);
-        for ($i = 1; $i <= $_POST['q_cnt']; $i++) {
-          $stmt->bindValue(2, $i, PDO::PARAM_INT);
-          $stmt->bindValue(3, $_POST['a'.$i], PDO::PARAM_INT);
-          $stmt->execute();
-        }
-        $dbh->commit();
-        
+      }
+      // 回答情報の格納
+      $stmt = $dbh->prepare("insert into answers (q_id,user_id,answered) values (?, ?, ?)");
+      $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
+      $stmt->bindValue(2, $_SESSION['user_id']);
+      date_default_timezone_set('Asia/Tokyo');  // タイムゾーンの設定
+      $stmt->bindValue(3, date("Y-m-d H:i:s", time()));   // 現在時刻を取得
+      $stmt->execute();
+      $id = $dbh->lastInsertId();   // 最後に追加したレコードのID
+      
+      // 回答詳細の格納
+      $stmt = $dbh->prepare("insert into ans_detail (ans_id,q_num,answer) values (?, ?, ?)");
+      $stmt->bindValue(1, $id, PDO::PARAM_INT);
+      for ($i = 1; $i <= $_POST['q_cnt']; $i++) {
+        $stmt->bindValue(2, $i, PDO::PARAM_INT);
+        $stmt->bindValue(3, $_POST['a'.$i], PDO::PARAM_INT);
+        $stmt->execute();
+      }
+      if ($rowCount == 0) {   // 新規回答の場合
         $_SESSION['status'] = "success";
         $_SESSION['flash_msg'] = "ありがとうございます.<br>回答結果を送信しました．";
         $_SESSION['flash_flag'] = true;
-      } else {
-        $_SESSION['status'] = "danger";
-        $_SESSION['flash_msg'] = "あなたは既にこのアンケートに回答済みです．";
+      } else {                // 再回答の場合
+        $_SESSION['status'] = "success";
+        $_SESSION['flash_msg'] = "ありがとうございます.<br>回答内容を更新しました．";
         $_SESSION['flash_flag'] = true;
       }
+      $dbh->commit();   // コミット
     } catch (PDOException $e) {
       $_SESSION['status'] = "danger";
       $_SESSION['flash_msg'] = "回答結果の送信に失敗しました．";
