@@ -17,6 +17,14 @@ try {
     while ($row = $owners -> fetch()) {
       $users[$row['user_id']] = $row['user_name'];
     }
+    // 各アンケートに回答済みかチェック
+    $stmt = $dbh->prepare("select * from answers where user_id = ?");
+    $stmt->bindValue(1, (int)$_SESSION['user_id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $answered = $stmt->fetchAll();
+    foreach ($answered as $row) {
+      $answered_flg[$row['q_id']] = true;
+    }
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "アンケート一覧の取得に失敗しました．";
