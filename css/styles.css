@@ -87,8 +87,21 @@ header>div.container>div.buttons button {
 }
 
 /* アンケート一覧 */
+.table thead>tr>th.td-num,
+.table tbody>tr>td.td-num {
+  width: 50px;
+}
+
+.table thead>tr>th.datetime {
+  max-width: 12em;
+}
+
 .table tbody>tr>td {
   vertical-align: middle;
+}
+
+.table tbody>tr>td.answered-status {
+  padding: 8px 0;
 }
 
 .table.list-table tbody>tr>td {
@@ -105,7 +118,5 @@ header>div.container>div.buttons button {
   text-decoration: underline;
 }
 
-.table thead>tr>th.td-num,
-.table tbody>tr>td.td-num {
-  width: 50px;
-}
+
+
