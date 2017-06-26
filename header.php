@@ -8,12 +8,13 @@
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <li><a href="management.php"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> マイページ</a></li>
+          <li><a href="/management.php"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> マイページ</a></li>
+          <li><a href="/settings/nickname.php"><span class="glyphicon glyphicon glyphicon-wrench" aria-hidden="true"></span> 設定</a></li>
           <li role="separator" class="divider"></li>
           <li><a href="/logout.php?token=<?=h(generate_token())?>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> ログアウト</a></li>
         </ul>
       </div>
-      <a href="make.php"><button id="make-questionnaire" class="btn btn-primary pull-right" <?=$_SESSION['username']=='guest'?'disabled':''?>><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a>
+      <a href="/make.php"><button id="make-questionnaire" class="btn btn-primary pull-right" <?=$_SESSION['username']=='guest'?'disabled':''?>><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a>
     </div>
   </div>
 </header>
