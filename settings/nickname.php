@@ -8,7 +8,9 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    
+    $stmt = $dbh->prepare("SELECT nickname FROM users WHERE user_id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $nickname = $stmt->fetch();
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "タイトルの取得に失敗しました．";
@@ -52,19 +54,19 @@ try {
               <h3 class="panel-title">ニックネーム変更</h3>
             </div>
             <div class="panel-body">
-              <form>
+              <!--<form>-->
               	<div class="form-group">
               		<label class="control-label" for="old-nickname">現在のニックネーム（表示名）</label>
-              		<p class="form-control-static">nickname</p>
+              		<p class="form-control-static"><?= ($nickname['nickname']===null) ? '（未設定）' : h($nickname['nickname']) ?></p>
               	</div>
               	<div class="form-group">
-              		<label class="control-label" for="nickname">新しいニックネーム（表示名）</label>
-            			<input type="text" class="form-control" id="nickname">
+              		<label class="control-label" for="new-nickname">新しいニックネーム（表示名）</label>
+            			<input type="text" class="form-control" id="new-nickname">
               	</div>
               	<div class="form-group">
-            			<button type="submit" class="btn btn-success">変更を保存する</button>
+            			<button type="button" id="nickname-update" class="btn btn-success">変更を保存する</button>
               	</div>
-              </form>
+              <!--</form>-->
             </div>
           </div>
         </div>
@@ -74,7 +76,16 @@ try {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
     $(function(){
-      
+      $('#nickname-update').on('click', function() {
+        console.log('updated');
+        $.post('nickname_update.php',
+        {
+          'new-nickname': $('#new-nickname').val()
+        },
+        function() {
+          window.location.href = "/management.php";
+        });
+      });
     });
     </script>
   </body>
