@@ -43,8 +43,8 @@ try {
               <h3 class="panel-title">設定項目</h3>
             </div>
             <div class="list-group">
-              <a href="" class="list-group-item list-group-item-info"><strong>表示名</strong></a>
-              <a href="password.php" class="list-group-item">パスワード</a>
+              <a href="" class="list-group-item list-group-item-info"><i class="fa fa-user fa-fw" aria-hidden="true"></i> <strong>表示名</strong></a>
+              <a href="password.php" class="list-group-item"><i class="fa fa-key fa-fw" aria-hidden="true"></i> パスワード</a>
             </div>
           </div>
         </div>
@@ -74,6 +74,7 @@ try {
     </div><!-- /container -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/5bf7a4a25c.js"></script>
     <script>
     $(function(){
       $('[data-toggle="tooltip"]').tooltip();

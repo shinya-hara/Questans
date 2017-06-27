@@ -44,6 +44,10 @@ header>div.container>div.buttons {
   margin: 7px 0;
 }
 
+header>div.container>div.buttons>.btn-group>.btn:first-child {
+  margin-left: 10px;
+}
+
 header>div.container>div.buttons button {
   margin-left: 10px;
 }
