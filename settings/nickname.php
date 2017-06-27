@@ -65,7 +65,7 @@ try {
           			<p class="help-block">新しい表示名を空欄で保存した場合，表示名は未設定になります．</p>
             	</div>
             	<div class="form-group">
-          			<button type="button" id="nickname-update" class="btn btn-success">変更を保存する</button>
+          			<button type="button" id="nickname-update" class="btn btn-success" data-loading-text="保存中...">変更を保存する</button>
             	</div>
             </div>
           </div>
@@ -77,9 +77,8 @@ try {
     <script src="https://use.fontawesome.com/5bf7a4a25c.js"></script>
     <script>
     $(function(){
-      $('[data-toggle="tooltip"]').tooltip();
       $('#nickname-update').on('click', function() {
-        console.log('updated');
+        var $btn = $(this).button('loading');
         $.post('nickname_update.php',
         {
           'new-nickname': $('#new-nickname').val()
@@ -88,6 +87,7 @@ try {
           if (data === "") {
             window.location.href = "/management.php";
           } else {
+            $btn.button('reset');
             $('#msg').html(data);
           }
         });

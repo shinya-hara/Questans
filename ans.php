@@ -82,6 +82,7 @@ $(function() {
   
   // 詳細に戻る
   $('#back').on('click', function() {
+    isChanged = false;
     $.post('detail.php',
     {
       'q_id': $(this).attr('data-id')

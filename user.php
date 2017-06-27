@@ -15,10 +15,10 @@ try {
     $stmt->execute();
     $questionnaires = $stmt->fetchAll();
     $rowCount = count($questionnaires);   // ユーザの作成したアンケート数
-    $owners = $dbh->query("select user_id,user_name,nickname from users,questionnaires where owner = user_id");
-    // キーがユーザID、値がユーザ名の連想配列を作る
+    $user_info = $dbh->query("select user_id,user_name,nickname from users");
+    // key: ユーザID, value: { ユーザ名, 表示名 } となる連想配列の連想配列を作る
     $users[$_SESSION['user_id']] = $_SESSION['username'];
-    while ($row = $owners -> fetch()) {
+    while ($row = $user_info -> fetch()) {
       $tmp['user_name'] = $row['user_name'];
       $tmp['nickname'] = $row['nickname'];
       $users[$row['user_id']] = $tmp;
@@ -37,7 +37,6 @@ try {
 
 <?php include __DIR__.'/flash.php'; ?>
 <div class="container">
-  <!--<h2><?=($users[$_POST['req_user_id']]['nickname'] !== null) ? h($users[$_POST['req_user_id']]['nickname']) : h($users[$_POST['req_user_id']]['user_name'])?></h2>-->
   <?php if ($users[$_POST['req_user_id']]['nickname'] !== null): ?>
     <h2><?=h($users[$_POST['req_user_id']]['nickname'])?><small>@<?=h($users[$_POST['req_user_id']]['user_name'])?></small></h2>
   <?php else: ?>

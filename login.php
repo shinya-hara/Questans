@@ -102,7 +102,6 @@ header('Content-Type: text/html; charset=UTF-8');
           </form>
         </div>
       </div>
-      <p class="text-center">ユーザ名：user パスワード：user でテストユーザとしてログイン可能</p>
       <?php if (http_response_code() === 403): ?>
         <!--<p style="color: red;">ユーザ名またはパスワードが違います</p>-->
       <?php endif; ?>
@@ -120,7 +119,7 @@ header('Content-Type: text/html; charset=UTF-8');
               'token': '<?=h(generate_token())?>'
             },
             function(data) {
-              window.location.href = "management.php";
+              window.location.href = "/management.php";
             }
           )
         });
