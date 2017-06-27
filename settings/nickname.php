@@ -43,7 +43,7 @@ try {
               <h3 class="panel-title">設定項目</h3>
             </div>
             <div class="list-group">
-              <a href="" class="list-group-item list-group-item-info"><strong>ニックネーム</strong></a>
+              <a href="" class="list-group-item list-group-item-info"><strong>表示名</strong></a>
               <a href="password.php" class="list-group-item">パスワード</a>
             </div>
           </div>
@@ -51,22 +51,22 @@ try {
         <div class="col-sm-8">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">ニックネーム変更</h3>
+              <h3 class="panel-title">表示名変更</h3>
             </div>
             <div class="panel-body">
-              <!--<form>-->
-              	<div class="form-group">
-              		<label class="control-label" for="old-nickname">現在のニックネーム（表示名）</label>
-              		<p class="form-control-static"><?= ($nickname['nickname']===null) ? '（未設定）' : h($nickname['nickname']) ?></p>
-              	</div>
-              	<div class="form-group">
-              		<label class="control-label" for="new-nickname">新しいニックネーム（表示名）</label>
-            			<input type="text" class="form-control" id="new-nickname">
-              	</div>
-              	<div class="form-group">
-            			<button type="button" id="nickname-update" class="btn btn-success">変更を保存する</button>
-              	</div>
-              <!--</form>-->
+              <div id="msg"></div>
+            	<div class="form-group">
+            		<label class="control-label" for="old-nickname">現在の表示名</label>
+            		<p class="form-control-static"><?= ($nickname['nickname']===null) ? '（未設定）' : h($nickname['nickname']) ?></p>
+            	</div>
+            	<div class="form-group">
+            		<label class="control-label" for="new-nickname">新しい表示名</label>
+          			<input type="text" class="form-control" id="new-nickname" maxlength="20" placeholder="20文字まで">
+          			<p class="help-block">新しい表示名を空欄で保存した場合，表示名は未設定になります．</p>
+            	</div>
+            	<div class="form-group">
+          			<button type="button" id="nickname-update" class="btn btn-success">変更を保存する</button>
+            	</div>
             </div>
           </div>
         </div>
@@ -76,14 +76,19 @@ try {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
     $(function(){
+      $('[data-toggle="tooltip"]').tooltip();
       $('#nickname-update').on('click', function() {
         console.log('updated');
         $.post('nickname_update.php',
         {
           'new-nickname': $('#new-nickname').val()
         },
-        function() {
-          window.location.href = "/management.php";
+        function(data) {
+          if (data === "") {
+            window.location.href = "/management.php";
+          } else {
+            $('#msg').html(data);
+          }
         });
       });
     });

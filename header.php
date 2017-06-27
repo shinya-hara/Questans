@@ -1,6 +1,6 @@
 <header>
   <div class="container clearfix">
-    <h1 class="pull-left"><a href="management.php">アンケートシステム</a></h1>
+    <h1 class="pull-left"><a href="/management.php">アンケートシステム</a></h1>
     <div class="buttons">
       <div class="dropdown pull-right">
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

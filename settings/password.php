@@ -41,7 +41,7 @@ try {
               <h3 class="panel-title">設定項目</h3>
             </div>
             <div class="list-group">
-              <a href="nickname.php" class="list-group-item">ニックネーム</a>
+              <a href="nickname.php" class="list-group-item">表示名</a>
               <a href="" class="list-group-item list-group-item-info"><strong>パスワード</strong></a>
             </div>
           </div>

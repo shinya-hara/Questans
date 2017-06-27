@@ -15,11 +15,13 @@ try {
     $stmt->execute();
     $questionnaires = $stmt->fetchAll();
     $rowCount = count($questionnaires);   // ユーザの作成したアンケート数
-    $owners = $dbh->query("select user_id,user_name from users,questionnaires where owner = user_id");
+    $owners = $dbh->query("select user_id,user_name,nickname from users,questionnaires where owner = user_id");
     // キーがユーザID、値がユーザ名の連想配列を作る
     $users[$_SESSION['user_id']] = $_SESSION['username'];
     while ($row = $owners -> fetch()) {
-      $users[$row['user_id']] = $row['user_name'];
+      $tmp['user_name'] = $row['user_name'];
+      $tmp['nickname'] = $row['nickname'];
+      $users[$row['user_id']] = $tmp;
     }
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
@@ -35,7 +37,12 @@ try {
 
 <?php include __DIR__.'/flash.php'; ?>
 <div class="container">
-  <h2><?=$users[$_POST['req_user_id']]?></h2>
+  <!--<h2><?=($users[$_POST['req_user_id']]['nickname'] !== null) ? h($users[$_POST['req_user_id']]['nickname']) : h($users[$_POST['req_user_id']]['user_name'])?></h2>-->
+  <?php if ($users[$_POST['req_user_id']]['nickname'] !== null): ?>
+    <h2><?=h($users[$_POST['req_user_id']]['nickname'])?><small>@<?=h($users[$_POST['req_user_id']]['user_name'])?></small></h2>
+  <?php else: ?>
+    <h2><?=h($users[$_POST['req_user_id']]['user_name'])?></h2>
+  <?php endif; ?>
   <?php if ($rowCount > 0):
     include __DIR__.'/list_table.php'; ?>
   <?php elseif ($_SESSION['username'] == 'guest'): ?>

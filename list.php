@@ -12,10 +12,12 @@ try {
     $questionnaires = $dbh->query("select q_id,title,created,updated,owner from questionnaires order by created desc");
     $stmt = $dbh->query("select count(*) from questionnaires");
     $rowCount = $stmt->fetchColumn();   // 公開アンケート数
-    $owners = $dbh->query("select user_id,user_name from users,questionnaires where owner = user_id");
+    $owners = $dbh->query("select user_id,user_name,nickname from users,questionnaires where owner = user_id");
     // キーがユーザID、値がユーザ名の連想配列を作る
     while ($row = $owners -> fetch()) {
-      $users[$row['user_id']] = $row['user_name'];
+      $tmp['user_name'] = $row['user_name'];
+      $tmp['nickname'] = $row['nickname'];
+      $users[$row['user_id']] = $tmp;
     }
     // 各アンケートに回答済みかチェック
     $stmt = $dbh->prepare("select * from answers where user_id = ?");
@@ -48,6 +50,7 @@ try {
     <h3>まだ公開されているアンケートがありません．<br>最初のアンケートを作成しましょう！</h3>
     <a href="make.php"><button class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> アンケート作成</button></a><br><br>
   <?php endif; ?>
+  <button type="button" class="btn btn-default" id="mypage">マイページ</button>
 </div>
 <script>
   $(function() {
@@ -56,6 +59,16 @@ try {
       $.post('detail.php',
       {
         'q_id': $(this).parent().attr('data-id')
+      },
+      function(data) {
+        $('main').html(data);
+      });
+    });
+    // マイページ
+    $('#mypage').on('click', function() {
+      $.post('user.php',
+      {
+        'req_user_id': <?=$_SESSION['user_id']?>
       },
       function(data) {
         $('main').html(data);
