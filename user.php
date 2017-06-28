@@ -38,7 +38,7 @@ try {
 <?php include __DIR__.'/flash.php'; ?>
 <div class="container">
   <?php if ($users[$_POST['req_user_id']]['nickname'] !== null): ?>
-    <h2><?=h($users[$_POST['req_user_id']]['nickname'])?><small>@<?=h($users[$_POST['req_user_id']]['user_name'])?></small></h2>
+    <h2><?=h($users[$_POST['req_user_id']]['nickname'])?> <small>@<?=h($users[$_POST['req_user_id']]['user_name'])?></small></h2>
   <?php else: ?>
     <h2><?=h($users[$_POST['req_user_id']]['user_name'])?></h2>
   <?php endif; ?>

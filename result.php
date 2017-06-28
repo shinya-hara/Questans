@@ -126,7 +126,9 @@ try {
     Highcharts.setOptions({
       // colors: ['#ff7f7f', '#ffbf7f', '#7fff7f', '#7fffff', '#bf7fff']
       // colors: ['#ff3300', '#ffff66', '#66ff66', '#99ccff', '#cc99ff']
-      colors: ['#247BA0', '#6EA4BF', '#C2EFEB', '#3E517A', '#120D31']
+      // colors: ['#247BA0', '#6EA4BF', '#C2EFEB', '#3E517A', '#120D31']
+      // colors: ['#e4c4db', '#71b174', '#b2b6db', '#b4cb32', '#44aeea']
+      colors: ['#4eacb8', '#b9b327', '#147472', '#b80040', '#1d518b']
     });
     Highcharts.chart('chart', {
       chart: {

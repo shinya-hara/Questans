@@ -26,6 +26,7 @@ $jsonCs = json_encode($choices);
   </head>
   <body>
     <?php include __DIR__.'/header.php'; ?>
+    <?php include __DIR__.'/guest_alert.php'; ?>
     <div class="container">
       <h2>作成</h2>
       <form method="post" action="confirm.php" data-toggle="validator" role="form">

@@ -34,6 +34,7 @@ try {
   </head>
   <body>
     <?php include __DIR__.'/../header.php'; ?>
+    <?php include __DIR__.'/../guest_alert.php'; ?>
     <div class="container">
       <?php include __DIR__.'/../flash.php'; ?>
       <div class="row">
@@ -61,11 +62,11 @@ try {
             	</div>
             	<div class="form-group">
             		<label class="control-label" for="new-nickname">新しい表示名</label>
-          			<input type="text" class="form-control" id="new-nickname" maxlength="20" placeholder="20文字まで">
+          			<input type="text" class="form-control" id="new-nickname" maxlength="20" placeholder="20文字まで" <?=($_SESSION['username']==='guest')?'disabled':'required'?>>
           			<p class="help-block">新しい表示名を空欄で保存した場合，表示名は未設定になります．</p>
             	</div>
             	<div class="form-group">
-          			<button type="button" id="nickname-update" class="btn btn-success" data-loading-text="保存中...">変更を保存する</button>
+          			<button type="button" id="nickname-update" class="btn btn-success" data-loading-text="保存中..." <?=($_SESSION['username']==='guest')?'disabled':''?>>変更を保存する</button>
             	</div>
             </div>
           </div>

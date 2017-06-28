@@ -74,10 +74,14 @@ try {
     <title>確認 | アンケートシステム</title>
   </head>
   <body>
-    <div id="flash-wrap"><?php include __DIR__.'/header.php'; ?></div>
+    <?php include __DIR__.'/header.php'; ?>
+    <?php include __DIR__.'/guest_alert.php'; ?>
+    <div id="flash-wrap" class="container"></div>
     <div class="container">
       <h2>確認</h2>
-      <?php include __DIR__.'/flash.php'; ?>
+    </div>
+    <?php include __DIR__.'/flash.php'; ?>
+    <div class="container">
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
       <a href="make.php"><button type="button" id="edit" class="btn btn-default">修正</button></a>
       <button type="button" id="insert" class="btn btn-primary">OK</button>
@@ -123,7 +127,7 @@ try {
       // OKボタンを押した時のコールバック関数
       var callback = function(data) {
         if (data === "") {  // 作成成功時はリダイレクト
-          window.location.href = "management.php";
+          window.location.href = "/management.php";
         } else {
           $('#insert').prop('disabled', true);
         }
@@ -136,7 +140,7 @@ try {
           $('#flash-wrap').load('insert.php', callback);
         } else {
           alert("不正なアクセスです．");
-          window.location.href = "management.php";
+          window.location.href = "/management.php";
         }
       });
       

@@ -32,6 +32,7 @@ try {
   </head>
   <body>
     <?php include __DIR__.'/../header.php'; ?>
+    <?php include __DIR__.'/../guest_alert.php'; ?>
     <div class="container">
       <?php include __DIR__.'/../flash.php'; ?>
       <div class="row">
@@ -56,20 +57,20 @@ try {
               <form>
               	<div class="form-group">
               		<label class="control-label" for="old-password">現在のパスワード</label>
-            			<input type="password" class="form-control" name="old-password" required>
+            			<input type="password" class="form-control" name="old-password" <?=($_SESSION['username']==='guest')?'disabled':'required'?>>
               	</div>
               	<div class="form-group">
               		<label class="control-label" for="new-password">新しいパスワード</label>
-              		<input type="password" class="form-control" name="new-password" placeholder="4文字以上" required>
+              		<input type="password" class="form-control" name="new-password" placeholder="4文字以上" <?=($_SESSION['username']==='guest')?'disabled':'required'?>>
               		<p class="help-block">半角英数字のみ使用できます．</p>
               	</div>
               	<div class="form-group">
               		<label class="control-label" for="check-password">新しいパスワード（確認）</label>
-              		<input type="password" class="form-control" name="check-password" required>
+              		<input type="password" class="form-control" name="check-password" <?=($_SESSION['username']==='guest')?'disabled':'required'?>>
               	</div>
               	<input type="hidden" name="token" value="<?=h(generate_token())?>">
               	<div class="form-group">
-            			<button type="submit" class="btn btn-success" id="password-update" data-loading-text="保存中...">変更を保存する</button>
+            			<button type="submit" class="btn btn-success" id="password-update" data-loading-text="保存中..." <?=($_SESSION['username']==='guest')?'disabled':''?>>変更を保存する</button>
               	</div>
               </form>
             </div>

@@ -6,8 +6,6 @@
       </div>
       <div class="col-sm-2">
         <div class="text-center showHeaderAnswered">
-          <!--<span class="showHeaderAnsweredText">回答数</span>-->
-          <!--<span class="showHeaderAnsweredCount">12</span>-->
           <div class="text-center showHeaderAnsweredCount"><?=$answeredCount?></div>
           <div class="text-center showHeaderAnsweredText">回答数</div>
         </div>

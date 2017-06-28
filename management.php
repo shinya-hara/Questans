@@ -14,15 +14,7 @@ require_logined_session();
   </head>
   <body>
     <?php include __DIR__.'/header.php'; ?>
-    <div class="container">
-      
-      <?php if ($_SESSION['username'] == 'guest'): ?>
-      <div class="alert alert-warning">
-        ゲストユーザでログインしています.<br>
-        アンケート内容の確認はできますが，アンケートの作成および回答ができません.
-      </div>
-      <?php endif; ?>
-    </div>
+    <?php include __DIR__.'/guest_alert.php'; ?>
     <main>
       <div class="container">
         読み込み中...
