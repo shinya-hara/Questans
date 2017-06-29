@@ -122,5 +122,8 @@ header>div.container>div.buttons button {
   text-decoration: underline;
 }
 
-
-
+/* 回答画面 */
+/* 回答テーブルの3列目以降のカーソルをポインターに変更 */
+.ans-table>tbody>tr>td:nth-child(n+3) {
+  cursor: pointer;
+}

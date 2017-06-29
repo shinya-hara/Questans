@@ -44,7 +44,7 @@ try {
 <div class="container">
   <button type="button" class="btn btn-default" id="back" data-id="<?=(int)$_POST['q_id']?>">戻る</button>
   <form method="post" action="ans_confirm.php" role="form" data-toggle="validator">
-    <table class="table text-center">
+    <table class="table ans-table text-center">
       <thead>
         <tr>
           <th class="text-center td-num none">番号</th>
@@ -61,9 +61,9 @@ try {
           <td class="text-left"><?=h($questions[$i]['question'])?></td>
           <?php for ($j = 0; $j < $cCount; $j++): ?>
             <?php if ($_POST['a'.($i+1)] == ($j+1)): ?>
-            <td><input type="radio" name="a<?=$i+1?>" value="<?=$choices[$j]['c_num']?>" checked required></td>
+            <td><input type="radio" name="a<?=$i+1?>" value="<?=$choices[$j]['c_num']?>" id="q<?=$i+1?>c<?=$j+1?>" checked required></td>
             <?php else: ?>
-            <td><input type="radio" name="a<?=$i+1?>" value="<?=$choices[$j]['c_num']?>" required></td>
+            <td><input type="radio" name="a<?=$i+1?>" value="<?=$choices[$j]['c_num']?>" id="q<?=$i+1?>c<?=$j+1?>" required></td>
             <?php endif; ?>
           <?php endfor; ?>
         </tr>
@@ -123,6 +123,14 @@ $(function() {
   $('#submit').on('click', function() {
     // ボタンを押した際にフラグを落とす
     isChanged = false;
+  });
+  
+  // ラジオボタンの挙動を変更
+  $('input[type="radio"]').on('click', function(e) {
+    e.stopPropagation();
+  });
+  $('input[type="radio"]').parent('td').on('click', function() {
+    $(this).children('input[type="radio"]').trigger('click');
   });
 });
 </script>
