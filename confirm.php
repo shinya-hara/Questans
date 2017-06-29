@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__.'/functions.php';
 require_logined_session();
-
+echo '<h1>update = '.$_POST['update'].'</h1>';
 // アンケートタイトルをセッション変数に格納
 if (isset($_POST['title'])) {
   $_SESSION['title'] = trim_emspace($_POST['title']);
@@ -83,8 +83,12 @@ try {
     <?php include __DIR__.'/flash.php'; ?>
     <div class="container">
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
-      <a href="make.php"><button type="button" id="edit" class="btn btn-default">修正</button></a>
-      <button type="button" id="insert" class="btn btn-primary">OK</button>
+      <form action="/make.php" method="POST" class="form-inline">
+        <button type="submit" id="edit" class="btn btn-default">修正</button>
+        <button type="button" id="insert" class="btn btn-primary">OK</button>
+        <input type="hidden" name="update" value="<?=(isset($_POST['update']))?$_POST['update']:0?>">
+      </form>
+      
       <hr>
       <h3><?= $_SESSION['title'] ?></h3>
       <div class="table-responsive">

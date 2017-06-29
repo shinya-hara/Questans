@@ -49,7 +49,7 @@ $jsonCs = json_encode($choices);
         </div>
         <input type="hidden" name="q_num" value="0"><!-- 質問数 -->
         <input type="hidden" name="c_num" value="0"><!-- 選択肢数 -->
-        <input type="hidden" name="update" value="<?=isset($_POST['update'])?$_POST['update']:'0'?>"><!-- 更新を表すフラグ -->
+        <input type="hidden" name="update" value="<?=isset($_POST['update'])?$_POST['update']:0?>"><!-- 更新を表すフラグ -->
       </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
