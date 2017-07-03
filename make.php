@@ -44,6 +44,11 @@ $jsonCs = json_encode($choices);
             <input type="button" value="選択肢を追加" class="btn btn-info center-block" id="addCBtn">
           </div>
         </div>
+        <div class="checkbox text-center">
+          <label>
+            <input id="isPrivate" type="checkbox" name="isPrivate" value="1"> <span style="user-select:none;">非公開にする</span>
+          </label>
+        </div>
         <div class="form-group">
           <input id="submit" class="btn btn-primary btn-block" type="submit" value="<?=$_POST['update']==1 ? '更新' : '作成'?>">
         </div>
@@ -188,6 +193,9 @@ $jsonCs = json_encode($choices);
         for (var i = 0, len = choice.length; i < len; i++) {
           $('#addCBtn').trigger('click');
           $('#c'+c_cnt).val(choice[c_cnt-1]);
+        }
+        if (<?=$_SESSION['isPrivate']?> > 0) {
+          $('#isPrivate').prop('checked', true);
         }
         $('form').validator('validate');
       } else {

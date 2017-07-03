@@ -8,12 +8,13 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $stmt = $dbh->prepare("select user_id,user_name,password from users");
+    $stmt = $dbh->prepare("select user_id,user_name,password,nickname from users");
     $stmt->execute();
     // キーがユーザ名、値がパスワードの連想配列を作る
     while ($row = $stmt -> fetch()) {
       $hashes[$row['user_name']]['user_id'] = $row['user_id'];
       $hashes[$row['user_name']]['password'] = $row['password'];
+      $hashes[$row['user_name']]['nickname'] = $row['nickname'];
     }
   } catch (PDOException $e) {
     header('Content-Type: text/plain; charset=UTF-8', true, 500);
@@ -44,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_regenerate_id(true);
     // ログイン完了後にフラッシュメッセージを表示する
     $_SESSION['status'] = "success";
-    $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
+    // $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
+    $_SESSION['flash_msg'] = "ようこそ，".$hashes[$username]['nickname']." さん";
     $_SESSION['flash_flag'] = true;
     // ユーザIDをセット
     $_SESSION['user_id'] = $hashes[$username]['user_id'];

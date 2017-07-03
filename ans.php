@@ -73,7 +73,6 @@ try {
     <input type="hidden" name="q_id" value="<?=$_POST['q_id']?>">
     <input type="hidden" name="q_cnt" value="<?=$qCount?>">
     <input type="submit" class="btn btn-primary btn-block" id="submit" value="回答">
-    <!--<button type="button" class="btn btn-primary btn-block">回答</button>-->
   </form>
 </div>
 <script>

@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__.'/functions.php';
 require_logined_session();
-echo '<h1>update = '.$_POST['update'].'</h1>';
 // アンケートタイトルをセッション変数に格納
 if (isset($_POST['title'])) {
   $_SESSION['title'] = trim_emspace($_POST['title']);
@@ -31,6 +30,12 @@ for ($i=1; $i<=$_SESSION['c_num']; $i++) {
   }
 }
 
+// 非公開フラグをセッション変数に格納
+if (isset($_POST['isPrivate'])) {
+  $_SESSION['isPrivate'] = $_POST['isPrivate'];
+} else {
+  $_SESSION['isPrivate'] = 0;
+}
 require_once __DIR__.'/db_info.php';
 try {
   $dbh = new PDO($dsn, $user, $password,
@@ -82,6 +87,11 @@ try {
     </div>
     <?php include __DIR__.'/flash.php'; ?>
     <div class="container">
+      <?php if ($_POST['isPrivate']==='1'): ?>
+      <div class="alert alert-warning">
+        このアンケートは非公開に設定されています．
+      </div>
+      <?php endif; ?>
       <p>ユーザからは以下のように表示されます．よろしいですか？</p>
       <form action="/make.php" method="POST" class="form-inline">
         <button type="submit" id="edit" class="btn btn-default">修正</button>
