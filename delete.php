@@ -8,7 +8,8 @@ try {
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     // アンケート情報の取得
-    $stmt = $dbh->prepare("delete from questionnaires where q_id = ?");
+    // $stmt = $dbh->prepare("delete from questionnaires where q_id = ?");
+    $stmt = $dbh->prepare("UPDATE questionnaires SET isDeleted = true WHERE q_id = ?");
     $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
     $stmt->execute();
     $rowCount = $stmt->rowCount();
@@ -19,14 +20,8 @@ try {
       echo '<div class="text-danger">削除に失敗しました．</div>';
     }
   } catch (PDOException $e) {
-    // $_SESSION['status'] = "danger";
-    // $_SESSION['flash_msg'] = "削除に失敗しました．";
-    // $_SESSION['flash_flag'] = true;
     echo '<div class="text-danger">削除に失敗しました．</div>';
   }
 } catch (PDOException $e) {
-  // $_SESSION['status'] = "danger";
-  // $_SESSION['flash_msg'] = "データベースの接続に失敗しました．";
-  // $_SESSION['flash_flag'] = true;
   echo '<div class="text-danger">データベースの接続に失敗しました．</div>';
 }

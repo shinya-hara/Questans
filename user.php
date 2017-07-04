@@ -10,7 +10,7 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $stmt = $dbh->prepare("select * from questionnaires where owner = ? order by created desc");
+    $stmt = $dbh->prepare("SELECT * FROM questionnaires WHERE owner = ? AND isDeleted IS false ORDER BY created DESC");
     $stmt->bindValue(1, (int)$_POST['req_user_id'], PDO::PARAM_INT);
     $stmt->execute();
     $questionnaires = $stmt->fetchAll();

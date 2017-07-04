@@ -9,7 +9,7 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $questionnaires = $dbh->query("select * from questionnaires where isPrivate is false order by created desc");
+    $questionnaires = $dbh->query("SELECT * FROM questionnaires WHERE isPrivate IS false AND isDeleted IS false ORDER BY created DESC");
     $stmt = $dbh->query("select count(*) from questionnaires");
     $rowCount = $stmt->fetchColumn();   // 公開アンケート数
     $owners = $dbh->query("select user_id,user_name,nickname from users,questionnaires where owner = user_id");
