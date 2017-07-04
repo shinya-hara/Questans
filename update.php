@@ -16,11 +16,12 @@ try {
     $id = (int)$_SESSION['update_id'];
     $dbh->beginTransaction();   // トランザクションの開始
     // アンケートをDBに格納
-    $stmt = $dbh->prepare("update questionnaires set title=?, updated=? where q_id = ?");
+    $stmt = $dbh->prepare("update questionnaires set title=?, updated=?, isPrivate=? where q_id = ?");
     $stmt->bindValue(1, $_SESSION['title']);
     date_default_timezone_set('Asia/Tokyo');  // タイムゾーンの設定
     $stmt->bindValue(2, date("Y-m-d H:i:s", time()));   // 現在時刻を取得
-    $stmt->bindValue(3, $id, PDO::PARAM_INT);
+    $stmt->bindValue(3, $_SESSION['isPrivate'], PDO::PARAM_INT);
+    $stmt->bindValue(4, $id, PDO::PARAM_INT);
     $stmt->execute();
     
     // 質問を削除

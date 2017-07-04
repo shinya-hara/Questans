@@ -10,7 +10,7 @@ try {
     $id = (int)$_POST['q_id'];
     $_SESSION['update_id'] = $id;
     // アンケート情報の取得
-    $stmt = $dbh->prepare("select title from questionnaires where q_id = ?");
+    $stmt = $dbh->prepare("select title,isPrivate from questionnaires where q_id = ?");
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
     $stmt->execute();
     $questionnaires = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -58,6 +58,11 @@ try {
       <div class="col-sm-6">
         <input type="button" value="選択肢を追加" class="btn btn-info center-block" id="addCBtn">
       </div>
+    </div>
+    <div class="checkbox text-center">
+      <label>
+        <input id="isPrivate" type="checkbox" name="isPrivate" value="1"> <span style="user-select:none;">非公開にする</span>
+      </label>
     </div>
     <div class="form-group">
       <input class="btn btn-primary btn-block" type="submit" value="更新">
@@ -190,6 +195,9 @@ try {
     for (var i = 0, len = choice.length; i < len; i++) {
       $('#addCBtn').trigger('click');
       $('#c'+c_cnt).val(choice[c_cnt-1]);
+    }
+    if (<?=$questionnaires['isPrivate']?> > 0) {
+      $('#isPrivate').prop('checked', true);
     }
     $('form').validator('validate');
   });

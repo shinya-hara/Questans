@@ -9,7 +9,7 @@ try {
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
     // アンケート情報の取得
-    $stmt = $dbh->prepare("select title,created,updated,owner,user_name from questionnaires,users where q_id = ? && owner = user_id");
+    $stmt = $dbh->prepare("select title,created,updated,owner,isPrivate,user_name from questionnaires,users where q_id = ? && owner = user_id");
     $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
     $stmt->execute();
     $questionnaires = $stmt->fetch();
