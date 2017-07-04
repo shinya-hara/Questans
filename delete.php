@@ -7,10 +7,19 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    // アンケート情報の取得
-    // $stmt = $dbh->prepare("delete from questionnaires where q_id = ?");
-    $stmt = $dbh->prepare("UPDATE questionnaires SET isDeleted = true WHERE q_id = ?");
+    // アンケートタイトルの取得
+    $stmt = $dbh->prepare("SELECT title FROM questionnaires WHERE q_id = ?");
     $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $title = $stmt->fetch();
+    // アンケートタイトルに削除済みを表す文字列を付加
+    date_default_timezone_set('Asia/Tokyo');  // タイムゾーンの設定
+    $deleted_title = 'deleted_at_'.date("Y-m-d_H:i:s", time()).'__'.$title['title'];
+    // 削除フラグを立てる
+    // $stmt = $dbh->prepare("delete from questionnaires where q_id = ?");
+    $stmt = $dbh->prepare("UPDATE questionnaires SET isDeleted = true, title = ? WHERE q_id = ?");
+    $stmt->bindValue(1, $deleted_title);
+    $stmt->bindValue(2, (int)$_POST['q_id'], PDO::PARAM_INT);
     $stmt->execute();
     $rowCount = $stmt->rowCount();
     // 削除に失敗: 0, 成功: 1,

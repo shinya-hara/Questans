@@ -51,7 +51,11 @@ try {
 <?php include __DIR__.'/contentHeader.php'; ?>
 <div class="container">
   <button type="button" class="btn btn-default" id="back">戻る</button>
-  
+  <?php if ($questionnaires['isPrivate']): ?>
+  <div class="alert alert-warning">
+    このアンケートは非公開に設定されています．
+  </div>
+  <?php endif; ?>
   <!-- 質問 -->
   <table class="table">
     <thead>

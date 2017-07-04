@@ -45,8 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_regenerate_id(true);
     // ログイン完了後にフラッシュメッセージを表示する
     $_SESSION['status'] = "success";
-    // $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
-    $_SESSION['flash_msg'] = "ようこそ，".$hashes[$username]['nickname']." さん";
+    if ($hashes[$username]['nickname'] === null) {  // nicknameが未登録
+      $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
+    } else {  // nicknameが登録済み
+      $_SESSION['flash_msg'] = "ようこそ，".$hashes[$username]['nickname']." さん";
+    }
     $_SESSION['flash_flag'] = true;
     // ユーザIDをセット
     $_SESSION['user_id'] = $hashes[$username]['user_id'];
