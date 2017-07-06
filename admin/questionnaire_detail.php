@@ -72,12 +72,10 @@ try {
   <button type="button" class="btn btn-success" id="result" data-id="<?=$_POST['q_id']?>">結果を見る</button>
   <button type="button" class="btn btn-primary" id="edit" data-id="<?=$_POST['q_id']?>">編集</button>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delModal">削除</button>
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#compDelModal">完全削除</button>
   <input type="hidden" name="q_id" value="<?=$_POST['q_id']?>">
-  <span data-toggle="tooltip" data-placement="right" title="管理者ユーザでは回答できません">
-    <a class="btn btn-primary" disabled>このアンケートに回答する</a>
-  </span>
   
-  <!-- Modal -->
+  <!-- 削除Modal -->
   <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -87,14 +85,38 @@ try {
           </button>
           <h4 class="modal-title" id="delModalLabel">アンケートの削除</h4>
         </div>
-        <div class="modal-body" id="modal-msg">
-          このアンケートを削除しますか？<br>
+        <div class="modal-body" id="del-modal-msg">
+          アンケートを削除しますか？<br>
+          この操作を行うと，一般ユーザからは見えなくなりますが，<strong>データベースからは削除されません</strong>．<br>
           この操作は取り消せません．
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-danger" id="delete" data-id="<?=$_POST['q_id']?>">削除</button>
+          <button type="button" class="btn btn-danger" id="delete" data-id="<?=$_POST['q_id']?>" data-loading-text="削除中...">削除</button>
           <button type="button" class="btn btn-primary" id="close" data-dismiss="modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 完全削除Modal -->
+  <div class="modal fade" id="compDelModal" tabindex="-1" role="dialog" aria-labelledby="compDelModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="compDelModalLabel">アンケートの完全削除</h4>
+        </div>
+        <div class="modal-body" id="comp-del-modal-msg">
+          アンケートを削除しますか？<br>
+          この操作を行うと，<strong>データベースから完全に削除され，回答結果も完全に削除されます</strong>．<br>
+          この操作は取り消せません．
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="comp-cancel" data-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-danger" id="comp-delete" data-id="<?=$_POST['q_id']?>" data-loading-text="削除中...">削除</button>
+          <button type="button" class="btn btn-primary" id="comp-close" data-dismiss="modal">閉じる</button>
         </div>
       </div>
     </div>
@@ -127,19 +149,38 @@ try {
     // 削除
     $('#close').hide();
     $('#delete').on('click', function() {
-      $('#delete').prop('disabled', true);
-      $('#modal-msg').html("削除中...");
+      $(this).button('loading');
       $.post('delete.php',
       {
         'q_id': $(this).attr('data-id')
       },
       function(data) {
         // ダイアログメッセージの変更
-        $('#modal-msg').html(data);
+        $('#del-modal-msg').html(data);
         $('#delete, #cancel').hide();
         $('#close').show();
         // ダイアログを閉じるとアンケート一覧に戻る
         $('#delModal').on('hidden.bs.modal', function() {
+          $('.modal-backdrop').remove();
+          location.href = "questionnaires_management.php";
+        });
+      });
+    });
+    // 完全削除
+    $('#comp-close').hide();
+    $('#comp-delete').on('click', function() {
+      $(this).button('loading');
+      $.post('comp_delete.php',
+      {
+        'q_id': $(this).attr('data-id')
+      },
+      function(data) {
+        // ダイアログメッセージの変更
+        $('#comp-del-modal-msg').html(data);
+        $('#comp-delete, #comp-cancel').hide();
+        $('#comp-close').show();
+        // ダイアログを閉じるとアンケート一覧に戻る
+        $('#compDelModal').on('hidden.bs.modal', function() {
           $('.modal-backdrop').remove();
           location.href = "questionnaires_management.php";
         });

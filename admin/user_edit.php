@@ -23,6 +23,7 @@ try {
 }
 ?>
 <div class="container">
+  <a href="users_management.php" class="btn btn-default">戻る</a>
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">ユーザ名</h3>
