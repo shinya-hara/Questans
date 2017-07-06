@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/functions.php';
+require_once __DIR__.'/../functions.php';
 require_logined_session();
 $cnt = 0;
 // セッション変数に格納されている質問を配列に格納
@@ -21,12 +21,12 @@ $jsonCs = json_encode($choices);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>作成 | アンケートシステム</title>
   </head>
   <body>
-    <?php include __DIR__.'/header.php'; ?>
-    <?php include __DIR__.'/guest_alert.php'; ?>
+    <?php include __DIR__.'/../header.php'; ?>
+    <?php include __DIR__.'/../guest_alert.php'; ?>
     <div class="container">
       <h2>作成</h2>
       <form method="post" action="confirm.php" data-toggle="validator" role="form">

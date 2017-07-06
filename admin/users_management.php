@@ -46,52 +46,50 @@ try {
   <body>
     <?php include __DIR__.'/../header.php'; ?>
     <?php include __DIR__.'/../guest_alert.php'; ?>
+    <?php include __DIR__.'/../flash.php'; ?>
     <div class="container">
-      <?php include __DIR__.'/../flash.php'; ?>
       <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="#">ユーザ一覧</a></li>
-        <li role="presentation"><a href="#">アンケート一覧</a></li>
+        <li role="presentation" class="active"><a href="">ユーザ一覧</a></li>
+        <li role="presentation"><a href="/admin/questionnaires_management.php">アンケート一覧</a></li>
       </ul>
-      
-      <table class="table table-hover">
-        <thead>
-          <th class="none text-center td-num">番号</th>
-          <th>ユーザ名</th>
-          <th>表示名</th>
-          <th>アンケート数</th>
-          <th>回答数</th>
-        </thead>
-        <tbody>
-          <?php $i = 1; foreach ($users as $user): ?>
-          <tr data-id="<?=h($user['user_id'])?>">
-            <td class="none text-center td-num"><?=$i?></td>
-            <td><?=h($user['user_name'])?></td>
-            <td><?=($user['nickname'] !== null) ? h($user['nickname']) : "---"?></td>
-            <td><?=$count[$user['user_id']]['questionnaires']?></td>
-            <td><?=$count[$user['user_id']]['answers']?></td>
-          </tr>
-          <?php $i++; endforeach; ?>
-        </tbody>
-      </table>
-    </div><!-- /container -->
+    </div>
+    <main>
+      <div class="container">
+        <table class="table table-hover">
+          <thead>
+            <th class="none text-center td-num">番号</th>
+            <th>ユーザ名</th>
+            <th>表示名</th>
+            <th>アンケート数</th>
+            <th>回答数</th>
+          </thead>
+          <tbody>
+            <?php $i = 1; foreach ($users as $user): ?>
+            <tr user-id="<?=h($user['user_id'])?>">
+              <td class="none text-center td-num"><?=$i?></td>
+              <td><?=h($user['user_name'])?></td>
+              <td><?=($user['nickname'] !== null) ? h($user['nickname']) : "---"?></td>
+              <td><?=$count[$user['user_id']]['questionnaires']?></td>
+              <td><?=$count[$user['user_id']]['answers']?></td>
+            </tr>
+            <?php $i++; endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    </main>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/5bf7a4a25c.js"></script>
     <script>
     $(function(){
-      $('#nickname-update').on('click', function() {
-        var $btn = $(this).button('loading');
-        $.post('nickname_update.php',
+      // 詳細
+      $('tbody tr').on('click', function() {
+        $.post('user_edit.php',
         {
-          'new-nickname': $('#new-nickname').val()
+          'user_id': $(this).attr('user-id')
         },
         function(data) {
-          if (data === "") {
-            window.location.href = "/management.php";
-          } else {
-            $btn.button('reset');
-            $('#msg').html(data);
-          }
+          $('main').html(data);
         });
       });
     });

@@ -3,7 +3,11 @@
     <h1 class="pull-left"><a href="/management.php">アンケートシステム</a></h1>
     <div class="buttons">
       <div class="btn-group pull-right">
+        <?php if ($_SESSION['role']==1): ?>
+        <a href="/admin/users_management.php" class="btn btn-default"><?=h($_SESSION['username'])?></a>
+        <?php else: ?>
         <a href="/management.php" class="btn btn-default"><?=h($_SESSION['username'])?></a>
+        <?php endif; ?>
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="caret"></span>
           <span class="sr-only">Toggle Dropdown</span>

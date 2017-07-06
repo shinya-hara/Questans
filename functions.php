@@ -37,6 +37,18 @@ function require_logined_session()
     exit;
   }
 }
+// 管理者でのログインを要求
+function require_admin_session()
+{
+  // セッション開始
+  @session_start();
+  // 管理者権限でログインしていなければ /management.php に遷移
+  if ($_SESSION['role']!=1 || !isset($_SESSION['role'])) {
+    header('Location: /management.php');
+    exit;
+  }
+}
+
 /**
 * CSRFトークンの生成
 *

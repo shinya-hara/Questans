@@ -62,7 +62,7 @@ try {
             	</div>
             	<div class="form-group">
             		<label class="control-label" for="new-nickname">新しい表示名</label>
-          			<input type="text" class="form-control" id="new-nickname" maxlength="20" placeholder="20文字まで" <?=($_SESSION['username']==='guest')?'disabled':'required'?>>
+          			<input type="text" class="form-control" id="new-nickname" maxlength="20" placeholder="20文字まで" <?=($_SESSION['username']==='guest')?'disabled':''?>>
           			<p class="help-block">新しい表示名を空欄で保存した場合，表示名は未設定になります．</p>
             	</div>
             	<div class="form-group">

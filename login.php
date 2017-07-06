@@ -8,13 +8,14 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $stmt = $dbh->prepare("select user_id,user_name,password,nickname from users");
+    $stmt = $dbh->prepare("SELECT * FROM users");
     $stmt->execute();
     // キーがユーザ名、値がパスワードの連想配列を作る
     while ($row = $stmt -> fetch()) {
       $hashes[$row['user_name']]['user_id'] = $row['user_id'];
       $hashes[$row['user_name']]['password'] = $row['password'];
       $hashes[$row['user_name']]['nickname'] = $row['nickname'];
+      $hashes[$row['user_name']]['role'] = $row['role'];
     }
   } catch (PDOException $e) {
     header('Content-Type: text/plain; charset=UTF-8', true, 500);
@@ -45,19 +46,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_regenerate_id(true);
     // ログイン完了後にフラッシュメッセージを表示する
     $_SESSION['status'] = "success";
-    if ($hashes[$username]['nickname'] === null) {  // nicknameが未登録
-      $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
-    } else {  // nicknameが登録済み
-      $_SESSION['flash_msg'] = "ようこそ，".$hashes[$username]['nickname']." さん";
-    }
+    // $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
+    $_SESSION['flash_msg'] = "ようこそ，".$hashes[$username]['nickname']." さん";
     $_SESSION['flash_flag'] = true;
     // ユーザIDをセット
     $_SESSION['user_id'] = $hashes[$username]['user_id'];
     // ユーザ名をセット
     $_SESSION['username'] = $username;
+    // 権限情報をセット
+    $_SESSION['role'] = $hashes[$username]['role'];
     // ログイン完了後に /management.php に遷移
-    header('Location: /management.php');
-    exit;
+    if ($_SESSION['role']==1) { // 管理者権限でログインした場合
+      header('Location: /admin/users_management.php');
+      exit;
+    } else {
+      header('Location: /management.php');
+      exit;
+    }
   }
   // 認証が失敗したとき
   // 「403 Forbidden」
