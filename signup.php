@@ -69,8 +69,8 @@ header('Content-Type: text/html; charset=UTF-8');
       <div class="container clearfix">
         <h1 class="pull-left"><a href="management.php">アンケートシステム</a></h1>
         <div class="buttons">
-          <button class="btn btn-primary pull-right" type="button">Sign Up</button>
-          <a href="login.php"><button class="btn btn-info pull-right" type="button">Login</button></a>
+          <button class="btn btn-primary pull-right" type="button">ユーザ登録</button>
+          <a href="login.php"><button class="btn btn-info pull-right" type="button">ログイン</button></a>
         </div>
       </div>
     </header>
@@ -84,13 +84,13 @@ header('Content-Type: text/html; charset=UTF-8');
         <div class="avatar"></div>
         <div class="form-box">
           <form action="" method="post">
-            <input pattern="^[0-9A-Za-z]+$" minlength="3" maxlength="20" name="username" type="text" placeholder="username" class="username">
-            <input pattern="^[0-9A-Za-z]+$" minlength="4" name="password" type="password" placeholder="password" class="pw1">
-            <input pattern="^[0-9A-Za-z]+$" minlength="4" name="confirm" type="password" placeholder="confirm password" class="pw2">
+            <input pattern="^[0-9A-Za-z]+$" minlength="3" maxlength="20" name="username" type="text" placeholder="ユーザ名" class="username">
+            <input pattern="^[0-9A-Za-z]+$" minlength="4" name="password" type="password" placeholder="パスワード" class="pw1">
+            <input pattern="^[0-9A-Za-z]+$" minlength="4" name="confirm" type="password" placeholder="パスワード（確認）" class="pw2">
             <input type="hidden" name="token" value="<?=h(generate_token())?>">
-            <button class="btn btn-primary btn-block mtop" type="submit" id="signup" disabled>Sign Up</button>
+            <button class="btn btn-primary btn-block mtop" type="submit" id="signup" disabled>ユーザ登録</button>
             <div class="text-center">or</div>
-            <button class="btn btn-info btn-block" type="button" onClick="location.href='login.php'">Login</button>
+            <button class="btn btn-info btn-block" type="button" onClick="location.href='login.php'">ログイン</button>
           </form>
         </div>
       </div>

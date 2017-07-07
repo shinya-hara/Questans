@@ -84,8 +84,8 @@ header('Content-Type: text/html; charset=UTF-8');
       <div class="container clearfix">
         <h1 class="pull-left"><a href="management.php">アンケートシステム</a></h1>
         <div class="buttons">
-          <a href="signup.php"><button class="btn btn-primary pull-right" type="button">Sign Up</button></a>
-          <button class="btn btn-info pull-right" type="button">Login</button>
+          <a href="signup.php"><button class="btn btn-primary pull-right" type="button">ユーザ登録</button></a>
+          <button class="btn btn-info pull-right" type="button">ログイン</button>
         </div>
       </div>
     </header>
@@ -95,14 +95,14 @@ header('Content-Type: text/html; charset=UTF-8');
         <div class="avatar"></div>
         <div class="form-box">
           <form action="" method="post">
-            <input name="username" type="text" placeholder="username" class="username">
-            <input name="password" type="password" placeholder="password" class="pw2">
+            <input name="username" type="text" placeholder="ユーザ名" class="username">
+            <input name="password" type="password" placeholder="パスワード" class="pw2">
             <input type="hidden" name="token" value="<?=h(generate_token())?>">
-            <button class="btn btn-info btn-block mtop" type="submit">Login</button>
+            <button class="btn btn-info btn-block mtop" type="submit">ログイン</button>
             <div class="text-center">or</div>
             <div class="clearfix">
-              <a href="signup.php"><button class="btn btn-primary pull-left signup" type="button">Sign Up</button></a>
-              <button class="btn btn-warning pull-right guest" type="button">Guest</button>
+              <a href="signup.php"><button class="btn btn-primary pull-left signup" type="button">ユーザ登録</button></a>
+              <button class="btn btn-warning pull-right guest" type="button">ゲスト</button>
             </div>
           </form>
         </div>
