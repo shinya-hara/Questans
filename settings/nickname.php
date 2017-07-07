@@ -44,7 +44,7 @@ try {
               <h3 class="panel-title">設定項目</h3>
             </div>
             <div class="list-group">
-              <a href="" class="list-group-item list-group-item-info"><i class="fa fa-user fa-fw" aria-hidden="true"></i> <strong>表示名</strong></a>
+              <a href="" class="list-group-item list-group-item-info"><i class="fa fa-address-card-o" aria-hidden="true"></i> <strong>表示名</strong></a>
               <a href="password.php" class="list-group-item"><i class="fa fa-key fa-fw" aria-hidden="true"></i> パスワード</a>
             </div>
           </div>

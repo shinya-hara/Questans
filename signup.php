@@ -84,7 +84,7 @@ header('Content-Type: text/html; charset=UTF-8');
         <div class="avatar"></div>
         <div class="form-box">
           <form action="" method="post">
-            <input pattern="^[0-9A-Za-z]+$" minlength="3" name="username" type="text" placeholder="username" class="username">
+            <input pattern="^[0-9A-Za-z]+$" minlength="3" maxlength="20" name="username" type="text" placeholder="username" class="username">
             <input pattern="^[0-9A-Za-z]+$" minlength="4" name="password" type="password" placeholder="password" class="pw1">
             <input pattern="^[0-9A-Za-z]+$" minlength="4" name="confirm" type="password" placeholder="confirm password" class="pw2">
             <input type="hidden" name="token" value="<?=h(generate_token())?>">
@@ -99,6 +99,8 @@ header('Content-Type: text/html; charset=UTF-8');
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
     $(function() {
+      $('input[name="username"]').focus();
+      
       var name_flg   = false;
       var pw1_flg    = false;
       var pw2_flg    = false;

@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__.'/functions.php';
 require_logined_session();
+// 管理者権限でログインしている場合、管理者画面に遷移
+if ($_SESSION['role']==1) {
+  header('Location: /admin/users_management.php');
+  exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">

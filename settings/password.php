@@ -42,7 +42,7 @@ try {
               <h3 class="panel-title">設定項目</h3>
             </div>
             <div class="list-group">
-              <a href="nickname.php" class="list-group-item"><i class="fa fa-user fa-fw" aria-hidden="true"></i> 表示名</a>
+              <a href="nickname.php" class="list-group-item"><i class="fa fa-address-card-o" aria-hidden="true"></i> 表示名</a>
               <a href="" class="list-group-item list-group-item-info"><i class="fa fa-key fa-fw" aria-hidden="true"></i> <strong>パスワード</strong></a>
             </div>
           </div>

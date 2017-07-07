@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__.'/../functions.php';
 require_once __DIR__.'/../db_info.php';
-require_logined_session();
+require_admin_session();
 
 try {
   $dbh = new PDO($dsn, $user, $password,

@@ -56,13 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 権限情報をセット
     $_SESSION['role'] = $hashes[$username]['role'];
     // ログイン完了後に /management.php に遷移
-    if ($_SESSION['role']==1) { // 管理者権限でログインした場合
-      header('Location: /admin/users_management.php');
-      exit;
-    } else {
-      header('Location: /management.php');
-      exit;
-    }
+    header('Location: /management.php');
+    exit;
   }
   // 認証が失敗したとき
   // 「403 Forbidden」
@@ -120,6 +115,7 @@ header('Content-Type: text/html; charset=UTF-8');
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
       $(function() {
+        $('input[name="username"]').focus();
         $('.guest').on('click', function() {
           $.post(
             'login.php',
