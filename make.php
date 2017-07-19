@@ -29,6 +29,7 @@ $jsonCs = json_encode($choices);
     <?php include __DIR__.'/guest_alert.php'; ?>
     <div class="container">
       <h2>作成</h2>
+      <button class="btn btn-success" id="sample">アンケートサンプル</button>
       <form method="post" action="confirm.php" data-toggle="validator" role="form">
         <div class="form-group has-feedback">
           <label for="title" class="control-label">タイトル</label>
@@ -65,6 +66,36 @@ $jsonCs = json_encode($choices);
       'use strict';
       
       $('.dropdown-toggle').dropdown();
+      
+      // アンケートサンプルを表示する
+      $('#sample').on('click', function() {
+        // テキストエリアを全削除
+        while ($('textarea[id^=q]').length != 0) {
+          $('#delQBtn1').trigger('click');
+        }
+        while ($('textarea[id^=c]').length != 0) {
+          $('#delCBtn1').trigger('click');
+        }
+        // テキストエリアを用意
+        var num = 0;
+        var size = 5;
+        while(num < size) {
+          $('#addQBtn').trigger('click');
+          $('#addCBtn').trigger('click');
+          num++;
+        }
+        $('#title').val('アンケートサンプル');
+        for (var i = 1; i <= size; i++) {
+          $('#q'+i).val('質問'+i+'の内容です。');
+        }
+        $('#c1').val('よく当てはまる');
+        $('#c2').val('やや当てはまる');
+        $('#c3').val('どちらとも言えない');
+        $('#c4').val('あまり当てはまらない');
+        $('#c5').val('全く当てはまらない');
+        $('form').validator('update');
+        $('form').validator('validate');
+      });
       
       // 質問数と選択肢数に応じてsubmitボタンを制御
       // q_cnt: 質問数

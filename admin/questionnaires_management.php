@@ -8,7 +8,7 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
-    $stmt = $dbh->query("SELECT * FROM questionnaires ORDER BY q_id");
+    $stmt = $dbh->query("SELECT * FROM questionnaires ORDER BY created DESC");
     $questionnaires = $stmt->fetchAll();
     $user_info = $dbh->query("select user_id,user_name,nickname from users");
     // key: ユーザID, value: { ユーザ名, 表示名 } となる連想配列の連想配列を作る
