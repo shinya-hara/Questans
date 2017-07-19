@@ -29,7 +29,8 @@ $jsonCs = json_encode($choices);
     <?php include __DIR__.'/guest_alert.php'; ?>
     <div class="container">
       <h2>作成</h2>
-      <button class="btn btn-success" id="sample">アンケートサンプル</button>
+      <button class="btn btn-success" id="sample1" data-toggle="modal" data-target="#sampleModal1">サンプル1</button>
+      <button class="btn btn-success" id="sample2" data-toggle="modal" data-target="#sampleModal2">サンプル2</button>
       <form method="post" action="confirm.php" data-toggle="validator" role="form">
         <div class="form-group has-feedback">
           <label for="title" class="control-label">タイトル</label>
@@ -57,6 +58,48 @@ $jsonCs = json_encode($choices);
         <input type="hidden" name="c_num" value="0"><!-- 選択肢数 -->
         <input type="hidden" name="update" value="<?=isset($_POST['update'])?$_POST['update']:0?>"><!-- 更新を表すフラグ -->
       </form>
+      <!-- Modal -->
+      <div class="modal fade" id="sampleModal1" tabindex="-1" role="dialog" aria-labelledby="sampleModalLabel1">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="sampleModalLabel1">サンプルの表示</h4>
+            </div>
+            <div class="modal-body">
+              サンプルアンケートを表示しますか？<br>
+              作業内容は失われます．
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
+              <button type="button" class="btn btn-primary" id="show-sample1" data-dismiss="modal">表示</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="sampleModal2" tabindex="-1" role="dialog" aria-labelledby="sampleModalLabel2">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="sampleModalLabel2">サンプルの表示</h4>
+            </div>
+            <div class="modal-body">
+              サンプルアンケートを表示しますか？<br>
+              作業内容は失われます．
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
+              <button type="button" class="btn btn-primary" id="show-sample2" data-dismiss="modal">表示</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -67,8 +110,8 @@ $jsonCs = json_encode($choices);
       
       $('.dropdown-toggle').dropdown();
       
-      // アンケートサンプルを表示する
-      $('#sample').on('click', function() {
+      // アンケートサンプル1を表示する
+      $('#show-sample1').on('click', function() {
         // テキストエリアを全削除
         while ($('textarea[id^=q]').length != 0) {
           $('#delQBtn1').trigger('click');
@@ -84,7 +127,7 @@ $jsonCs = json_encode($choices);
           $('#addCBtn').trigger('click');
           num++;
         }
-        $('#title').val('アンケートサンプル');
+        $('#title').val('アンケートサンプル1');
         for (var i = 1; i <= size; i++) {
           $('#q'+i).val('質問'+i+'の内容です。');
         }
@@ -93,6 +136,35 @@ $jsonCs = json_encode($choices);
         $('#c3').val('どちらとも言えない');
         $('#c4').val('あまり当てはまらない');
         $('#c5').val('全く当てはまらない');
+        $('form').validator('update');
+        $('form').validator('validate');
+      });
+      
+      // アンケートサンプル2を表示する
+      $('#show-sample2').on('click', function() {
+        // テキストエリアを全削除
+        while ($('textarea[id^=q]').length != 0) {
+          $('#delQBtn1').trigger('click');
+        }
+        while ($('textarea[id^=c]').length != 0) {
+          $('#delCBtn1').trigger('click');
+        }
+        // テキストエリアを用意
+        var num = 0;
+        var size = 4;
+        while(num < size) {
+          $('#addQBtn').trigger('click');
+          $('#addCBtn').trigger('click');
+          num++;
+        }
+        $('#title').val('アンケートサンプル2');
+        for (var i = 1; i <= size; i++) {
+          $('#q'+i).val('質問'+i+'の内容です。\n(1) 選択肢1\n(2) 選択肢2\n(3) 選択肢3\n(4) 選択肢4');
+        }
+        $('#c1').val('(1)');
+        $('#c2').val('(2)');
+        $('#c3').val('(3)');
+        $('#c4').val('(4)');
         $('form').validator('update');
         $('form').validator('validate');
       });
