@@ -38,7 +38,7 @@ try {
         $stmt->bindValue(3, (int)$j+1, PDO::PARAM_INT); // 選択肢をbind
         $stmt->execute();
         $result = $stmt->fetch();
-        $results_array[$j][$i] = $result['count(answer)'];  // 二次元配列に結果を格納
+        $results_array[$j][$i] = (int)$result['count(answer)'];  // 二次元配列に結果を格納
       }
     }
     // グラフ作成用のデータを格納しJSON形式でJavaScriptに渡す

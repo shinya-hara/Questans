@@ -11,16 +11,18 @@ try {
     $stmt = $dbh->query("SELECT * FROM users WHERE role = 2 ORDER BY user_id");
     $users = $stmt->fetchAll();
     // 各ユーザの作成したアンケート数
-    $stmt = $dbh->prepare("SELECT COUNT(*) FROM questionnaires WHERE owner = ?");
+    $stmt = $dbh->prepare("SELECT * FROM questionnaires WHERE owner = ?");
     foreach ($users as $user) {
       $stmt->execute([$user['user_id']]);
-      $count[$user['user_id']]['questionnaires'] = $stmt->fetchColumn();
+      $tmp = $stmt->fetchAll();
+      $count[$user['user_id']]['questionnaires'] = count($tmp);
     }
     // 各ユーザのアンケート回答数
-    $stmt = $dbh->prepare("SELECT COUNT(*) FROM answers WHERE user_id = ?");
+    $stmt = $dbh->prepare("SELECT * FROM answers WHERE user_id = ?");
     foreach ($users as $user) {
       $stmt->execute([$user['user_id']]);
-      $count[$user['user_id']]['answers'] = $stmt->fetchColumn();
+      $tmp = $stmt->fetchAll();
+      $count[$user['user_id']]['answers'] = count($tmp);
     }
   } catch (PDOException $e) {
     $_SESSION['status'] = "danger";
@@ -65,7 +67,7 @@ try {
           </thead>
           <tbody>
             <?php $i = 1; foreach ($users as $user): ?>
-            <tr user-id="<?=h($user['user_id'])?>">
+            <tr class="show-detail" data-user-id="<?=h($user['user_id'])?>">
               <td class="none text-center td-num"><?=$i?></td>
               <td><?=h($user['user_name'])?></td>
               <td><?=($user['nickname'] !== null) ? h($user['nickname']) : "---"?></td>
@@ -86,7 +88,7 @@ try {
       $('tbody tr').on('click', function() {
         $.post('user_edit.php',
         {
-          'user_id': $(this).attr('user-id')
+          'user_id': $(this).attr('data-user-id')
         },
         function(data) {
           $('main').html(data);

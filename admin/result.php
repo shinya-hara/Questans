@@ -38,7 +38,7 @@ try {
         $stmt->bindValue(3, (int)$j+1, PDO::PARAM_INT); // 選択肢をbind
         $stmt->execute();
         $result = $stmt->fetch();
-        $results_array[$j][$i] = $result['count(answer)'];  // 二次元配列に結果を格納
+        $results_array[$j][$i] = (int)$result['count(answer)'];  // 二次元配列に結果を格納
       }
     }
     // グラフ作成用のデータを格納しJSON形式でJavaScriptに渡す
@@ -123,6 +123,7 @@ try {
     // グラフ表示
     var chartData = $.parseJSON('<?=$jsonData?>'.replace(/(\r\n)/g, '\\n'));
     var xAxisCategories = $.parseJSON('<?=$jsonCategories?>'.replace(/(\r\n)/g, '\\n'));
+    console.log(chartData);
     Highcharts.setOptions({
       // colors: ['#ff7f7f', '#ffbf7f', '#7fff7f', '#7fffff', '#bf7fff']
       // colors: ['#ff3300', '#ffff66', '#66ff66', '#99ccff', '#cc99ff']

@@ -132,3 +132,8 @@ header>div.container>div.buttons button {
 .ans-table>tbody>tr>td:nth-child(n+3):hover {
   background-color: #f5f5f5;
 }
+
+/* 管理者がテーブルから詳細を表示 */
+.table>tbody>tr.show-detail {
+  cursor: pointer;
+}

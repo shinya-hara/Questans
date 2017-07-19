@@ -61,7 +61,7 @@ try {
           </thead>
           <tbody>
             <?php $i = 1; foreach ($questionnaires as $questionnaire): ?>
-            <tr data-id="<?=$questionnaire['q_id']?>">
+            <tr class="show-detail" data-id="<?=$questionnaire['q_id']?>">
               <td class="none text-center td-num"><?=$i?></td>
               <td><?=$questionnaire['isPrivate']?'<span class="glyphicon glyphicon-lock" aria-hidden="true"></span> ':''?><?=h($questionnaire['title'])?></td>
               <td><?=h($users[$questionnaire['owner']]['user_name'])?></td>
