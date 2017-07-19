@@ -67,7 +67,7 @@ header('Content-Type: text/html; charset=UTF-8');
   <body>
     <header>
       <div class="container clearfix">
-        <h1 class="pull-left"><a href="management.php">アンケートシステム</a></h1>
+        <h1 class="pull-left"><a href="/management.php"><span style="color:#DF0101;">Q</span>uest<span style="color:#DF0101;">a</span>ns</a></h1>
         <div class="buttons">
           <button class="btn btn-primary pull-right" type="button">ユーザ登録</button>
           <a href="login.php"><button class="btn btn-info pull-right" type="button">ログイン</button></a>
@@ -95,6 +95,7 @@ header('Content-Type: text/html; charset=UTF-8');
         </div>
       </div>
     </div>
+    <?php include __DIR__.'/footer.php'; ?>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>

@@ -69,7 +69,7 @@ $jsonCs = json_encode($choices);
               <h4 class="modal-title" id="sampleModalLabel1">サンプルの表示</h4>
             </div>
             <div class="modal-body">
-              サンプルアンケートを表示しますか？<br>
+              アンケートサンプル1を表示しますか？<br>
               作業内容は失われます．
             </div>
             <div class="modal-footer">
@@ -90,7 +90,7 @@ $jsonCs = json_encode($choices);
               <h4 class="modal-title" id="sampleModalLabel2">サンプルの表示</h4>
             </div>
             <div class="modal-body">
-              サンプルアンケートを表示しますか？<br>
+              アンケートサンプル2を表示しますか？<br>
               作業内容は失われます．
             </div>
             <div class="modal-footer">
@@ -101,6 +101,7 @@ $jsonCs = json_encode($choices);
         </div>
       </div>
     </div>
+    <?php include __DIR__.'/footer.php'; ?>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>

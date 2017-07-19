@@ -57,6 +57,7 @@ $jsonCs = json_encode($choices);
         <input type="hidden" name="update" value="<?=isset($_POST['update'])?$_POST['update']:0?>"><!-- 更新を表すフラグ -->
       </form>
     </div>
+    <?php include __DIR__.'/../footer.php'; ?>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>

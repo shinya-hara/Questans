@@ -1,6 +1,6 @@
 <header>
   <div class="container clearfix">
-    <h1 class="pull-left"><a href="/management.php">アンケートシステム</a></h1>
+    <h1 class="pull-left"><a href="/management.php"><span style="color:#DF0101;">Q</span>uest<span style="color:#DF0101;">a</span>ns</a></h1>
     <div class="buttons">
       <div class="btn-group pull-right">
         <?php if ($_SESSION['role']==1): ?>
