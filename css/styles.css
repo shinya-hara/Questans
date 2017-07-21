@@ -162,3 +162,7 @@ body {
 .table>tbody>tr.show-detail {
   cursor: pointer;
 }
+
+.url-form {
+  margin: 20px 0;
+}

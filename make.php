@@ -1,6 +1,14 @@
 <?php
 require_once __DIR__.'/functions.php';
 require_logined_session();
+if ($_SESSION['role'] == 3) { // ゲストユーザでのログイン
+  $_SESSION['status'] = "danger";
+  $_SESSION['flash_msg'] = "ゲストユーザではアンケートを作成できません．";
+  $_SESSION['flash_flag'] = true;
+  header('Location: /management.php');
+  exit;
+}
+
 $cnt = 0;
 // セッション変数に格納されている質問を配列に格納
 for ($i = 1; $i <= $_SESSION['q_num']; $i++) {

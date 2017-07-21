@@ -34,6 +34,16 @@ if ($_SESSION['role']==1) {
     <script>
     $(function() {
       $('.dropdown-toggle').dropdown();
+      
+      <?php if (isset($_GET['q_id']) && is_numeric($_GET['q_id'])): ?>
+      $.post('detail.php',
+      {
+        'q_id': <?=$_GET['q_id']?>
+      },
+      function(data) {
+        $('main').html(data);
+      });
+      <?php else: ?>
       $.post('user.php',
       {
         'req_user_id': <?=$_SESSION['user_id']?>
@@ -41,6 +51,8 @@ if ($_SESSION['role']==1) {
       function(data) {
         $('main').html(data);
       });
+      <?php endif; ?>
+      
       $('#mypage').on('click', function() {
         $.post('user.php',
         {

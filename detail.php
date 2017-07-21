@@ -8,6 +8,12 @@ try {
                  [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                    PDO::ATTR_EMULATE_PREPARES => false ]);
   try {
+    // リクエストされたアンケートの存在チェック
+    $stmt = $dbh->prepare("SELECT COUNT(*) FROM questionnaires WHERE q_id = ? AND isDeleted IS false");
+    $stmt->execute([(int)$_POST['q_id']]);
+    if ($stmt->fetchColumn() == 0) {
+      throw new Exception();
+    }
     // アンケート情報の取得
     $stmt = $dbh->prepare("select title,created,updated,owner,isPrivate,user_name from questionnaires,users where q_id = ? && owner = user_id");
     $stmt->bindValue(1, (int)$_POST['q_id'], PDO::PARAM_INT);
@@ -40,6 +46,12 @@ try {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "詳細の取得に失敗しました．";
     $_SESSION['flash_flag'] = true;
+  } catch (Exception $e) {
+    $_SESSION['status'] = "danger";
+    $_SESSION['flash_msg'] = "リクエストされたアンケートを表示できませんでした．<br>削除されたか指定方法が間違っている可能性があります．";
+    $_SESSION['flash_flag'] = true;
+    include __DIR__.'/flash.php';
+    exit;
   }
 } catch (PDOException $e) {
   $_SESSION['status'] = "danger";
@@ -98,6 +110,11 @@ try {
   <?php endif; ?>
   <?php endif; ?>
   
+  <div class="form-group url-form">
+    <label for="url" class="control-label">アンケートへのリンク</label>
+    <input type="url" class="form-control" id="url" readonly>
+  </div>
+  
   <!-- Modal -->
   <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
     <div class="modal-dialog" role="document">
@@ -124,6 +141,14 @@ try {
 <script>
   $(function() {
     $('[data-toggle="tooltip"]').tooltip();
+    
+    // 直リンクURLの表示
+    var url = 'https://questionnaire-system-krag.c9users.io/management.php';
+    $('#url').val(url+'?q_id=<?=$_POST['q_id']?>');
+    
+    $('#url').focus(function() {
+      $(this).select();
+    });
     
     // 回答ページ
     $('#answer').on('click', function() {
@@ -157,7 +182,7 @@ try {
     $('div.owner').on('click', function() {
       $.post('user.php',
       {
-        'req_user_id': <?=$questionnaires['owner']?>
+        'req_user_id': 5
       },
       function(data) {
         $('main').html(data);

@@ -1,6 +1,13 @@
 <?php
 require_once __DIR__.'/functions.php';
 require_logined_session();
+if ($_SESSION['role'] == 3) { // ゲストユーザでのログイン
+  $_SESSION['status'] = "danger";
+  $_SESSION['flash_msg'] = "ゲストユーザではアンケートを作成できません．";
+  $_SESSION['flash_flag'] = true;
+  header('Location: /~hara/questionnaire_system/management.php');
+  exit;
+}
 // アンケートタイトルをセッション変数に格納
 if (isset($_POST['title'])) {
   $_SESSION['title'] = trim_emspace($_POST['title']);
