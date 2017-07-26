@@ -50,7 +50,8 @@ try {
     $_SESSION['status'] = "danger";
     $_SESSION['flash_msg'] = "リクエストされたアンケートを表示できませんでした．<br>削除されたか指定方法が間違っている可能性があります．";
     $_SESSION['flash_flag'] = true;
-    include __DIR__.'/flash.php';
+    // include __DIR__.'/flash.php';
+    header('Location: /list.php');
     exit;
   }
 } catch (PDOException $e) {
@@ -166,12 +167,12 @@ try {
       if ("<?=$_SESSION['from']?>" === "userpage") {
         $.post('user.php',
         {
-          'req_user_id': <?=$_SESSION['prev_req_user_id']?>
+          'req_user_id': <?=isset($_SESSION['prev_req_user_id'])?$_SESSION['prev_req_user_id']:$_SESSION['user_id']?>
         },
         function(data) {
           $('main').html(data);
         });
-      } else if ("<?=$_SESSION['from']?>" === "list") {
+      } else {
         $.get('list.php', function(data) {
           $('main').html(data);
         });

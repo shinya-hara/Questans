@@ -55,9 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['username'] = $username;
     // 権限情報をセット
     $_SESSION['role'] = $hashes[$username]['role'];
-    // ログイン完了後に /management.php に遷移
-    header('Location: /management.php');
-    exit;
+    // ログイン完了後にアクセスしようとしていたURL（もしくはデフォルト値）にリダイレクト
+    redirect_back_or('/management.php');
   }
   // 認証が失敗したとき
   // 「403 Forbidden」

@@ -14,6 +14,28 @@ function trim_emspace($str) {
 }
 
 /**
+* 記憶したURL（もしくはデフォルト値）にリダイレクト
+*/
+function redirect_back_or($default) {
+  if (isset($_SESSION['forwarding_url'])) {
+    header('Location: '.$_SESSION["forwarding_url"]);
+    unset($_SESSION['forwarding_url']);
+  } else {
+    header('Location: '.$default);
+  }
+  exit;
+}
+
+/**
+* アクセスしようとしたURLを覚えておく
+*/
+function store_location() {
+  $_SESSION['forwarding_url'] =
+    (empty($_SERVER["HTTPS"]) ? "http://" : "https://") . 
+    $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+}
+
+/**
 * ログイン状態によってリダイレクトを行うsession_startのラッパー関数
 * 初回時または失敗時にはヘッダを送信してexitする
 */
@@ -33,6 +55,10 @@ function require_logined_session()
   @session_start();
   // ログインしていなければ /login.php に遷移
   if (!isset($_SESSION['username'])) {
+    store_location();
+    $_SESSION['status'] = "danger";
+    $_SESSION['flash_msg'] = "ログインしてください．";
+    $_SESSION['flash_flag'] = true;
     header('Location: /login.php');
     exit;
   }
