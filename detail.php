@@ -110,12 +110,12 @@ try {
   <input type="button" class="btn btn-primary" id="answer" value="このアンケートに回答する" data-id="<?=$_POST['q_id']?>">
   <?php endif; ?>
   <?php endif; ?>
-  
+
   <div class="form-group url-form">
     <label for="url" class="control-label">アンケートへのリンク</label>
     <input type="url" class="form-control" id="url" readonly>
   </div>
-  
+
   <!-- Modal -->
   <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
     <div class="modal-dialog" role="document">
@@ -142,15 +142,15 @@ try {
 <script>
   $(function() {
     $('[data-toggle="tooltip"]').tooltip();
-    
+
     // 直リンクURLの表示
-    var url = 'https://questionnaire-system-krag.c9users.io/management.php';
+    var url = "<?=(empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . '/management.php'?>";
     $('#url').val(url+'?q_id=<?=$_POST['q_id']?>');
-    
+
     $('#url').focus(function() {
       $(this).select();
     });
-    
+
     // 回答ページ
     $('#answer').on('click', function() {
       $.post('ans.php',
@@ -161,7 +161,7 @@ try {
         $('main').html(data);
       });
     });
-    
+
     // 一覧に戻る
     $('#back').on('click', function() {
       if ("<?=$_SESSION['from']?>" === "userpage") {
@@ -178,7 +178,7 @@ try {
         });
       }
     });
-    
+
     // ユーザページ
     $('div.owner').on('click', function() {
       $.post('user.php',
@@ -189,7 +189,7 @@ try {
         $('main').html(data);
       });
     });
-    
+
     // 結果を見る
     $('#result').on('click', function() {
       $.post('result.php',
@@ -200,7 +200,7 @@ try {
         $('main').html(data);
       });
     });
-    
+
     // 編集
     $('#edit').on('click', function() {
       $.post('edit.php',
@@ -211,7 +211,7 @@ try {
         $('main').html(data);
       });
     });
-    
+
     // 削除
     $('#close').hide();
     $('#delete').on('click', function() {

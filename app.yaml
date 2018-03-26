@@ -1,0 +1,36 @@
+runtime: php55
+api_version: 1
+automatic_scaling:
+  min_idle_instances: automatic
+  max_idle_instances: 1
+  min_pending_latency: 3000ms
+  max_pending_latency: automatic
+
+runtime_config:
+  document_root: .
+
+handlers:
+- url: /css
+  static_dir: css
+- url: /img
+  static_dir: img
+- url: /(.+\.php)$
+  script: \1
+- url: /
+  script: index.php
+- url: /.*
+  script: login.php
+
+skip_files:
+- ^(.*/)?app\.yaml
+- ^README\..*
+- ^(.*/)?composer\.(phar|lock|json)$
+- app/\.gitignore
+- app/^\.git/.*
+- app/^\.c9/.*
+- ^(.*/)?(.*\.swp)
+
+env_variables:
+  MYSQL_USER: dbuser
+  MYSQL_PASSWORD: dbpass
+  MYSQL_DSN: mysql:dbname=questans;unix_socket=/cloudsql/questans-197808:asia-northeast1:questans

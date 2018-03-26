@@ -21,10 +21,10 @@ try {
     header('Content-Type: text/plain; charset=UTF-8', true, 500);
     exit('ユーザ情報の取得に失敗しました．');
   }
-  
+
 } catch (PDOException $e) {
   header('Content-Type: text/plain; charset=UTF-8', true, 500);
-  exit('データベースの接続に失敗しました．');
+  exit('データベースの接続に失敗しました．'.$e->getMessage());
 }
 
 // ユーザから受け取ったユーザ名とパスワード
@@ -46,8 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_regenerate_id(true);
     // ログイン完了後にフラッシュメッセージを表示する
     $_SESSION['status'] = "success";
-    // $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
-    $_SESSION['flash_msg'] = "ようこそ，".$hashes[$username]['nickname']." さん";
+    if ($hashes[$username]['nickname'] == null) {
+      $_SESSION['flash_msg'] = "ようこそ，".$username."さん";
+    } else {
+      $_SESSION['flash_msg'] = "ようこそ，".$hashes[$username]['nickname']." さん";
+    }
     $_SESSION['flash_flag'] = true;
     // ユーザIDをセット
     $_SESSION['user_id'] = $hashes[$username]['user_id'];
