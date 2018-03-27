@@ -12,7 +12,7 @@ Questans
 
 ## Licence
 
-[MIT](https://github.com/shinya-hara/questans/master/LICENCE)
+[MIT](https://github.com/shinya-hara/Questans/blob/master/LICENSE)
 
 ## Author
 
